@@ -1,0 +1,37 @@
+{
+    "root": true,
+    "extends": [
+      "react-app",
+      "plugin:prettier/recommended",
+      "plugin:jsx-a11y/recommended"
+    ],
+    "plugins": ["react-hooks"],
+    "env": {
+      "browser": true,
+      "jest": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 7,
+      "sourceType": "module"
+    },
+    "rules": {
+      "quotes": ["double"],
+      "curly": "error",
+      "no-console": "warn",
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+      "no-restricted-imports": [
+        "error",
+        {
+          "paths": [
+            {
+              "name": "lodash",
+              "message": "Please import specific utility. e.g. import get from \"lodash/get\";"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  

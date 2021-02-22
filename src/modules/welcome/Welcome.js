@@ -1,18 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  setName,
-  selectUser,
-} from './userSlice';
 
 export function Welcome() {
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const [name, updateName] = useState("");
-
-  if (user.name) {
-    return null;
-  }
 
   return (
     <div>
@@ -23,9 +14,7 @@ export function Welcome() {
           onChange={e => updateName(e.target.value)}
         />
         <button
-          onClick={() =>
-            dispatch(setName(name))
-          }
+          onClick={() => {}}
         >
           Save
         </button>
