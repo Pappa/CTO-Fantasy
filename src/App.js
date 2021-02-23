@@ -1,10 +1,10 @@
-import React from 'react';
-import { Welcome } from './modules/welcome/Welcome';
+import React from "react";
+import { Welcome } from "./modules/welcome/Welcome";
 
 function App() {
   return (
     <div>
-        <Welcome />
+      <Welcome />
     </div>
   );
 }

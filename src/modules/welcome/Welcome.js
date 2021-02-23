@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 export function Welcome() {
   const dispatch = useDispatch();
@@ -7,17 +7,12 @@ export function Welcome() {
 
   return (
     <div>
-      
       <input
-          aria-label="Name"
-          value={name}
-          onChange={e => updateName(e.target.value)}
-        />
-        <button
-          onClick={() => {}}
-        >
-          Save
-        </button>
-        </div>
+        aria-label="Name"
+        value={name}
+        onChange={(e) => updateName(e.target.value)}
+      />
+      <button onClick={() => {}}>Save</button>
+    </div>
   );
 }
