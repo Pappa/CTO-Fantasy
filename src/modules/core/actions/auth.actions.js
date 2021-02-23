@@ -1,5 +1,5 @@
-const SIGN_UP = "SIGN_UP";
+export const LOGIN_AS_GUEST = "LOGIN_AS_GUEST";
 
-const signupAction = () => ({
-  type: SIGN_UP,
+export const loginAsGuestAction = () => ({
+  type: LOGIN_AS_GUEST,
 });

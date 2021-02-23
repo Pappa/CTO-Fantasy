@@ -1,7 +1,11 @@
-import { of, EMPTY } from "rxjs";
-import { tap } from "rxjs/operators";
+import { EMPTY } from "rxjs";
+import { tap, switchMapTo } from "rxjs/operators";
 import { ofType } from "redux-observable";
-import { SIGN_UP } from "../actions";
+import { LOGIN_AS_GUEST } from "../actions";
 
 export const signupEpic = (action$, state$) =>
-  action$.pipe(ofType(SIGN_UP), tap(console.log.bind(null, "SIGN_UP")));
+  action$.pipe(
+    ofType(LOGIN_AS_GUEST),
+    tap(console.log.bind(null)),
+    switchMapTo(EMPTY)
+  );

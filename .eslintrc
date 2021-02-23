@@ -15,8 +15,8 @@
     "ecmaVersion": 7,
     "sourceType": "module"
   },
+  "ignorePatterns": ["**/serviceWorker.js"],
   "rules": {
-    "quotes": ["double"],
     "curly": "error",
     "no-console": "warn",
     "react-hooks/rules-of-hooks": "error",
