@@ -1,12 +1,17 @@
 import React from "react";
-import Welcome from "./modules/welcome/Welcome";
+import { connect } from "react-redux";
+import Game from "./modules/game/components/Game";
+import Welcome from "./modules/welcome/components/Welcome";
 
-function App() {
-  return (
-    <div>
-      <Welcome />
-    </div>
-  );
+function App({ isLoggedIn }) {
+  if (!isLoggedIn) {
+    return <Welcome />;
+  }
+  return <Game />;
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  isLoggedIn: !!state.auth.userType,
+});
+
+export default connect(mapStateToProps)(App);
