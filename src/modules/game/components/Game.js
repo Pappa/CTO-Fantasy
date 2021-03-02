@@ -1,10 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import Stats from "./Stats";
-import GameScene from "./GameScene";
+import { CtoFantasy } from "../cto-fantasy/CtoFantasy";
 
-export function Game() {
-  return [<Stats key="stats" />, <GameScene key="game-scene" />];
+class Game extends Component {
+  componentDidMount() {
+    this.game = new CtoFantasy();
+  }
+
+  render() {
+    return <div id="game-container" />;
+  }
+
+  shouldComponentUpdate() {
+    return false;
+  }
 }
 
 export default connect(null, null)(Game);
