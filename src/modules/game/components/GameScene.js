@@ -9,6 +9,12 @@ class GameScene extends Component {
       width: 600,
       height: 400,
       parent: "game-container",
+      pixelArt: true,
+      scene: {
+        preload: this.preload,
+        create: this.create,
+        update: this.update,
+      },
       scale: {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       },
@@ -22,6 +28,10 @@ class GameScene extends Component {
   shouldComponentUpdate() {
     return false;
   }
+
+  preload = () => {};
+  create = () => {};
+  update = () => {};
 }
 
 export default connect(null, null)(GameScene);
