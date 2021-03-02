@@ -1,8 +1,8 @@
 import Phaser from "phaser";
 
-export class MainScene extends Phaser.Scene {
+export class StartScene extends Phaser.Scene {
   constructor() {
-    super("MainScene");
+    super("StartScene");
   }
 
   // load assets
