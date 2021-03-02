@@ -5,10 +5,17 @@ export class CompanyMenu extends Phaser.GameObjects.Container {
     super(scene, x, y);
 
     const menu = scene.add.image(0, 0, "menu");
-    const companyText = scene.add
-      .text(0, 20, company.name, {
+    const companyName = scene.add
+      .text(0, 15, company.name, {
+        font: "14px Open Sans",
+        fill: "#000000",
+      })
+      .setOrigin(0.5, 0);
+    const companyDescription = scene.add
+      .text(0, 40, company.description, {
         font: "12px Open Sans",
         fill: "#000000",
+        wordWrap: { width: 100 },
       })
       .setOrigin(0.5, 0);
     const button = scene.add.image(0, 155, "button");
@@ -24,7 +31,7 @@ export class CompanyMenu extends Phaser.GameObjects.Container {
 
     this.setSize(100, 150);
 
-    this.add([menu, companyText, button, acceptText]);
+    this.add([menu, companyName, companyDescription, button, acceptText]);
 
     scene.add.existing(this);
   }

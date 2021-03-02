@@ -1,16 +1,20 @@
 {
   "companies": [
     {
-      "name": "DinoTech"
+      "name": "DinoTech",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
     },
     {
-      "name": "ZumoFin"
+      "name": "ZumoFin",
+      "description": "Aliquam dapibus magna nec leo ultrices, et porta ipsum ullamcorper."
     },
     {
-      "name": "Jones Bros."
+      "name": "Jones Bros.",
+      "description": "Nulla luctus, massa non egestas pulvinar."
     },
     {
-      "name": "UltraSoft"
+      "name": "UltraSoft",
+      "description": "Sed lacus risus, aliquam in nunc sed, rhoncus rutrum tortor."
     }
   ],
   "companyLimit": 3
