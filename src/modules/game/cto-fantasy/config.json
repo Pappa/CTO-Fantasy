@@ -1,0 +1,17 @@
+{
+  "companies": [
+    {
+      "name": "DinoTech"
+    },
+    {
+      "name": "ZumoFin"
+    },
+    {
+      "name": "Jones Bros."
+    },
+    {
+      "name": "UltraSoft"
+    }
+  ],
+  "companyLimit": 3
+}

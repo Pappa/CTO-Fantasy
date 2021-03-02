@@ -1,6 +1,6 @@
 import Phaser from "phaser";
-import { MainScene } from "./MainScene";
-import { StartScene } from "./StartScene";
+import { MainScene } from "./scenes/MainScene";
+import { StartScene } from "./scenes/StartScene";
 
 export class CtoFantasy {
   constructor() {

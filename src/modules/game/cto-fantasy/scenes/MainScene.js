@@ -5,6 +5,8 @@ export class MainScene extends Phaser.Scene {
     super("MainScene");
   }
 
+  init() {}
+
   // load assets
   preload() {
     // this.load.image("background", "assets/images/background-city.png");
