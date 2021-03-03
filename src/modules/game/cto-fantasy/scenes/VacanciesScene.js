@@ -17,10 +17,21 @@ export class VacanciesScene extends Phaser.Scene {
     this.companies = this.add.group(
       companies.map((company, idx) => {
         const x = (idx + 1) * 160;
-        return new CompanyMenu(this, x, 150, company);
-      })
+        return new CompanyMenu(
+          this,
+          x,
+          150,
+          company,
+          this.startGame.bind(this)
+        );
+      }, this)
     );
   }
 
   update(time, delta) {}
+
+  startGame(company) {
+    console.log("company", company);
+    this.scene.start("MainScene");
+  }
 }
