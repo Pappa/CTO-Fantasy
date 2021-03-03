@@ -8,12 +8,15 @@ export class CtoFantasy {
   constructor() {
     const config = {
       type: Phaser.AUTO,
-      width: 640,
-      height: 480,
+      width: 800,
+      height: 600,
       parent: "game-container",
       pixelArt: true,
       scene: [BootScene, VacanciesScene, MainScene, CreditsScene],
       title: "CTO Fantasy",
+      dom: {
+        createContainer: true,
+      },
       scale: {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       },
