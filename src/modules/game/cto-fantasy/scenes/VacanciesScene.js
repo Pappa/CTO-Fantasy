@@ -13,6 +13,12 @@ export class VacanciesScene extends Phaser.Scene {
 
   // executed once, after assets were loaded
   create() {
+    this.createCompanyVacancies();
+  }
+
+  update(time, delta) {}
+
+  createCompanyVacancies() {
     const companies = Phaser.Math.RND.shuffle(config.companies).slice(0, 3);
     this.companies = this.add.group(
       companies.map((company, idx) => {
@@ -28,10 +34,8 @@ export class VacanciesScene extends Phaser.Scene {
     );
   }
 
-  update(time, delta) {}
-
   startGame(company) {
-    console.log("company", company);
+    this.registry.set("company", company);
     this.scene.start("MainScene");
   }
 }

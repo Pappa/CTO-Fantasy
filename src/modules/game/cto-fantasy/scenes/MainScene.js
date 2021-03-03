@@ -5,7 +5,9 @@ export class MainScene extends Phaser.Scene {
     super("MainScene");
   }
 
-  init() {}
+  init(...rest) {
+    console.log(this.registry.get("company"));
+  }
 
   // load assets
   preload() {
