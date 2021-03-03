@@ -4,9 +4,9 @@ import Game from "./modules/game/components/Game";
 import Welcome from "./modules/welcome/components/Welcome";
 
 function App({ isLoggedIn }) {
-  if (!isLoggedIn) {
-    return <Welcome />;
-  }
+  // if (!isLoggedIn) {
+  //   return <Welcome />;
+  // }
   return <Game />;
 }
 

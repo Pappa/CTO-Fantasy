@@ -1,27 +1,48 @@
 import Phaser from "phaser";
 
-export class CompanyMenu extends Phaser.GameObjects.Container {
+export class Vacancy extends Phaser.GameObjects.Container {
   constructor(scene, x = 0, y = 0, company, selectCompany) {
     super(scene, x, y);
 
     this.scene = scene;
+    this.company = company;
+    this.selectCompany = selectCompany;
 
-    this.menu = scene.add.image(0, 0, "menu");
-    this.companyName = scene.add
-      .text(0, 15, company.name, {
+    // console.log("CompanyMenu:preload");
+    // this.form = this.scene.add.dom(300, 400).createFromCache("vacancy");
+    // this.form.setOrigin(0.5);
+    // this.form.setPerspective(800);
+    // this.form.addListener("click");
+
+    // console.log("CompanyMenu:create");
+    // const name = this.form.getChildByName("company-name");
+    // const description = this.form.getChildByName("company-description");
+    // const submit = this.form.getChildByName("submit");
+
+    // TODO: figure out solution to race condition here
+    // name is null briefly
+    // name.setText(this.company.name);
+    // description.setText(this.company.description);
+    // submit.setText("Accept Job Offer");
+
+    // console.log("name", name);
+
+    this.menu = this.scene.add.image(0, 0, "menu");
+    this.companyName = this.scene.add
+      .text(0, 15, this.company.name, {
         font: "14px Open Sans",
         fill: "#000000",
       })
       .setOrigin(0.5, 0);
-    this.companyDescription = scene.add
-      .text(0, 40, company.description, {
+    this.companyDescription = this.scene.add
+      .text(0, 40, this.company.description, {
         font: "12px Open Sans",
         fill: "#000000",
         wordWrap: { width: 100 },
       })
       .setOrigin(0.5, 0);
-    this.button = scene.add.image(0, 155, "button");
-    this.acceptText = scene.add
+    this.button = this.scene.add.image(0, 155, "button");
+    this.acceptText = this.scene.add
       .text(0, 160, "Accept Job Offer", {
         font: "12px Open Sans",
         fill: "#ffffff",
@@ -55,7 +76,7 @@ export class CompanyMenu extends Phaser.GameObjects.Container {
     this.button.on(
       "pointerup",
       () => {
-        selectCompany(company);
+        this.selectCompany(this.company);
       },
       this
     );
@@ -70,7 +91,7 @@ export class CompanyMenu extends Phaser.GameObjects.Container {
       this.acceptText,
     ]);
 
-    scene.add.existing(this);
+    this.scene.add.existing(this);
   }
 
   updateButton = (texture) => {

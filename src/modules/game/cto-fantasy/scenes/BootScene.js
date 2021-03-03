@@ -10,6 +10,7 @@ export class BootScene extends Phaser.Scene {
   // load assets
   preload() {
     this.load.html("joinform", "assets/forms/join.html");
+    this.load.html("vacancy", "assets/forms/vacancy.html");
     this.load.image("button", "assets/UIpack/PNG/blue_button00.png");
     this.load.image("button_hover", "assets/UIpack/PNG/blue_button01.png");
     this.load.image("button_click", "assets/UIpack/PNG/blue_button02.png");
@@ -18,12 +19,13 @@ export class BootScene extends Phaser.Scene {
 
   // executed once, after assets were loaded
   create() {
-    this.form = this.add.dom(300, 400).createFromCache("joinform");
+    this.form = this.add.dom(400, 300).createFromCache("joinform");
     this.form.setOrigin(0.5);
     this.form.setPerspective(800);
     this.form.addListener("click");
 
     this.form.on("click", this.handleSubmit, this);
+    console.log(this.scene);
   }
 
   handleSubmit(event) {

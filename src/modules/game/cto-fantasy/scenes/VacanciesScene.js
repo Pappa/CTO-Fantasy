@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import config from "../config.json";
-import { CompanyMenu } from "../classes/CompanyMenu";
+import { Vacancy } from "../classes/Vacancy";
 
 export class VacanciesScene extends Phaser.Scene {
   constructor() {
@@ -21,24 +21,21 @@ export class VacanciesScene extends Phaser.Scene {
       })
       .setOrigin(0.5, 0);
     this.createCompanyVacancies();
+    console.log(this.scene);
   }
 
   update(time, delta) {}
 
   createCompanyVacancies() {
+    // 175 + 175 + 150
+    // 500
     const companies = Phaser.Math.RND.shuffle(config.companies).slice(0, 3);
-    this.companies = this.add.group(
-      companies.map((company, idx) => {
-        const x = (idx + 1) * 160;
-        return new CompanyMenu(
-          this,
-          x,
-          150,
-          company,
-          this.startGame.bind(this)
-        );
-      }, this)
-    );
+    this.companies = companies.map((company, idx) => {
+      const x = 50 + (idx + 1) * 175;
+      return this.add.existing(
+        new Vacancy(this, x, 150, company, this.startGame.bind(this))
+      );
+    }, this);
   }
 
   startGame(company) {
