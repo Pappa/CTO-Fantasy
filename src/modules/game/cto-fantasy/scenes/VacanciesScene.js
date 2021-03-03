@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import config from "../config.json";
-import { Vacancy } from "../classes/Vacancy";
+import { JobOffer } from "../classes/JobOffer";
 
 export class VacanciesScene extends Phaser.Scene {
   constructor() {
@@ -33,7 +33,7 @@ export class VacanciesScene extends Phaser.Scene {
     this.companies = companies.map((company, idx) => {
       const x = 50 + (idx + 1) * 175;
       return this.add.existing(
-        new Vacancy(this, x, 150, company, this.startGame.bind(this))
+        new JobOffer(this, x, 150, company, this.startGame.bind(this))
       );
     }, this);
   }

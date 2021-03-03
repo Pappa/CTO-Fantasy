@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export class Vacancy extends Phaser.GameObjects.Container {
+export class JobOffer extends Phaser.GameObjects.Container {
   constructor(scene, x = 0, y = 0, company, selectCompany) {
     super(scene, x, y);
 
