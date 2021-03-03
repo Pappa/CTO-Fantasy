@@ -13,6 +13,13 @@ export class VacanciesScene extends Phaser.Scene {
 
   // executed once, after assets were loaded
   create() {
+    const name = this.registry.get("name");
+    this.welcomeMessage = this.add
+      .text(400, 30, `${name}, you have 3 job offers!`, {
+        font: "24px Open Sans",
+        fill: "#ffffff",
+      })
+      .setOrigin(0.5, 0);
     this.createCompanyVacancies();
   }
 
