@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { BootScene } from "./scenes/BootScene";
 import { VacanciesScene } from "./scenes/VacanciesScene";
 import { MainScene } from "./scenes/MainScene";
+import { CreditsScene } from "./scenes/CreditsScene";
 
 export class CtoFantasy {
   constructor() {
@@ -11,7 +12,7 @@ export class CtoFantasy {
       height: 480,
       parent: "game-container",
       pixelArt: true,
-      scene: [BootScene, VacanciesScene, MainScene],
+      scene: [BootScene, VacanciesScene, MainScene, CreditsScene],
       title: "CTO Fantasy",
       scale: {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
