@@ -1,20 +1,15 @@
 import Phaser from "phaser";
 import config from "../config.json";
-import { CompanyMenu } from "../objects/CompanyMenu";
+import { CompanyMenu } from "../classes/CompanyMenu";
 
-export class StartScene extends Phaser.Scene {
+export class VacanciesScene extends Phaser.Scene {
   constructor() {
-    super("StartScene");
+    super("VacanciesScene");
   }
 
   init() {}
 
-  // load assets
-  preload() {
-    this.load.image("button", "assets/UIpack/PNG/blue_button00.png");
-    this.load.image("menu", "assets/UIpack/PNG/grey_panel.png");
-    // this.load.audio("treeAudio", "assets/audio/arbol.mp3");
-  }
+  preload() {}
 
   // executed once, after assets were loaded
   create() {
