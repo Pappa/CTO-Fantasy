@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
+import { Card } from "../game-objects/Card";
 import { randomInt } from "../utils/random";
 import * as theme from "../theme";
 
@@ -60,5 +61,15 @@ export class MainScene extends Phaser.Scene {
     this.header.setText(
       `Welcome to ${company.name} ${name}! Come and meet the team.`
     );
+
+    this.teamObjects = this.team.map((member, idx) => {
+      const x = -50 + (idx + 1) * 175;
+      return this.add.existing(
+        new Card(this, x, 150, {
+          title: member.name,
+          text: " ",
+        })
+      );
+    }, this);
   }
 }

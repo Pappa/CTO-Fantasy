@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { JobOffer } from "../game-objects/JobOffer";
+import { Card } from "../game-objects/Card";
 import * as theme from "../theme";
 
 export class VacanciesScene extends Phaser.Scene {
@@ -29,7 +29,17 @@ export class VacanciesScene extends Phaser.Scene {
     this.companies = companies.map((company, idx) => {
       const x = 50 + (idx + 1) * 175;
       return this.add.existing(
-        new JobOffer(this, x, 150, company, this.startGame.bind(this))
+        new Card(
+          this,
+          x,
+          150,
+          {
+            title: company.name,
+            text: company.description,
+            buttonText: "Accept Job Offer",
+          },
+          this.startGame.bind(this, company)
+        )
       );
     }, this);
     //this.example = new Example(this);
