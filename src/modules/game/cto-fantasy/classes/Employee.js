@@ -2,11 +2,12 @@ import { randomInt, randomName } from "../utils/random";
 
 export class Employee {
   // ethnicity; // how about introducing a "diversity" attribute based on ethnic/gender diversity in the team?
-  constructor(skill, gender, name, salary) {
+  constructor({ skill, gender, name, salary, happiness } = {}) {
     this.skill = skill || this.getRandomSkill();
     this.gender = gender || this.getRandomGender();
     this.name = name || this.getRandomName();
     this.salary = salary || this.getRandomSalary();
+    this.happiness = happiness || this.getRandomHappiness();
   }
 
   getRandomSkill() {
@@ -25,6 +26,12 @@ export class Employee {
 
   getRandomSalary() {
     return Math.trunc(randomInt(25000, 50000) / 500) * 500;
+  }
+
+  getRandomHappiness() {
+    const min = 1;
+    const max = 5;
+    return (randomInt(min, max) + randomInt(min, max)) / 10;
   }
 }
 

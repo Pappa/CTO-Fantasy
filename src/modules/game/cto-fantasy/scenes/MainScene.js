@@ -20,7 +20,7 @@ export class MainScene extends Phaser.Scene {
 
   // executed once, after assets were loaded
   create() {
-    console.log(this.employees);
+    console.log(this.team);
     console.log(this.candidates);
   }
 
@@ -28,7 +28,7 @@ export class MainScene extends Phaser.Scene {
 
   createStartingEmployees() {
     const teamSize = this.registry.get("settings").startingTeamSize;
-    this.employees = Array(teamSize)
+    this.team = Array(teamSize)
       .fill(null)
       .map(() => new Dev());
   }
