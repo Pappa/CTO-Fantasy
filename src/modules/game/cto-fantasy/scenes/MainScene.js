@@ -1,5 +1,6 @@
 import Phaser from "phaser";
-import { Dev } from "../classes/Employee";
+import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
+import { randomInt } from "../utils/random";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -7,10 +8,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   init() {
-    const teamSize = this.registry.get("settings").startingTeamSize;
-    this.employees = Array(teamSize)
-      .fill(null)
-      .map(() => new Dev());
+    this.createStartingEmployees();
+    this.createStartingCandidates();
   }
 
   // load assets
@@ -22,7 +21,27 @@ export class MainScene extends Phaser.Scene {
   // executed once, after assets were loaded
   create() {
     console.log(this.employees);
+    console.log(this.candidates);
   }
 
   update(time, delta) {}
+
+  createStartingEmployees() {
+    const teamSize = this.registry.get("settings").startingTeamSize;
+    this.employees = Array(teamSize)
+      .fill(null)
+      .map(() => new Dev());
+  }
+
+  createStartingCandidates() {
+    const arrayofType = (T, length) =>
+      Array(length)
+        .fill(null)
+        .map(() => new T());
+    const scrumMasters = arrayofType(ScrumMaster, randomInt(1, 2));
+    const testers = arrayofType(Tester, randomInt(1, 2));
+    const productOwners = arrayofType(ProductOwner, randomInt(1, 2));
+    const devs = arrayofType(Dev, randomInt(1, 2));
+    this.candidates = [scrumMasters, testers, productOwners, devs].flat();
+  }
 }
