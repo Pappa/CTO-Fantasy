@@ -7,11 +7,9 @@ export class MainScene extends Phaser.Scene {
   }
 
   init() {
-    console.log(this.registry.get("company"));
     this.employees = Array(5)
       .fill(null)
       .map(() => new Dev());
-    console.log(this.employees);
   }
 
   // load assets

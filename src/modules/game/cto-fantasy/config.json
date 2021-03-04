@@ -17,5 +17,6 @@
       "description": "Sed lacus risus, aliquam in nunc sed, rhoncus rutrum tortor."
     }
   ],
-  "companyLimit": 3
+  "companyLimit": 3,
+  "startingTeamSize": 4
 }

@@ -3,10 +3,11 @@ import { BootScene } from "./scenes/BootScene";
 import { VacanciesScene } from "./scenes/VacanciesScene";
 import { MainScene } from "./scenes/MainScene";
 import { CreditsScene } from "./scenes/CreditsScene";
+import config from "./config.json";
 
 export class CtoFantasy {
   constructor() {
-    const config = {
+    const gameConfig = {
       type: Phaser.AUTO,
       width: 800,
       height: 600,
@@ -20,8 +21,13 @@ export class CtoFantasy {
       scale: {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       },
+      callbacks: {
+        preBoot: function (game) {
+          game.registry.merge({ settings: config });
+        },
+      },
     };
-    const game = new Phaser.Game(config);
+    const game = new Phaser.Game(gameConfig);
     return game;
   }
 }

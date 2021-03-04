@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import config from "../config.json";
 import { JobOffer } from "../classes/JobOffer";
 
 export class VacanciesScene extends Phaser.Scene {
@@ -21,15 +20,14 @@ export class VacanciesScene extends Phaser.Scene {
       })
       .setOrigin(0.5, 0);
     this.createCompanyVacancies();
-    console.log(this.scene);
   }
 
   update(time, delta) {}
 
   createCompanyVacancies() {
-    // 175 + 175 + 150
-    // 500
-    const companies = Phaser.Math.RND.shuffle(config.companies).slice(0, 3);
+    const companies = Phaser.Math.RND.shuffle(
+      this.registry.get("settings").companies
+    ).slice(0, 3);
     this.companies = companies.map((company, idx) => {
       const x = 50 + (idx + 1) * 175;
       return this.add.existing(

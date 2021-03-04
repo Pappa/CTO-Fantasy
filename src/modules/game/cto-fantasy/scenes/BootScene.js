@@ -25,7 +25,6 @@ export class BootScene extends Phaser.Scene {
     this.form.addListener("click");
 
     this.form.on("click", this.handleSubmit, this);
-    console.log(this.scene);
   }
 
   handleSubmit(event) {

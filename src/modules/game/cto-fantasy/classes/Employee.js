@@ -1,3 +1,5 @@
+import { randomInt } from "../utils/random";
+
 export class Employee {
   skill = 0;
   gender;
@@ -9,8 +11,8 @@ export class Employee {
 
   randomiseSkill() {
     const min = 1;
-    const max = 10;
-    return Math.floor(Math.random() * (max - min + 1) + min) / 10;
+    const max = 5;
+    return (randomInt(min, max) + randomInt(min, max)) / 10;
   }
 
   randomiseGender() {
@@ -18,8 +20,8 @@ export class Employee {
   }
 }
 
-Employee.MALE = "m";
-Employee.FEMALE = "f";
+Employee.MALE = 0;
+Employee.FEMALE = 1;
 
 export class Dev extends Employee {}
 
