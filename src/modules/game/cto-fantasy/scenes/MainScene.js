@@ -7,7 +7,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   init() {
-    this.employees = Array(5)
+    const teamSize = this.registry.get("settings").startingTeamSize;
+    this.employees = Array(teamSize)
       .fill(null)
       .map(() => new Dev());
   }
@@ -19,7 +20,9 @@ export class MainScene extends Phaser.Scene {
   }
 
   // executed once, after assets were loaded
-  create() {}
+  create() {
+    console.log(this.employees);
+  }
 
   update(time, delta) {}
 }
