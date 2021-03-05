@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { Button } from "./Button";
 import * as theme from "../theme";
 
 export class Card extends Phaser.GameObjects.Container {
@@ -29,6 +30,7 @@ export class Card extends Phaser.GameObjects.Container {
 
     this.createText(content);
     this.add([this.card, this.title, this.text]);
+
     if (callback) {
       this.createButton(content, callback);
     }
@@ -46,19 +48,9 @@ export class Card extends Phaser.GameObjects.Container {
   }
 
   createButton(content, callback) {
-    this.button = this.scene.add.image(0, 155, "button");
-    this.button.setScale(0.5).setOrigin(0.5, 0).setInteractive();
-    this.button.on("pointerover", this.updateButton.bind(this, "button_hover"));
-    this.button.on("pointerdown", this.updateButton.bind(this, "button_click"));
-    this.button.on("pointerout", this.updateButton.bind(this, "button"));
-    this.button.on("pointerup", callback);
-    this.buttonText = this.scene.add
-      .text(0, 160, content.buttonText, theme.buttonText)
-      .setOrigin(0.5, 0);
-    this.add([this.button, this.buttonText]);
+    this.button = this.scene.add.existing(
+      new Button(this.scene, 0, 155, content, callback)
+    );
+    this.add(this.button);
   }
-
-  updateButton = (texture) => {
-    this.button.setTexture(texture);
-  };
 }

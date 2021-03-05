@@ -13,6 +13,7 @@ export class MainScene extends Phaser.Scene {
     this.createStartingEmployees();
     this.createStartingCandidates();
     this.budget = randomInt(50000, 100000);
+    this.state = MainScene.START;
   }
 
   // load assets
@@ -26,8 +27,10 @@ export class MainScene extends Phaser.Scene {
     console.log(this.team);
     console.log(this.candidates);
     console.log(this.budget);
-    this.createComponents();
-    this.meetTheTeam();
+
+    if (this.state === MainScene.START) {
+      this.scene.launch("TeamScene", this.team);
+    }
   }
 
   update(time, delta) {}
@@ -50,26 +53,6 @@ export class MainScene extends Phaser.Scene {
     const devs = arrayofType(Dev, randomInt(1, 2));
     this.candidates = [scrumMasters, testers, productOwners, devs].flat();
   }
-
-  createComponents() {
-    this.header = this.add.text(400, 15, " ", theme.h1).setOrigin(0.5, 0);
-  }
-
-  meetTheTeam() {
-    const name = this.registry.get("name");
-    const company = this.registry.get("company");
-    this.header.setText(
-      `Welcome to ${company.name} ${name}! Come and meet the team.`
-    );
-
-    this.teamObjects = this.team.map((member, idx) => {
-      const x = -50 + (idx + 1) * 175;
-      return this.add.existing(
-        new Card(this, x, 150, {
-          title: member.name,
-          text: " ",
-        })
-      );
-    }, this);
-  }
 }
+
+MainScene.START = "start";
