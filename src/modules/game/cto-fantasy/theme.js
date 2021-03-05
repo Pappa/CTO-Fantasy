@@ -18,3 +18,8 @@ export const buttonText = {
   font: "12px Open Sans",
   fill: "#ffffff",
 };
+
+export const x = {
+  font: "24px Open Sans",
+  fill: "#FF0000",
+};

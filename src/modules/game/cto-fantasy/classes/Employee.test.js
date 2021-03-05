@@ -17,6 +17,7 @@ describe("Male Employee", () => {
       name: "Timothy Hanson",
       salary: 37500,
       happiness: 0.6,
+      type: undefined,
     });
   });
 });
@@ -38,6 +39,7 @@ describe("Female Employee", () => {
       name: "Elsa Wells",
       salary: 45000,
       happiness: 1,
+      type: undefined,
     });
   });
 
@@ -58,6 +60,7 @@ describe("Female Employee", () => {
         name: "Timothy Hanson",
         salary: 37500,
         happiness: 0.6,
+        type: "Developer",
       });
     });
 
@@ -69,6 +72,7 @@ describe("Female Employee", () => {
         name: "Timothy Hanson",
         salary: 37500,
         happiness: 0.6,
+        type: "Tester",
       });
     });
 
@@ -80,6 +84,7 @@ describe("Female Employee", () => {
         name: "Timothy Hanson",
         salary: 47500,
         happiness: 0.6,
+        type: "Scrum Master",
       });
     });
 
@@ -91,6 +96,7 @@ describe("Female Employee", () => {
         name: "Timothy Hanson",
         salary: 47500,
         happiness: 0.6,
+        type: "Product Owner",
       });
     });
   });

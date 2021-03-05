@@ -14,6 +14,7 @@ export class MainScene extends Phaser.Scene {
     this.createStartingCandidates();
     this.budget = randomInt(50000, 100000);
     this.state = MainScene.START;
+    this.company = this.registry.get("company");
   }
 
   // load assets
@@ -27,6 +28,10 @@ export class MainScene extends Phaser.Scene {
     console.log(this.team);
     console.log(this.candidates);
     console.log(this.budget);
+
+    this.header = this.add
+      .text(15, 550, this.company.name, theme.h1)
+      .setOrigin(0);
 
     if (this.state === MainScene.START) {
       this.scene.launch("TeamScene", this.team);

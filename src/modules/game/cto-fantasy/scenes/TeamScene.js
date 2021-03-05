@@ -21,6 +21,13 @@ export class TeamScene extends Phaser.Scene {
 
   createComponents() {
     this.header = this.add.text(400, 15, " ", theme.h1).setOrigin(0.5, 0);
+    this.close = this.add
+      .text(780, 10, "X", theme.x)
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerup", () => {
+        this.scene.stop();
+      });
   }
 
   meetTheTeam() {
@@ -30,12 +37,12 @@ export class TeamScene extends Phaser.Scene {
       `Welcome to ${company.name} ${name}! Come and meet the team.`
     );
 
-    this.teamObjects = this.team.map((member, idx) => {
+    this.teamCards = this.team.map((member, idx) => {
       const x = -50 + (idx + 1) * 175;
       return this.add.existing(
         new Card(this, x, 150, {
           title: member.name,
-          text: " ",
+          text: member.type,
         })
       );
     }, this);

@@ -38,17 +38,23 @@ export class Employee {
 Employee.MALE = 0;
 Employee.FEMALE = 1;
 
-export class Dev extends Employee {}
+export class Dev extends Employee {
+  type = "Developer";
+}
 
-export class Tester extends Employee {}
+export class Tester extends Employee {
+  type = "Tester";
+}
 
 export class ScrumMaster extends Employee {
+  type = "Scrum Master";
   getRandomSalary() {
     return super.getRandomSalary() + 10000;
   }
 }
 
 export class ProductOwner extends Employee {
+  type = "Product Owner";
   getRandomSalary() {
     return super.getRandomSalary() + 10000;
   }
