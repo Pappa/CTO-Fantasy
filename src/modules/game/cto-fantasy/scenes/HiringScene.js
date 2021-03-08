@@ -2,21 +2,21 @@ import Phaser from "phaser";
 import { Card } from "../game-objects/Card";
 import * as theme from "../theme";
 
-export class TeamScene extends Phaser.Scene {
+export class HiringScene extends Phaser.Scene {
   intro = true;
   constructor() {
-    super("TeamScene");
+    super("HiringScene");
   }
 
   init() {}
 
   preload() {}
 
-  create({ team, onClose }) {
-    this.team = team;
+  create({ candidates, onClose }) {
+    this.candidates = candidates;
     this.onClose = onClose;
     this.createComponents();
-    this.meetTheTeam();
+    this.updateCandidates();
   }
 
   update(time, delta) {}
@@ -32,24 +32,27 @@ export class TeamScene extends Phaser.Scene {
       });
   }
 
-  meetTheTeam() {
-    const name = this.registry.get("name");
-    const company = this.registry.get("company");
-    const headerText = this.intro
-      ? `Welcome to ${company.name} ${name}! Come and meet the team.`
-      : `The ${company.name} team.`;
+  updateCandidates() {
+    this.header.setText(`There are ${this.candidates.length} candidates.`);
 
-    this.intro = false;
-    this.header.setText(headerText);
-
-    this.teamCards = this.team.map((member, idx) => {
+    this.candidatesCards = this.candidates.map((candidate, idx) => {
       const x = -50 + (idx + 1) * 175;
       return this.add.existing(
-        new Card(this, x, 150, {
-          title: member.name,
-          text: member.type,
-        })
+        new Card(
+          this,
+          x,
+          150,
+          {
+            title: candidate.name,
+            text: candidate.type,
+          },
+          this.selectCandidate.bind(this, candidate)
+        )
       );
     }, this);
+  }
+
+  selectCandidate(candidate) {
+    console.log(candidate);
   }
 }

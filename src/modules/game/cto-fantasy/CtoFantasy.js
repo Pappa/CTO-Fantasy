@@ -5,6 +5,7 @@ import { MainScene } from "./scenes/MainScene";
 import { CreditsScene } from "./scenes/CreditsScene";
 import config from "./config.json";
 import { TeamScene } from "./scenes/TeamScene";
+import { HiringScene } from "./scenes/HiringScene";
 
 export class CtoFantasy {
   constructor() {
@@ -14,7 +15,14 @@ export class CtoFantasy {
       height: 600,
       parent: "game-container",
       pixelArt: true,
-      scene: [BootScene, VacanciesScene, MainScene, CreditsScene, TeamScene],
+      scene: [
+        BootScene,
+        VacanciesScene,
+        MainScene,
+        CreditsScene,
+        TeamScene,
+        HiringScene,
+      ],
       title: "CTO Fantasy",
       dom: {
         createContainer: true,

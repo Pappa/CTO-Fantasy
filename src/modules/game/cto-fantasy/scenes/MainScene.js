@@ -3,6 +3,8 @@ import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
 import { Card } from "../game-objects/Card";
 import { randomInt } from "../utils/random";
 import * as theme from "../theme";
+import { LinearStory } from "../classes/LinearStory";
+import { Chapter } from "../classes/Chapter";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -12,15 +14,10 @@ export class MainScene extends Phaser.Scene {
   init() {
     this.createStartingEmployees();
     this.createStartingCandidates();
+    this.createLinearStory();
     this.budget = randomInt(50000, 100000);
     this.state = MainScene.START;
     this.company = this.registry.get("company");
-  }
-
-  // load assets
-  preload() {
-    // this.load.image("background", "assets/images/background-city.png");
-    // this.load.audio("treeAudio", "assets/audio/arbol.mp3");
   }
 
   // executed once, after assets were loaded
@@ -33,9 +30,10 @@ export class MainScene extends Phaser.Scene {
       .text(15, 550, this.company.name, theme.h1)
       .setOrigin(0);
 
-    if (this.state === MainScene.START) {
-      this.scene.launch("TeamScene", this.team);
-    }
+    // if (this.state === MainScene.START) {
+    //   this.scene.launch("TeamScene", { team: this.team, onClose: () => {} });
+    // }
+    this.story.play();
   }
 
   update(time, delta) {}
@@ -57,6 +55,36 @@ export class MainScene extends Phaser.Scene {
     const productOwners = arrayofType(ProductOwner, randomInt(1, 2));
     const devs = arrayofType(Dev, randomInt(1, 2));
     this.candidates = [scrumMasters, testers, productOwners, devs].flat();
+  }
+
+  createLinearStory() {
+    const chapters = [
+      {
+        start: (data, done) => {
+          this.scene.launch("TeamScene", {
+            team: this.team,
+            onClose: () => {
+              this.scene.stop("TeamScene");
+              done();
+            },
+          });
+        },
+        complete: () => {},
+      },
+      {
+        start: (data, done) => {
+          this.scene.launch("HiringScene", {
+            candidates: this.candidates,
+            onClose: () => {
+              this.scene.stop("HiringScene");
+              done();
+            },
+          });
+        },
+        complete: () => {},
+      },
+    ];
+    this.story = new LinearStory(chapters);
   }
 }
 
