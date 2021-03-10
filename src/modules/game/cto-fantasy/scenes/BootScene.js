@@ -11,10 +11,12 @@ export class BootScene extends Phaser.Scene {
   preload() {
     this.load.html("joinform", "assets/forms/join.html");
     this.load.html("card", "assets/forms/card.html");
+    this.load.html("event", "assets/forms/event.html");
     this.load.image("button", "assets/UIpack/PNG/blue_button00.png");
     this.load.image("button_hover", "assets/UIpack/PNG/blue_button01.png");
     this.load.image("button_click", "assets/UIpack/PNG/blue_button02.png");
     this.load.image("card", "assets/card.png");
+    this.load.image("office", "assets/not-free/office.png");
   }
 
   // executed once, after assets were loaded
@@ -28,8 +30,8 @@ export class BootScene extends Phaser.Scene {
   }
 
   handleSubmit(event) {
-    if (event.target.name === "start") {
-      const name = this.form.getChildByName("name");
+    if (event.target.id === "start") {
+      const name = this.form.getChildByID("name");
       if (name.value !== "") {
         this.form.removeListener("click");
         this.form.setVisible(false);

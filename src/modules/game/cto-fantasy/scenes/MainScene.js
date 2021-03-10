@@ -1,10 +1,8 @@
 import Phaser from "phaser";
 import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
-import { Card } from "../game-objects/Card";
 import { randomInt } from "../utils/random";
 import * as theme from "../theme";
 import { LinearStory } from "../classes/LinearStory";
-import { Chapter } from "../classes/Chapter";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -25,6 +23,8 @@ export class MainScene extends Phaser.Scene {
     console.log(this.team);
     console.log(this.candidates);
     console.log(this.budget);
+
+    this.office = this.add.image(400, 300, "office").setOrigin(0.5);
 
     this.header = this.add
       .text(15, 550, this.company.name, theme.h1)
@@ -77,6 +77,19 @@ export class MainScene extends Phaser.Scene {
             candidates: this.candidates,
             onClose: () => {
               this.scene.stop("HiringScene");
+              done();
+            },
+          });
+        },
+        complete: () => {},
+      },
+      {
+        start: (data, done) => {
+          this.scene.launch("SprintScene", {
+            team: this.team,
+            events: [],
+            onClose: () => {
+              this.scene.stop("SprintScene");
               done();
             },
           });

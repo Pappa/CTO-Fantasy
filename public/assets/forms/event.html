@@ -1,35 +1,25 @@
 <style>
-  .join {
+  .event {
     background: #eceeee;
     border: 1px solid #42464b;
     border-radius: 6px;
-    height: 170px;
-    margin: 20px auto 0;
-    width: 298px;
+    height: 198px;
+    margin: 0;
+    padding: 10px;
+    width: 128px;
+    font-family: Arial, "Helvetica", sans-serif;
+    font-size: 12px;
+    color: #000000;
+    position: relative;
   }
-  input[type="text"] {
-    background: linear-gradient(top, #d6d7d7, #dee0e0);
-    border: 1px solid #a1a3a3;
-    border-radius: 4px;
-    box-shadow: 0 1px #fff;
-    box-sizing: border-box;
-    color: #696969;
-    height: 39px;
-    margin: 31px 0 0 29px;
-    padding-left: 10px;
-    transition: box-shadow 0.3s;
-    width: 240px;
-  }
-  input[type="text"]:focus {
-    box-shadow: 0 0 4px 1px rgba(55, 166, 155, 0.3);
-    outline: 0;
+  .flex-container {
+    display: flex;
   }
   button {
-    width: 240px;
+    width: 50px;
     height: 35px;
     display: block;
-    font-family: Arial, "Helvetica", sans-serif;
-    font-size: 16px;
+    font-size: 10px;
     font-weight: bold;
     color: #fff;
     text-decoration: none;
@@ -37,8 +27,7 @@
     text-align: center;
     text-shadow: 1px 1px 0px #37a69b;
     padding-top: 6px;
-    margin: 29px 0 0 29px;
-    position: relative;
+    margin: 9px 0 0 9px;
     cursor: pointer;
     border: none;
     background-color: #37a69b;
@@ -52,13 +41,14 @@
   }
 
   button:active {
-    top: 3px;
     box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #31524d,
       0px 5px 3px #999;
   }
 </style>
 
-<div class="join">
-  <input type="text" placeholder="Enter your name..." id="name" name="name" />
-  <button value="Start" id="start">Start</button>
+<div class="event">
+  <p id="description"></p>
+  <div class="flex-container">
+    <button id="A">A</button> <button id="B">B</button>
+  </div>
 </div>

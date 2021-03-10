@@ -24,7 +24,7 @@ export class TeamScene extends Phaser.Scene {
   createComponents() {
     this.header = this.add.text(400, 15, " ", theme.h1).setOrigin(0.5, 0);
     this.close = this.add
-      .text(780, 10, "X", theme.x)
+      .text(760, 10, "X", theme.x)
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerup", () => {
