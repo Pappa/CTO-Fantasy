@@ -27,6 +27,8 @@ export class LinearFSM {
       setTimeout(() => {
         this.currentState.enter();
       }, this.currentState.delay || this.delay);
+    } else {
+      this.currentState = null;
     }
   }
 

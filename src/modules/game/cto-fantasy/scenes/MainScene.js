@@ -2,10 +2,10 @@ import Phaser from "phaser";
 import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
 import { randomInt } from "../utils/random";
 import * as theme from "../theme";
-import { LinearFSM } from "../classes/LinearFSM";
-import { MeetTheTeamState } from "../classes/states/MeetTheTeamState";
-import { HiringState } from "../classes/states/HiringState";
-import { SprintState } from "../classes/states/SprintState";
+import { LinearFSM } from "../classes/states/LinearFSM";
+import { MeetTheTeamState } from "../classes/states/story/MeetTheTeamState";
+import { HiringState } from "../classes/states/story/HiringState";
+import { SprintState } from "../classes/states/story/SprintState";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -61,6 +61,7 @@ export class MainScene extends Phaser.Scene {
     const states = [
       new MeetTheTeamState(this.fsm, this.scene, this.team),
       new HiringState(this.fsm, this.scene, this.candidates),
+      new SprintState(this.fsm, this.scene, this.team, []),
       new SprintState(this.fsm, this.scene, this.team, []),
     ];
     this.fsm.add(states);

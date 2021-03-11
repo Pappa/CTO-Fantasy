@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { LinearFSM } from "../classes/states/LinearFSM";
+import { SprintEventState } from "../classes/states/sprint/SprintEventState";
 import * as theme from "../theme";
 import { randomInt } from "../utils/random";
 
@@ -17,6 +19,7 @@ export class SprintScene extends Phaser.Scene {
     this.onClose = onClose;
     this.updateSprintNumber();
     this.createComponents();
+    this.createEvents();
   }
 
   update(time, delta) {
@@ -34,24 +37,35 @@ export class SprintScene extends Phaser.Scene {
     this.header = this.add
       .text(400, 15, `Sprint ${this.sprintNumber}`, theme.h1)
       .setOrigin(0.5, 0);
-    this.eventCard = this.add
+    this.eventDialog = this.add
       .dom(400, 300)
       .createFromCache("event")
-      .setOrigin(0.5);
-    /*.setVisible(false)*/
+      .setOrigin(0.5)
+      .setVisible(false);
   }
 
   createEvents() {
+    this.fsm = new LinearFSM();
     this.events = Array(randomInt(1, 3))
       .fill(null)
       .map(() => ({
         text: "Do you want to do A or B?",
-        A: () => {},
-        B: () => {},
-      }));
+        A: () => {
+          this.handleEvents();
+        },
+        B: () => {
+          this.handleEvents();
+        },
+      }))
+      .map((ev) => new SprintEventState(this.fsm, this.eventDialog, ev));
+    this.fsm.add(this.events);
+    this.fsm.next();
   }
 
-  displayEvent(event) {
-    this.eventCard.getChildByID("description").textContent = event.text;
+  handleEvents() {
+    this.fsm.next();
+    if (!this.fsm.currentState) {
+      this.onClose();
+    }
   }
 }
