@@ -11,7 +11,7 @@ export class SprintScene extends Phaser.Scene {
 
   preload() {}
 
-  create({ team, events, onClose }) {
+  create({ team, events = [], onClose }) {
     this.team = team;
     this.events = events;
     this.onClose = onClose;

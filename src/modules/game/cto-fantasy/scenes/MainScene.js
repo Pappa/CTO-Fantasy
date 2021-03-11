@@ -2,7 +2,10 @@ import Phaser from "phaser";
 import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
 import { randomInt } from "../utils/random";
 import * as theme from "../theme";
-import { LinearStory } from "../classes/LinearStory";
+import { LinearFSM } from "../classes/LinearFSM";
+import { MeetTheTeamState } from "../classes/states/MeetTheTeamState";
+import { HiringState } from "../classes/states/HiringState";
+import { SprintState } from "../classes/states/SprintState";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -14,7 +17,6 @@ export class MainScene extends Phaser.Scene {
     this.createStartingCandidates();
     this.createLinearStory();
     this.budget = randomInt(50000, 100000);
-    this.state = MainScene.START;
     this.company = this.registry.get("company");
   }
 
@@ -30,10 +32,7 @@ export class MainScene extends Phaser.Scene {
       .text(15, 550, this.company.name, theme.h1)
       .setOrigin(0);
 
-    // if (this.state === MainScene.START) {
-    //   this.scene.launch("TeamScene", { team: this.team, onClose: () => {} });
-    // }
-    this.story.play();
+    this.fsm.next();
   }
 
   update(time, delta) {}
@@ -58,47 +57,12 @@ export class MainScene extends Phaser.Scene {
   }
 
   createLinearStory() {
-    const chapters = [
-      {
-        start: (data, done) => {
-          this.scene.launch("TeamScene", {
-            team: this.team,
-            onClose: () => {
-              this.scene.stop("TeamScene");
-              done();
-            },
-          });
-        },
-        complete: () => {},
-      },
-      {
-        start: (data, done) => {
-          this.scene.launch("HiringScene", {
-            candidates: this.candidates,
-            onClose: () => {
-              this.scene.stop("HiringScene");
-              done();
-            },
-          });
-        },
-        complete: () => {},
-      },
-      {
-        start: (data, done) => {
-          this.scene.launch("SprintScene", {
-            team: this.team,
-            events: [],
-            onClose: () => {
-              this.scene.stop("SprintScene");
-              done();
-            },
-          });
-        },
-        complete: () => {},
-      },
+    this.fsm = new LinearFSM();
+    const states = [
+      new MeetTheTeamState(this.fsm, this.scene, this.team),
+      new HiringState(this.fsm, this.scene, this.candidates),
+      new SprintState(this.fsm, this.scene, this.team, []),
     ];
-    this.story = new LinearStory(chapters);
+    this.fsm.add(states);
   }
 }
-
-MainScene.START = "start";
