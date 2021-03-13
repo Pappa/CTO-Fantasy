@@ -1,8 +1,14 @@
 import Phaser from "phaser";
-import { LinearFSM } from "../classes/states/LinearFSM";
+import { Card } from "../game-objects/Card";
+import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 import { SprintEventState } from "../classes/states/sprint/SprintEventState";
+import { SprintPlanningState } from "../classes/states/sprint/SprintPlanningState";
 import * as theme from "../theme";
+import { average } from "../utils/number";
 import { randomInt } from "../utils/random";
+import { SprintResultsState } from "../classes/states/sprint/SprintResultsState";
+
+const SPRINT_LENGTH = 10;
 
 export class SprintScene extends Phaser.Scene {
   constructor() {
@@ -18,6 +24,7 @@ export class SprintScene extends Phaser.Scene {
     this.events = events;
     this.onClose = onClose;
     this.updateSprintNumber();
+    this.setCommitment();
     this.createComponents();
     this.createEvents();
   }
@@ -30,7 +37,6 @@ export class SprintScene extends Phaser.Scene {
 
   updateSprintNumber() {
     this.sprintNumber = this.registry.inc("sprintNumber").get("sprintNumber");
-    console.log("this.sprintNumber", this.sprintNumber);
   }
 
   createComponents() {
@@ -42,11 +48,53 @@ export class SprintScene extends Phaser.Scene {
       .createFromCache("event")
       .setOrigin(0.5)
       .setVisible(false);
+    this.results = this.add
+      .dom(400, 300)
+      .createFromCache("results")
+      .setOrigin(0.5)
+      .setVisible(false);
+    this.card = this.add.existing(new Card(this, 400, 150)).setVisible(false);
   }
 
   createEvents() {
-    this.fsm = new LinearFSM();
-    this.events = Array(randomInt(1, 3))
+    this.machine = new LinearStateMachine();
+    this.events = [
+      new SprintPlanningState(
+        this.machine,
+        this.card,
+        this.commitment,
+        this.handleEvents
+      ),
+    ];
+    const randomEvents = this.getRandomSprintEvents();
+    this.events.push(...randomEvents);
+    this.machine.add(this.events);
+    this.machine.next();
+  }
+
+  handleEvents() {
+    this.machine.next();
+    // probably a setTimeout bug here
+    // move to update() ?
+    if (!this.machine.currentState) {
+      const velocity = this.calculateVelocity();
+      this.machine.add(
+        new SprintResultsState(
+          this.machine,
+          this.results,
+          { velocity, commitment: this.commitment },
+          () => {
+            console.log("SprintResultsState closed");
+            this.onClose();
+          }
+        )
+      );
+      this.machine.next();
+    }
+  }
+
+  getRandomSprintEvents() {
+    return Array(randomInt(1, 3))
       .fill(null)
       .map(() => ({
         text: "Do you want to do A or B?",
@@ -57,15 +105,21 @@ export class SprintScene extends Phaser.Scene {
           this.handleEvents();
         },
       }))
-      .map((ev) => new SprintEventState(this.fsm, this.eventDialog, ev));
-    this.fsm.add(this.events);
-    this.fsm.next();
+      .map((ev) => new SprintEventState(this.machine, this.eventDialog, ev));
   }
 
-  handleEvents() {
-    this.fsm.next();
-    if (!this.fsm.currentState) {
-      this.onClose();
-    }
+  setCommitment() {
+    this.commitment = randomInt(30, 60);
+  }
+
+  calculateResults() {
+    this.velocity = this.calculateVelocity();
+  }
+
+  calculateVelocity() {
+    const skills = this.team.map((member) => member.skill);
+    const av = average(skills);
+    const velocity = Math.floor(av * this.team.length * SPRINT_LENGTH);
+    return velocity;
   }
 }

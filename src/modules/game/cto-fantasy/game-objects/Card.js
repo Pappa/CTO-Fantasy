@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { Button } from "./Button";
 
 export class Card extends Phaser.GameObjects.Container {
-  constructor(scene, x = 0, y = 0, content, callback) {
+  constructor(scene, x = 0, y = 0, content = {}, callback) {
     super(scene, x, y);
 
     this.form = this.scene.add
@@ -39,6 +39,7 @@ export class Card extends Phaser.GameObjects.Container {
         new Button(this.scene, 0, 155, text, callback)
       );
       this.add(this.button);
+      button.style.display = "inline";
     } else {
       button.style.display = "none";
     }

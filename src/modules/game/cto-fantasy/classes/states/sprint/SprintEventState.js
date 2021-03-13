@@ -2,8 +2,8 @@ import { State } from "../State";
 
 export class SprintEventState extends State {
   dialog;
-  constructor(fsm, dialog, { text, A, B }) {
-    super(fsm);
+  constructor(machine, dialog, { text, A, B }) {
+    super(machine);
     this.dialog = dialog;
     this.text = text;
     this.A = A;

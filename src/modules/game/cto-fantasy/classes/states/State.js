@@ -1,8 +1,8 @@
 export class State {
-  fsm;
+  machine;
 
-  constructor(fsm) {
-    this.fsm = fsm;
+  constructor(machine) {
+    this.machine = machine;
   }
   enter() {}
 

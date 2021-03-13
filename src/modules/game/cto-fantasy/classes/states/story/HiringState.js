@@ -3,8 +3,8 @@ import { State } from "../State";
 export class HiringState extends State {
   candidates;
   scene;
-  constructor(fsm, scene, candidates) {
-    super(fsm);
+  constructor(machine, scene, candidates) {
+    super(machine);
     this.candidates = candidates;
     this.scene = scene;
   }
@@ -13,7 +13,7 @@ export class HiringState extends State {
     this.scene.launch("HiringScene", {
       candidates: this.candidates,
       onClose: () => {
-        this.fsm.next();
+        this.machine.next();
       },
     });
   }

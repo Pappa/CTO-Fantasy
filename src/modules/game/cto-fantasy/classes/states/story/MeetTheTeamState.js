@@ -3,8 +3,8 @@ import { State } from "../State";
 export class MeetTheTeamState extends State {
   team;
   scene;
-  constructor(fsm, scene, team) {
-    super(fsm);
+  constructor(machine, scene, team) {
+    super(machine);
     this.team = team;
     this.scene = scene;
   }
@@ -13,7 +13,7 @@ export class MeetTheTeamState extends State {
     this.scene.launch("TeamScene", {
       team: this.team,
       onClose: () => {
-        this.fsm.next();
+        this.machine.next();
       },
     });
   }
