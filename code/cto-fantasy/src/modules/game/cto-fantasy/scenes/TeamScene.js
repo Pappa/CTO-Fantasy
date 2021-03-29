@@ -42,7 +42,7 @@ export class TeamScene extends Phaser.Scene {
     this.intro = false;
     this.header.setText(headerText);
 
-    this.teamCards = this.team.map((member, idx) => {
+    this.teamCards = this.team.members.map((member, idx) => {
       const x = -50 + (idx + 1) * 175;
       return this.add.existing(
         new Card(this, x, 150, {

@@ -4,7 +4,6 @@ import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 import { SprintEventState } from "../classes/states/sprint/SprintEventState";
 import { SprintPlanningState } from "../classes/states/sprint/SprintPlanningState";
 import * as theme from "../theme";
-import { average } from "../utils/number";
 import { randomInt } from "../utils/random";
 import { SprintResultsState } from "../classes/states/sprint/SprintResultsState";
 
@@ -117,9 +116,9 @@ export class SprintScene extends Phaser.Scene {
   }
 
   calculateVelocity() {
-    const skills = this.team.map((member) => member.skill);
-    const av = average(skills);
-    const velocity = Math.floor(av * this.team.length * SPRINT_LENGTH);
+    const velocity = Math.floor(
+      this.team.skill * this.team.size * SPRINT_LENGTH
+    );
     return velocity;
   }
 }

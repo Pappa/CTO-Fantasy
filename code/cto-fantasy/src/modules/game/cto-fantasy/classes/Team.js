@@ -35,4 +35,8 @@ export class Team {
   get psychologicalSafety() {
     return this.getAverageStat("psychologicalSafety");
   }
+
+  get size() {
+    return this.members.length;
+  }
 }

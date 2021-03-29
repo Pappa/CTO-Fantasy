@@ -6,6 +6,7 @@ import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 import { MeetTheTeamState } from "../classes/states/story/MeetTheTeamState";
 import { HiringState } from "../classes/states/story/HiringState";
 import { SprintState } from "../classes/states/story/SprintState";
+import { Team } from "../classes/Team";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -39,9 +40,12 @@ export class MainScene extends Phaser.Scene {
 
   createStartingEmployees() {
     const teamSize = this.registry.get("settings").startingTeamSize;
-    this.team = Array(teamSize)
+    this.team = new Team();
+    Array(teamSize)
       .fill(null)
-      .map(() => new Dev());
+      .forEach(() => {
+        this.team.add(new Dev());
+      });
   }
 
   createStartingCandidates() {
