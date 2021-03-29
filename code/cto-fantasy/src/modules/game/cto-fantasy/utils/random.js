@@ -87,3 +87,9 @@ export const randomName = (gender) => {
   const first = !!gender ? FIRST_NAMES_FEMALE : FIRST_NAMES_MALE;
   return `${pick(first)} ${pick(LAST_NAME)}`;
 };
+
+export const randomStat = () => {
+  const min = 1;
+  const max = 5;
+  return (randomInt(min, max) + randomInt(min, max)) / 10;
+};

@@ -1,4 +1,4 @@
-import { randomInt, pick, randomName } from "./random";
+import { randomInt, pick, randomName, randomStat } from "./random";
 
 beforeEach(() => {
   jest.spyOn(global.Math, "random").mockReturnValue(0.5);
@@ -26,5 +26,11 @@ describe("randomName()", () => {
   });
   it("should select a female name", () => {
     expect(randomName(1)).toBe("Joyce Hanson");
+  });
+});
+
+describe("randomStat()", () => {
+  it("should select weighted value between 0 and 1", () => {
+    expect(randomStat()).toBe(0.6);
   });
 });

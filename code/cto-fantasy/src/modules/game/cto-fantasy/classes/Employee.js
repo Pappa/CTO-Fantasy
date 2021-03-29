@@ -1,37 +1,45 @@
-import { randomInt, randomName } from "../utils/random";
+import { randomInt, randomName, randomStat } from "../utils/random";
 
 export class Employee {
   // ethnicity; // how about introducing a "diversity" attribute based on ethnic/gender diversity in the team?
-  constructor({ skill, gender, name, salary, happiness } = {}) {
-    this.skill = skill || this.getRandomSkill();
-    this.gender = gender || this.getRandomGender();
-    this.name = name || this.getRandomName();
-    this.salary = salary || this.getRandomSalary();
-    this.happiness = happiness || this.getRandomHappiness();
+  constructor({
+    skill,
+    gender,
+    name,
+    salary,
+    happiness,
+    qualityMindset,
+    collaboration,
+    psychologicalSafety,
+  } = {}) {
+    this.skill = skill || this.randomiseStat("skill");
+    this.gender = gender || this.randomiseStat("gender");
+    this.name = name || this.randomiseStat("name");
+    this.salary = salary || this.randomiseStat("salary");
+    this.happiness = happiness || this.randomiseStat("happiness");
+    this.qualityMindset =
+      qualityMindset || this.randomiseStat("qualityMindset");
+    this.collaboration = collaboration || this.randomiseStat("collaboration");
+    this.psychologicalSafety =
+      psychologicalSafety || this.randomiseStat("psychologicalSafety");
   }
 
-  getRandomSkill() {
-    const min = 1;
-    const max = 5;
-    return (randomInt(min, max) + randomInt(min, max)) / 10;
-  }
-
-  getRandomGender() {
-    return Math.random() <= 0.7 ? Employee.MALE : Employee.FEMALE;
-  }
-
-  getRandomName() {
-    return randomName(this.gender);
-  }
-
-  getRandomSalary() {
-    return Math.trunc(randomInt(25000, 50000) / 500) * 500;
-  }
-
-  getRandomHappiness() {
-    const min = 1;
-    const max = 5;
-    return (randomInt(min, max) + randomInt(min, max)) / 10;
+  randomiseStat(property) {
+    switch (property) {
+      case "gender":
+        return Math.random() <= 0.7 ? Employee.MALE : Employee.FEMALE;
+      case "name":
+        return randomName(this.gender);
+      case "salary":
+        return Math.trunc(randomInt(25000, 50000) / 500) * 500;
+      case "psychologicalSafety":
+        return randomInt(1, 5) / 10;
+      case "skill":
+      case "happiness":
+      case "qualityMindset":
+      default:
+        return randomStat();
+    }
   }
 }
 
@@ -48,14 +56,18 @@ export class Tester extends Employee {
 
 export class ScrumMaster extends Employee {
   type = "Scrum Master";
-  getRandomSalary() {
-    return super.getRandomSalary() + 10000;
+  randomiseStat(property) {
+    return property === "salary"
+      ? super.randomiseStat("salary") + 10000
+      : super.randomiseStat(property);
   }
 }
 
 export class ProductOwner extends Employee {
   type = "Product Owner";
-  getRandomSalary() {
-    return super.getRandomSalary() + 10000;
+  randomiseStat(property) {
+    return property === "salary"
+      ? super.randomiseStat("salary") + 10000
+      : super.randomiseStat(property);
   }
 }
