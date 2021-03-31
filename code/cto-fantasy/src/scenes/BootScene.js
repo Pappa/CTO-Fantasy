@@ -1,11 +1,15 @@
 import Phaser from "phaser";
+import * as theme from "../theme";
 
 export class BootScene extends Phaser.Scene {
   constructor() {
     super("BootScene");
   }
 
-  init() {}
+  init() {
+    this.centreX = this.cameras.main.width / 2;
+    this.centreY = this.cameras.main.height / 2;
+  }
 
   // load assets
   preload() {
@@ -18,82 +22,65 @@ export class BootScene extends Phaser.Scene {
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
     var title = this.make.text({
-      x: width / 2,
-      y: height / 2 - 220,
+      x: this.centreX,
+      y: this.centreY - 220,
       text: "Project Genesis",
-      style: {
-        font: "24px monospace",
-        fill: "#ffffff",
-      },
+      style: theme.header,
     });
     title.setOrigin(0.5, 0.5);
 
     var subtitle = this.make.text({
-      x: width / 2,
-      y: height / 2 - 180,
+      x: this.centreX,
+      y: this.centreY - 180,
       text: "A software development fantasy",
-      style: {
-        font: "18px monospace",
-        fill: "#ffffff",
-      },
+      style: theme.mainText,
     });
     subtitle.setOrigin(0.5, 0.5);
   }
 
   createProgressBar() {
-    var progressBar = this.add.graphics();
-    var progressBox = this.add.graphics();
+    const progressBar = this.add.graphics();
+    const progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(240, 270, 320, 50);
 
-    var width = this.cameras.main.width;
-    var height = this.cameras.main.height;
-    var loadingText = this.make.text({
-      x: width / 2,
-      y: height / 2 - 50,
+    const loadingText = this.add.text({
+      x: this.centreX,
+      y: this.centreY - 50,
       text: "Loading...",
-      style: {
-        font: "20px monospace",
-        fill: "#ffffff",
-      },
+      style: theme.mainText,
     });
     loadingText.setOrigin(0.5, 0.5);
 
-    var percentText = this.make.text({
-      x: width / 2,
-      y: height / 2 - 5,
+    const percentText = this.add.text({
+      x: this.centreX,
+      y: this.centreY - 5,
       text: "0%",
-      style: {
-        font: "18px monospace",
-        fill: "#ffffff",
-      },
+      style: theme.mainText,
     });
     percentText.setOrigin(0.5, 0.5);
 
-    var assetText = this.make.text({
-      x: width / 2,
-      y: height / 2 + 50,
+    const assetText = this.add.text({
+      x: this.centreX,
+      y: this.centreY + 50,
       text: "",
-      style: {
-        font: "18px monospace",
-        fill: "#ffffff",
-      },
+      style: theme.mainText,
     });
 
     assetText.setOrigin(0.5, 0.5);
 
-    this.load.on("progress", function (value) {
+    this.load.on("progress", (value) => {
       percentText.setText(parseInt(value * 100) + "%");
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect(250, 280, 300 * value, 30);
     });
 
-    this.load.on("fileprogress", function (file) {
+    this.load.on("fileprogress", (file) => {
       assetText.setText("Loading asset: " + file.key);
     });
 
-    this.load.on("complete", function () {
+    this.load.on("complete", () => {
       progressBar.destroy();
       progressBox.destroy();
       loadingText.destroy();
@@ -103,7 +90,6 @@ export class BootScene extends Phaser.Scene {
   }
 
   loadAssets() {
-    this.load.html("joinform", "assets/forms/join.html");
     this.load.html("card", "assets/forms/card.html");
     this.load.html("event", "assets/forms/event.html");
     this.load.html("results", "assets/forms/results.html");
@@ -116,23 +102,45 @@ export class BootScene extends Phaser.Scene {
 
   // executed once, after assets were loaded
   create() {
-    this.form = this.add.dom(400, 300).createFromCache("joinform");
-    this.form.setOrigin(0.5);
-    this.form.setPerspective(800);
-    this.form.addListener("click");
-
-    this.form.on("click", this.handleSubmit, this);
+    this.createNameEntry();
   }
 
-  handleSubmit(event) {
-    if (event.target.id === "start") {
-      const name = this.form.getChildByID("name");
-      if (name.value !== "") {
-        this.form.removeListener("click");
-        this.form.setVisible(false);
-        this.registry.set("name", name.value);
-        this.scene.start("VacanciesScene");
+  createNameEntry() {
+    const LOWER = "abcdefghijklmnopqrstuvwxyz";
+    const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    this.make
+      .text({
+        x: this.centreX,
+        y: this.centreY,
+        text: "Enter your name:",
+        style: theme.mainText,
+      })
+      .setOrigin(0.5, 0.5);
+
+    const textEntry = this.make
+      .text({
+        x: this.centreX,
+        y: this.centreY + 30,
+        text: " ",
+        style: {
+          ...theme.mainText,
+          fill: "#ffff00",
+        },
+      })
+      .setOrigin(0.5, 0.5);
+
+    this.input.keyboard.on("keydown", (event) => {
+      if (UPPER.includes(event.key) || LOWER.includes(event.key)) {
+        textEntry.text += event.key;
       }
-    }
+      if (event.key === "Enter") {
+        this.handleSubmit(textEntry.text);
+      }
+    });
+  }
+
+  handleSubmit(text) {
+    this.registry.set("name", text);
+    this.scene.start("VacanciesScene");
   }
 }
