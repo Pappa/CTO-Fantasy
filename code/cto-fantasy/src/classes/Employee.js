@@ -4,6 +4,7 @@ export class Employee {
   // ethnicity; // how about introducing a "diversity" attribute based on ethnic/gender diversity in the team?
   constructor({
     skill,
+    experience,
     gender,
     name,
     salary,
@@ -13,6 +14,7 @@ export class Employee {
     psychologicalSafety,
   } = {}) {
     this.skill = skill || this.randomiseStat("skill");
+    this.experience = experience || this.randomiseStat("experience");
     this.gender = gender || this.randomiseStat("gender");
     this.name = name || this.randomiseStat("name");
     this.salary = salary || this.randomiseStat("salary");
@@ -34,6 +36,8 @@ export class Employee {
         return Math.trunc(randomInt(25000, 50000) / 500) * 500;
       case "psychologicalSafety":
         return randomInt(1, 5) / 10;
+      case "experience":
+        return randomInt(1, 10);
       case "skill":
       case "happiness":
       case "qualityMindset":
@@ -57,17 +61,27 @@ export class Tester extends Employee {
 export class ScrumMaster extends Employee {
   type = "Scrum Master";
   randomiseStat(property) {
-    return property === "salary"
-      ? super.randomiseStat("salary") + 10000
-      : super.randomiseStat(property);
+    switch (property) {
+      case "experience":
+        return super.randomiseStat("experience") + 5;
+      case "salary":
+        return super.randomiseStat("salary") + 10000;
+      default:
+        return super.randomiseStat(property);
+    }
   }
 }
 
 export class ProductOwner extends Employee {
   type = "Product Owner";
   randomiseStat(property) {
-    return property === "salary"
-      ? super.randomiseStat("salary") + 10000
-      : super.randomiseStat(property);
+    switch (property) {
+      case "experience":
+        return super.randomiseStat("experience") + 5;
+      case "salary":
+        return super.randomiseStat("salary") + 10000;
+      default:
+        return super.randomiseStat(property);
+    }
   }
 }

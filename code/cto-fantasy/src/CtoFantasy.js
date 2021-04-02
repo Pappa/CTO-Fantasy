@@ -7,6 +7,7 @@ import config from "./config.json";
 import { TeamScene } from "./scenes/TeamScene";
 import { HiringScene } from "./scenes/HiringScene";
 import { SprintScene } from "./scenes/SprintScene";
+import { SprintReviewScene } from "./scenes/SprintReviewScene";
 
 export class CtoFantasy {
   constructor() {
@@ -24,6 +25,7 @@ export class CtoFantasy {
         TeamScene,
         HiringScene,
         SprintScene,
+        SprintReviewScene,
       ],
       title: "CTO Fantasy",
       dom: {

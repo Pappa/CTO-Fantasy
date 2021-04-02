@@ -5,7 +5,7 @@ import { SprintEventState } from "../classes/states/sprint/SprintEventState";
 import { SprintPlanningState } from "../classes/states/sprint/SprintPlanningState";
 import * as theme from "../theme";
 import { randomInt } from "../utils/random";
-import { SprintResultsState } from "../classes/states/sprint/SprintResultsState";
+import { SprintReviewState } from "../classes/states/sprint/SprintReviewState";
 
 const SPRINT_LENGTH = 10;
 
@@ -76,14 +76,15 @@ export class SprintScene extends Phaser.Scene {
     // probably a setTimeout bug here
     // move to update() ?
     if (!this.machine.currentState) {
-      const velocity = this.calculateVelocity();
+      this.calculateResults();
       this.machine.add(
-        new SprintResultsState(
+        new SprintReviewState(
           this.machine,
+          this.scene,
           this.results,
-          { velocity, commitment: this.commitment },
+          { velocity: this.velocity, commitment: this.commitment },
           () => {
-            console.log("SprintResultsState closed");
+            console.log("SprintReviewState closed");
             this.onClose();
           }
         )

@@ -13,6 +13,7 @@ describe("Male Employee", () => {
     const result = new Employee();
     expect(result).toEqual({
       skill: 0.6,
+      experience: 6,
       gender: 0,
       name: "Timothy Hanson",
       salary: 37500,
@@ -38,6 +39,7 @@ describe("Female Employee", () => {
     const result = new Employee();
     expect(result).toEqual({
       skill: 1,
+      experience: 9,
       gender: 1,
       name: "Elsa Wells",
       salary: 45000,
@@ -62,6 +64,7 @@ describe("Female Employee", () => {
       const result = new Dev();
       expect(result).toEqual({
         skill: 0.6,
+        experience: 6,
         gender: 0,
         name: "Timothy Hanson",
         salary: 37500,
@@ -77,6 +80,7 @@ describe("Female Employee", () => {
       const result = new Tester();
       expect(result).toEqual({
         skill: 0.6,
+        experience: 6,
         gender: 0,
         name: "Timothy Hanson",
         salary: 37500,
@@ -92,6 +96,7 @@ describe("Female Employee", () => {
       const result = new ScrumMaster();
       expect(result).toEqual({
         skill: 0.6,
+        experience: 11,
         gender: 0,
         name: "Timothy Hanson",
         salary: 47500,
@@ -107,6 +112,7 @@ describe("Female Employee", () => {
       const result = new ProductOwner();
       expect(result).toEqual({
         skill: 0.6,
+        experience: 11,
         gender: 0,
         name: "Timothy Hanson",
         salary: 47500,
