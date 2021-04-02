@@ -62,11 +62,11 @@ export class SprintScene extends Phaser.Scene {
         this.machine,
         this.card,
         this.commitment,
-        this.handleEvents
+        this.handleEvents.bind(this)
       ),
     ];
-    const randomEvents = this.getRandomSprintEvents();
-    this.events.push(...randomEvents);
+    // const randomEvents = this.getRandomSprintEvents();
+    // this.events.push(...randomEvents);
     this.machine.add(this.events);
     this.machine.next();
   }
@@ -92,20 +92,20 @@ export class SprintScene extends Phaser.Scene {
     }
   }
 
-  getRandomSprintEvents() {
-    return Array(randomInt(1, 3))
-      .fill(null)
-      .map(() => ({
-        text: "Do you want to do A or B?",
-        A: () => {
-          this.handleEvents();
-        },
-        B: () => {
-          this.handleEvents();
-        },
-      }))
-      .map((ev) => new SprintEventState(this.machine, this.eventDialog, ev));
-  }
+  // getRandomSprintEvents() {
+  //   return Array(randomInt(1, 3))
+  //     .fill(null)
+  //     .map(() => ({
+  //       text: "Do you want to do A or B?",
+  //       A: () => {
+  //         this.handleEvents();
+  //       },
+  //       B: () => {
+  //         this.handleEvents();
+  //       },
+  //     }))
+  //     .map((ev) => new SprintEventState(this.machine, this.eventDialog, ev));
+  // }
 
   setCommitment() {
     this.commitment = randomInt(30, 60);

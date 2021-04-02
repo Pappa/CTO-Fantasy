@@ -24,7 +24,7 @@ export class TeamScene extends Phaser.Scene {
   createComponents() {
     this.header = this.add.text(400, 15, " ", theme.h1).setOrigin(0.5, 0);
     this.close = this.add
-      .text(760, 10, "X", theme.x)
+      .text(760, 15, "X", theme.x)
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerup", () => {
@@ -36,7 +36,7 @@ export class TeamScene extends Phaser.Scene {
     const name = this.registry.get("name");
     const company = this.registry.get("company");
     const headerText = this.intro
-      ? `Welcome to ${company.name} ${name}! Come and meet the team.`
+      ? `Welcome to ${company.name} ${name}!\nCome and meet the team.`
       : `The ${company.name} team.`;
 
     this.intro = false;

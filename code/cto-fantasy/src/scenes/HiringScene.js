@@ -24,7 +24,7 @@ export class HiringScene extends Phaser.Scene {
   createComponents() {
     this.header = this.add.text(400, 15, " ", theme.h1).setOrigin(0.5, 0);
     this.close = this.add
-      .text(760, 10, "X", theme.x)
+      .text(760, 15, "X", theme.x)
       .setOrigin(0)
       .setInteractive({ useHandCursor: true })
       .on("pointerup", () => {
@@ -34,7 +34,7 @@ export class HiringScene extends Phaser.Scene {
 
   updateCandidates() {
     this.header.setText(
-      `Time to hire some new people. There are ${this.candidates.length} candidates.`
+      `Time to hire some new people.\nThere are ${this.candidates.length} candidates.`
     );
 
     this.candidatesCards = this.candidates.map((candidate, idx) => {
@@ -47,8 +47,8 @@ export class HiringScene extends Phaser.Scene {
           {
             title: candidate.name,
             text: candidate.type,
-          },
-          this.selectCandidate.bind(this, candidate)
+          } /*,
+          this.selectCandidate.bind(this, candidate)*/
         )
       );
     }, this);

@@ -19,8 +19,6 @@ export class BootScene extends Phaser.Scene {
   }
 
   createGameTitle() {
-    var width = this.cameras.main.width;
-    var height = this.cameras.main.height;
     var title = this.make.text({
       x: this.centreX,
       y: this.centreY - 220,
@@ -121,7 +119,7 @@ export class BootScene extends Phaser.Scene {
       .text({
         x: this.centreX,
         y: this.centreY + 30,
-        text: " ",
+        text: "",
         style: {
           ...theme.mainText,
           fill: "#ffff00",

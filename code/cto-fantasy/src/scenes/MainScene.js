@@ -49,15 +49,12 @@ export class MainScene extends Phaser.Scene {
   }
 
   createStartingCandidates() {
-    const arrayofType = (T, length) =>
-      Array(length)
-        .fill(null)
-        .map(() => new T());
-    const scrumMasters = arrayofType(ScrumMaster, randomInt(1, 2));
-    const testers = arrayofType(Tester, randomInt(1, 2));
-    const productOwners = arrayofType(ProductOwner, randomInt(1, 2));
-    const devs = arrayofType(Dev, randomInt(1, 2));
-    this.candidates = [scrumMasters, testers, productOwners, devs].flat();
+    this.candidates = [
+      new Dev(),
+      new Tester(),
+      new ScrumMaster(),
+      new ProductOwner(),
+    ];
   }
 
   createLinearStory() {
