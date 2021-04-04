@@ -11,7 +11,6 @@ export class SprintReviewScene extends Phaser.Scene {
   preload() {}
 
   create({ results, onClose }) {
-    console.log("results", results);
     this.results = results;
     this.onClose = onClose;
     this.createComponents();

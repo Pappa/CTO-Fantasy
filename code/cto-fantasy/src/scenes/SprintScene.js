@@ -48,11 +48,6 @@ export class SprintScene extends Phaser.Scene {
       .createFromCache("event")
       .setOrigin(0.5)
       .setVisible(false);
-    this.results = this.add
-      .dom(400, 300)
-      .createFromCache("results")
-      .setOrigin(0.5)
-      .setVisible(false);
     this.card = this.add.existing(new Card(this, 400, 150)).setVisible(false);
   }
 
@@ -81,7 +76,7 @@ export class SprintScene extends Phaser.Scene {
         new SprintReviewState(
           this.machine,
           this.scene,
-          (this.results = this.calculateResults()),
+          this.calculateResults(),
           () => {
             console.log("SprintReviewState closed");
             this.onClose();

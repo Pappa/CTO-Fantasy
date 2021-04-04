@@ -17,16 +17,11 @@ export class MainScene extends Phaser.Scene {
     this.createStartingEmployees();
     this.createStartingCandidates();
     this.createLinearStory();
-    this.budget = randomInt(50000, 100000);
     this.company = this.registry.get("company");
   }
 
   // executed once, after assets were loaded
   create() {
-    console.log(this.team);
-    console.log(this.candidates);
-    console.log(this.budget);
-
     this.office = this.add.image(400, 300, "office").setOrigin(0.5);
 
     this.header = this.add
