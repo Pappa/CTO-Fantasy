@@ -39,7 +39,7 @@ export class MainScene extends Phaser.Scene {
   update(time, delta) {}
 
   createStartingEmployees() {
-    const teamSize = this.registry.get("settings").startingTeamSize;
+    const teamSize = this.registry.get("settings").STARTING_TEAM_SIZE;
     this.team = new Team();
     Array(teamSize)
       .fill(null)

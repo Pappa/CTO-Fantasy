@@ -1,11 +1,12 @@
 import Phaser from "phaser";
 import { Card } from "../game-objects/Card";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
-import { SprintEventState } from "../classes/states/sprint/SprintEventState";
+//import { SprintEventState } from "../classes/states/sprint/SprintEventState";
 import { SprintPlanningState } from "../classes/states/sprint/SprintPlanningState";
 import * as theme from "../theme";
 import { randomInt } from "../utils/random";
 import { SprintReviewState } from "../classes/states/sprint/SprintReviewState";
+import { calculateNewSprintBugs } from "../utils/sprint";
 
 const SPRINT_LENGTH = 10;
 
@@ -76,13 +77,11 @@ export class SprintScene extends Phaser.Scene {
     // probably a setTimeout bug here
     // move to update() ?
     if (!this.machine.currentState) {
-      this.calculateResults();
       this.machine.add(
         new SprintReviewState(
           this.machine,
           this.scene,
-          this.results,
-          { velocity: this.velocity, commitment: this.commitment },
+          (this.results = this.calculateResults()),
           () => {
             console.log("SprintReviewState closed");
             this.onClose();
@@ -113,7 +112,11 @@ export class SprintScene extends Phaser.Scene {
   }
 
   calculateResults() {
-    this.velocity = this.calculateVelocity();
+    return {
+      velocity: this.calculateVelocity(),
+      commitment: this.commitment,
+      bugs: this.calculateBugs(),
+    };
   }
 
   calculateVelocity() {
@@ -121,5 +124,10 @@ export class SprintScene extends Phaser.Scene {
       this.team.skill * this.team.size * SPRINT_LENGTH
     );
     return velocity;
+  }
+
+  calculateBugs() {
+    const BUGINESS_RATIO = this.registry.get("settings").BUGINESS_RATIO;
+    return calculateNewSprintBugs(this.team, BUGINESS_RATIO);
   }
 }
