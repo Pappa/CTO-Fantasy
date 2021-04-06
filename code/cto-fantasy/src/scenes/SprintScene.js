@@ -4,7 +4,7 @@ import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 //import { SprintEventState } from "../classes/states/sprint/SprintEventState";
 import { SprintPlanningState } from "../classes/states/sprint/SprintPlanningState";
 import * as theme from "../theme";
-import { randomInt } from "../utils/random";
+import { randomInt, randomStat } from "../utils/random";
 import { SprintReviewState } from "../classes/states/sprint/SprintReviewState";
 import { calculateNewSprintBugs } from "../utils/sprint";
 
@@ -79,6 +79,7 @@ export class SprintScene extends Phaser.Scene {
           this.calculateResults(),
           () => {
             console.log("SprintReviewState closed");
+            this.machine.next();
             this.onClose();
           }
         )
@@ -107,22 +108,29 @@ export class SprintScene extends Phaser.Scene {
   }
 
   calculateResults() {
+    const velocity = this.getVelocity();
     return {
-      velocity: this.calculateVelocity(),
       commitment: this.commitment,
+      velocity: velocity,
+      success: Number.parseFloat((velocity / this.commitment).toFixed(2)),
       bugs: this.calculateBugs(),
+      customerSatisfaction: this.calculateCustomerSatisfaction(),
     };
   }
 
-  calculateVelocity() {
-    const velocity = Math.floor(
-      this.team.skill * this.team.size * SPRINT_LENGTH
-    );
-    return velocity;
+  getVelocity() {
+    return Math.floor(this.team.skill * this.team.size * SPRINT_LENGTH);
   }
 
   calculateBugs() {
     const BUGINESS_RATIO = this.registry.get("settings").BUGINESS_RATIO;
     return calculateNewSprintBugs(this.team, BUGINESS_RATIO);
+  }
+
+  calculateCustomerSatisfaction() {
+    // TODO create 0-1 value based on
+    // how much the team have
+    // met the customer's wishes
+    return randomStat();
   }
 }

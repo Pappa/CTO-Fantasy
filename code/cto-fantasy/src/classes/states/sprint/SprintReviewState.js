@@ -13,7 +13,7 @@ export class SprintReviewState extends State {
     this.scene.launch("SprintReviewScene", {
       results: this.results,
       onClose: () => {
-        this.machine.next();
+        this.onClose();
       },
     });
   }
