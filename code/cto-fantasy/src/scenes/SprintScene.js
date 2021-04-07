@@ -19,8 +19,9 @@ export class SprintScene extends Phaser.Scene {
 
   preload() {}
 
-  create({ team, events = [], onClose }) {
+  create({ team, customer, events = [], onClose }) {
     this.team = team;
+    this.customer = customer;
     this.events = events;
     this.onClose = onClose;
     this.updateSprintNumber();
@@ -109,12 +110,14 @@ export class SprintScene extends Phaser.Scene {
 
   calculateResults() {
     const velocity = this.getVelocity();
+    const bugs = this.calculateBugs();
+    this.customer.update({ velocity, bugs });
     return {
       commitment: this.commitment,
-      velocity: velocity,
+      velocity,
       success: Number.parseFloat((velocity / this.commitment).toFixed(2)),
-      bugs: this.calculateBugs(),
-      customerSatisfaction: this.calculateCustomerSatisfaction(),
+      bugs,
+      customerSatisfaction: this.customer.satisfaction,
     };
   }
 
@@ -125,12 +128,5 @@ export class SprintScene extends Phaser.Scene {
   calculateBugs() {
     const BUGINESS_RATIO = this.registry.get("settings").BUGINESS_RATIO;
     return calculateNewSprintBugs(this.team, BUGINESS_RATIO);
-  }
-
-  calculateCustomerSatisfaction() {
-    // TODO create 0-1 value based on
-    // how much the team have
-    // met the customer's wishes
-    return randomStat();
   }
 }

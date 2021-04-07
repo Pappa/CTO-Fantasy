@@ -95,6 +95,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image("button_click", "assets/UIpack/PNG/blue_button02.png");
     this.load.image("card", "assets/card.png");
     this.load.image("office", "assets/not-free/office.png");
+    this.load.image("close_icon", "assets/UIpack/PNG/red_boxCross.png");
   }
 
   // executed once, after assets were loaded

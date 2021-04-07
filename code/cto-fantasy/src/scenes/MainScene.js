@@ -1,12 +1,13 @@
 import Phaser from "phaser";
 import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
-import { randomInt } from "../utils/random";
 import * as theme from "../theme";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 import { MeetTheTeamState } from "../classes/states/story/MeetTheTeamState";
 import { HiringState } from "../classes/states/story/HiringState";
 import { SprintState } from "../classes/states/story/SprintState";
 import { Team } from "../classes/Team";
+import { Project } from "../classes/Project";
+import { Customer } from "../classes/Customer";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -14,6 +15,8 @@ export class MainScene extends Phaser.Scene {
   }
 
   init() {
+    this.project = new Project();
+    this.customer = new Customer();
     this.createStartingEmployees();
     this.createStartingCandidates();
     this.createLinearStory();
@@ -57,8 +60,8 @@ export class MainScene extends Phaser.Scene {
     const states = [
       new MeetTheTeamState(this.machine, this.scene, this.team),
       new HiringState(this.machine, this.scene, this.candidates),
-      new SprintState(this.machine, this.scene, this.team, []),
-      new SprintState(this.machine, this.scene, this.team, []),
+      new SprintState(this.machine, this.scene, this.team, this.customer, []),
+      new SprintState(this.machine, this.scene, this.team, this.customer, []),
     ];
     this.machine.add(states);
   }

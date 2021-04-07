@@ -26,9 +26,7 @@ export class VacanciesScene extends Phaser.Scene {
   createCompanyVacancies() {
     const companies = Phaser.Math.RND.shuffle(
       this.registry.get("settings").companies
-    )
-      .slice(0, 3)
-      .map((company) => ({ ...company, budget: randomInt(50000, 100000) }));
+    ).slice(0, 3);
     this.companies = companies.map((company, idx) => {
       const x = 50 + (idx + 1) * 175;
       return this.add.existing(
