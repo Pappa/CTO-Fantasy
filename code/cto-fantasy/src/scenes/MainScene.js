@@ -21,6 +21,7 @@ export class MainScene extends Phaser.Scene {
     this.createStartingCandidates();
     this.createLinearStory();
     this.company = this.registry.get("company");
+    console.log(this.project);
   }
 
   // executed once, after assets were loaded
