@@ -105,6 +105,7 @@ export class BootScene extends Phaser.Scene {
       "customer_icon",
       "assets/freepik/teamwork/059-conversation.png"
     );
+    this.load.image("backlog_icon", "assets/freepik/backlog.png");
   }
 
   // executed once, after assets were loaded

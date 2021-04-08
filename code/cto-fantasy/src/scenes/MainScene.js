@@ -75,6 +75,7 @@ export class MainScene extends Phaser.Scene {
       { icon: "team_icon", scene: "TeamScene" },
       { icon: "recruiter_icon", scene: "HiringScene" },
       { icon: "customer_icon", scene: "CustomerScene" },
+      { icon: "backlog_icon", scene: "BacklogScene" },
     ];
     const scenes = menuItems.map(({ scene }) => scene);
     menuItems.forEach(({ icon, scene }, idx) => {
