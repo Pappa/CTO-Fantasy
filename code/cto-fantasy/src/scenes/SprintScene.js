@@ -4,7 +4,7 @@ import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 //import { SprintEventState } from "../classes/states/sprint/SprintEventState";
 import { SprintPlanningState } from "../classes/states/sprint/SprintPlanningState";
 import * as theme from "../theme";
-import { randomInt, randomStat } from "../utils/random";
+import { randomInt } from "../utils/random";
 import { SprintReviewState } from "../classes/states/sprint/SprintReviewState";
 import { calculateNewSprintBugs } from "../utils/sprint";
 

@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { Card } from "../game-objects/Card";
 import * as theme from "../theme";
-import { randomInt } from "../utils/random";
 
 export class VacanciesScene extends Phaser.Scene {
   constructor() {

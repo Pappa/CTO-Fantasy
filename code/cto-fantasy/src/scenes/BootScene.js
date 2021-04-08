@@ -96,6 +96,15 @@ export class BootScene extends Phaser.Scene {
     this.load.image("card", "assets/card.png");
     this.load.image("office", "assets/not-free/office.png");
     this.load.image("close_icon", "assets/UIpack/PNG/red_boxCross.png");
+    this.load.image("team_icon", "assets/freepik/teamwork/005-team-2.png");
+    this.load.image(
+      "recruiter_icon",
+      "assets/freepik/job-resume/029-headhunter.png"
+    );
+    this.load.image(
+      "customer_icon",
+      "assets/freepik/teamwork/059-conversation.png"
+    );
   }
 
   // executed once, after assets were loaded

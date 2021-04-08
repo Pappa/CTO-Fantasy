@@ -1,13 +1,11 @@
 import Phaser from "phaser";
 import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
-import * as theme from "../theme";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
-import { MeetTheTeamState } from "../classes/states/story/MeetTheTeamState";
-import { HiringState } from "../classes/states/story/HiringState";
 import { SprintState } from "../classes/states/story/SprintState";
 import { Team } from "../classes/Team";
 import { Project } from "../classes/Project";
 import { Customer } from "../classes/Customer";
+import { Hud } from "../game-objects/Hud";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -28,9 +26,15 @@ export class MainScene extends Phaser.Scene {
   create() {
     this.office = this.add.image(400, 300, "office").setOrigin(0.5);
 
-    this.header = this.add
-      .text(15, 550, this.company.name, theme.h1)
-      .setOrigin(0);
+    this.hud = this.add.existing(
+      new Hud(this, 15, 15, {
+        company: this.company,
+        project: this.project,
+        team: this.team,
+      })
+    );
+
+    this.createMenu();
 
     this.machine.next();
   }
@@ -59,11 +63,44 @@ export class MainScene extends Phaser.Scene {
   createLinearStory() {
     this.machine = new LinearStateMachine();
     const states = [
-      new MeetTheTeamState(this.machine, this.scene, this.team),
-      new HiringState(this.machine, this.scene, this.candidates),
+      new SprintState(this.machine, this.scene, this.team, this.customer, []),
       new SprintState(this.machine, this.scene, this.team, this.customer, []),
       new SprintState(this.machine, this.scene, this.team, this.customer, []),
     ];
     this.machine.add(states);
+  }
+
+  createMenu() {
+    const menuItems = [
+      { icon: "team_icon", scene: "TeamScene" },
+      { icon: "recruiter_icon", scene: "HiringScene" },
+      { icon: "customer_icon", scene: "CustomerScene" },
+    ];
+    const scenes = menuItems.map(({ scene }) => scene);
+    menuItems.forEach(({ icon, scene }, idx) => {
+      this.add
+        .image(725, 30 + idx * 100, icon)
+        .setOrigin(0)
+        .setScale(0.1)
+        .setInteractive({ useHandCursor: true })
+        .on("pointerdown", () => {
+          if (this.scene.isActive(scene)) {
+            this.scene.stop(scene);
+          } else {
+            scenes.forEach((s) => {
+              if (this.scene.isActive(s)) {
+                this.scene.stop(s);
+              }
+              this.scene.launch(scene, {
+                team: this.team,
+                candidates: this.candidates,
+                onClose: () => {
+                  this.scene.stop(scene);
+                },
+              });
+            });
+          }
+        });
+    });
   }
 }

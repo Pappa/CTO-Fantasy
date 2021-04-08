@@ -33,3 +33,8 @@ export const mainText = {
   font: "18px monospace",
   fill: "#ffffff",
 };
+
+export const hudText = {
+  font: "12px monospace",
+  fill: "#ffffff",
+};
