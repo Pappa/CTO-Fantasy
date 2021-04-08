@@ -5,7 +5,13 @@ describe("generateProductFeatures", () => {
     const features = generateProductFeatures();
     expect(Array.isArray(features)).toBeTruthy();
     expect(
-      features.every((feature) => typeof feature === "string")
+      features.slice(0, 9).every(({ status }) => status === "TODO")
+    ).toBeTruthy();
+    expect(
+      features.slice(10).every(({ status }) => status === "NOT_CREATED")
+    ).toBeTruthy();
+    expect(
+      features.every(({ title }) => typeof title === "string")
     ).toBeTruthy();
   });
 });

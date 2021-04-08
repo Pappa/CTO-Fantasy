@@ -50,7 +50,7 @@ const generateBackgroundTitles = (features) => {
 export const generateProductFeatures = () => {
   const initial = generateFrontentBackendTitles(
     FRONTEND_BACKEND_FEATURES.slice(0, 5)
-  );
+  ).map((feature) => ({ title: feature, status: "TODO" }));
   const rest = [
     generateFrontentBackendTitles(FRONTEND_BACKEND_FEATURES.slice(5)),
     generateBackgroundTitles(BACKGROUND_TASKS),
@@ -58,6 +58,7 @@ export const generateProductFeatures = () => {
     .flat()
     .map((v) => ({ sort: Math.random(), value: v }))
     .sort((a, b) => a.sort - b.sort)
-    .map((a) => a.value);
+    .map((a) => a.value)
+    .map((feature) => ({ title: feature, status: "NOT_CREATED" }));
   return [...initial, ...rest];
 };
