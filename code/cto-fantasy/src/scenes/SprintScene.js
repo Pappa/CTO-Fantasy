@@ -19,9 +19,10 @@ export class SprintScene extends Phaser.Scene {
 
   preload() {}
 
-  create({ team, customer, events = [], onClose }) {
+  create({ team, customer, project, events = [], onClose }) {
     this.team = team;
     this.customer = customer;
+    this.project = project;
     this.events = events;
     this.onClose = onClose;
     this.updateSprintNumber();
@@ -112,6 +113,8 @@ export class SprintScene extends Phaser.Scene {
     const velocity = this.getVelocity();
     const bugs = this.calculateBugs();
     this.customer.update({ velocity, bugs });
+    this.project.update({ bugs });
+    this.team.update({ velocity });
     return {
       commitment: this.commitment,
       velocity,

@@ -31,4 +31,15 @@ describe("Average stats", () => {
   it("should have expected team size", () => {
     expect(team.size).toBe(2);
   });
+
+  it("should have expected velocity", () => {
+    expect(team.velocity).toBe(undefined);
+    team.update({ velocity: 5 });
+    expect(team.velocity).toBe(5);
+    team.update({ velocity: 4 });
+    team.update({ velocity: 6 });
+    expect(team.velocity).toBe(5);
+    team.update({ velocity: 10 });
+    expect(team.velocity).toBe(7);
+  });
 });

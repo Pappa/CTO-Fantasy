@@ -1,5 +1,8 @@
+import { average } from "../utils/number";
+
 export class Team {
   members = [];
+  velocities = [];
 
   add(member) {
     this.members.push(member);
@@ -7,6 +10,12 @@ export class Team {
 
   remove(member) {
     this.members = this.members.filter((m) => m !== member);
+  }
+
+  update({ velocity }) {
+    if (velocity || velocity === 0) {
+      this.velocities.push(velocity);
+    }
   }
 
   getAverageStat(property) {
@@ -38,5 +47,11 @@ export class Team {
 
   get size() {
     return this.members.length;
+  }
+
+  get velocity() {
+    return this.velocities.length
+      ? Math.round(average(this.velocities.slice(-3)))
+      : undefined;
   }
 }

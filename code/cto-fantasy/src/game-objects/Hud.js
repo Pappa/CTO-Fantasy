@@ -27,14 +27,10 @@ export class Hud extends Phaser.GameObjects.Container {
       .setOrigin(0);
     this.add([this.background, this.header, this.subheader]);
 
-    const itemsToDisplay = [
-      `Budget: ${this.project.budget}`,
-      `Team size: ${this.team.size}`,
-      `Number of bugs: ${this.project.numberOfBugs}`,
-    ];
+    const itemsToDisplay = [`Budget: `, `Team size: `, `Number of bugs: `];
 
-    itemsToDisplay.forEach((item, idx) => {
-      const txt = this.scene.make
+    this.stats = itemsToDisplay.map((item, idx) => {
+      return this.scene.make
         .text({
           x: 15,
           y: 50 + 20 * (idx + 1),
@@ -42,7 +38,22 @@ export class Hud extends Phaser.GameObjects.Container {
           style: theme.hudText,
         })
         .setOrigin(0);
-      this.add(txt);
     }, this);
+    this.add(this.stats);
+  }
+
+  // TODO: this is ineficient.
+  // It's getting called on every update cycle, rather than when the stats change.
+  // Use an event based approach.
+  update() {
+    const itemsToUpdate = [
+      `Budget: ${this.project.budget}`,
+      `Team size: ${this.team.size}`,
+      `Number of bugs: ${this.project.numberOfBugs}`,
+    ];
+
+    itemsToUpdate.forEach((item, idx) => {
+      this.stats[idx].setText(item);
+    });
   }
 }

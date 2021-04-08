@@ -39,7 +39,9 @@ export class MainScene extends Phaser.Scene {
     this.machine.next();
   }
 
-  update(time, delta) {}
+  update(time, delta) {
+    this.hud.update();
+  }
 
   createStartingEmployees() {
     const teamSize = this.registry.get("settings").STARTING_TEAM_SIZE;
@@ -63,9 +65,30 @@ export class MainScene extends Phaser.Scene {
   createLinearStory() {
     this.machine = new LinearStateMachine();
     const states = [
-      new SprintState(this.machine, this.scene, this.team, this.customer, []),
-      new SprintState(this.machine, this.scene, this.team, this.customer, []),
-      new SprintState(this.machine, this.scene, this.team, this.customer, []),
+      new SprintState(
+        this.machine,
+        this.scene,
+        this.team,
+        this.customer,
+        this.project,
+        []
+      ),
+      new SprintState(
+        this.machine,
+        this.scene,
+        this.team,
+        this.customer,
+        this.project,
+        []
+      ),
+      new SprintState(
+        this.machine,
+        this.scene,
+        this.team,
+        this.customer,
+        this.project,
+        []
+      ),
     ];
     this.machine.add(states);
   }
