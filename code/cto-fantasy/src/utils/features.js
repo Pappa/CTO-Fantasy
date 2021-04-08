@@ -1,3 +1,4 @@
+import { UserStory } from "../classes/WorkItem";
 import { pick } from "./random";
 
 const FRONTEND_BACKEND_FEATURES = [
@@ -50,15 +51,14 @@ const generateBackgroundTitles = (features) => {
 export const generateProductFeatures = () => {
   const initial = generateFrontentBackendTitles(
     FRONTEND_BACKEND_FEATURES.slice(0, 5)
-  ).map((feature) => ({ title: feature, status: "TODO" }));
+  ).map((feature) => new UserStory({ title: feature, status: "TODO" }));
   const rest = [
     generateFrontentBackendTitles(FRONTEND_BACKEND_FEATURES.slice(5)),
     generateBackgroundTitles(BACKGROUND_TASKS),
   ]
     .flat()
-    .map((v) => ({ sort: Math.random(), value: v }))
+    .map((title) => ({ sort: Math.random(), title }))
     .sort((a, b) => a.sort - b.sort)
-    .map((a) => a.value)
-    .map((feature) => ({ title: feature, status: "NOT_CREATED" }));
+    .map((feature) => new UserStory(feature));
   return [...initial, ...rest];
 };
