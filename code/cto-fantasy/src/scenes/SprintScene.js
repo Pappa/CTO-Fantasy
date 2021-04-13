@@ -58,7 +58,8 @@ export class SprintScene extends Phaser.Scene {
     this.events = [
       new SprintPlanningState(
         this.machine,
-        this.card,
+        this.scene,
+        this.project,
         this.commitment,
         this.handleEvents.bind(this)
       ),

@@ -2,25 +2,25 @@ import { State } from "../State";
 
 export class SprintPlanningState extends State {
   card;
-  constructor(machine, card, commitment, onClose) {
+  constructor(machine, scene, project, commitment, onClose) {
     super(machine);
-    this.card = card;
+    this.scene = scene;
+    this.project = project;
     this.commitment = commitment;
     this.onClose = onClose;
   }
 
   enter() {
-    this.card.setTitle("Sprint Planning");
-    this.card.setDescription(
-      `The team have commited to ${this.commitment} points this sprint.`
-    );
-    this.card.setButton("OK", () => {
-      this.onClose();
+    this.scene.launch("SprintPlanningScene", {
+      project: this.project,
+      commitment: this.commitment,
+      onClose: () => {
+        this.onClose();
+      },
     });
-    this.card.setVisible(true);
   }
 
   exit() {
-    this.card.setVisible(false);
+    this.scene.stop("SprintPlanningScene");
   }
 }

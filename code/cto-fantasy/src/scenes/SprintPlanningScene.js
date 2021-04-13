@@ -1,20 +1,22 @@
 import Phaser from "phaser";
 import * as theme from "../theme";
 
-export class SprintReviewScene extends Phaser.Scene {
+export class SprintPlanningScene extends Phaser.Scene {
   constructor() {
-    super("SprintReviewScene");
+    super("SprintPlanningScene");
   }
 
   init() {}
 
   preload() {}
 
-  create({ results, onClose }) {
-    this.results = results;
+  create({ project, commitment, onClose }) {
+    this.project = project;
+    this.commitment = commitment;
     this.onClose = onClose;
     this.createComponents();
-    this.displayResults();
+    this.displayCommitment();
+    this.displayBacklog();
   }
 
   createComponents() {
@@ -28,7 +30,7 @@ export class SprintReviewScene extends Phaser.Scene {
       .strokeRoundedRect(10, 10, width - 20, height - 20);
 
     this.header = this.add
-      .text(400, 15, "Sprint Review", theme.h1)
+      .text(400, 15, "Sprint Planning", theme.h1)
       .setOrigin(0.5, 0);
     this.close = this.add
       .image(760, 20, "close_icon")
@@ -39,17 +41,32 @@ export class SprintReviewScene extends Phaser.Scene {
       });
   }
 
-  displayResults() {
-    Object.entries(this.results).forEach(([k, v], idx) => {
+  displayCommitment() {
+    this.make
+      .text({
+        x: 100,
+        y: 50,
+        text: `The team think they can achieve ${this.commitment} points this sprint.`,
+        style: theme.mainText,
+      })
+      .setOrigin(0);
+  }
+
+  displayBacklog() {
+    this.project.productBacklog.forEach((item, idx) => {
       this.make
         .text({
           x: 100,
-          y: 50 + 20 * (idx + 1),
-          text: `${k}: ${v}`,
+          y: 100 + 25 * (idx + 1),
+          text: `${item.title} - estimate ${this.getEstimateText(item)}`,
           style: theme.mainText,
         })
         .setOrigin(0);
     }, this);
+  }
+
+  getEstimateText(item) {
+    return item.estimate || "n/a";
   }
 
   //update(time, delta) {}
