@@ -60,6 +60,7 @@ export class SprintScene extends Phaser.Scene {
         this.machine,
         this.scene,
         this.project,
+        this.team,
         this.commitment,
         this.handleEvents.bind(this)
       ),

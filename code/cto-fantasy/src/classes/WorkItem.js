@@ -1,5 +1,6 @@
 export class WorkItem {
-  constructor({ title, status }) {
+  constructor({ id, title, status }) {
+    this.id = id;
     this.title = title;
     this.status = status || WorkItem.STATUS.NOT_CREATED;
   }

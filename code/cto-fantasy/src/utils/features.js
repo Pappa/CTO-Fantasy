@@ -51,14 +51,23 @@ const generateBackgroundTitles = (features) => {
 export const generateProductFeatures = () => {
   const initial = generateFrontentBackendTitles(
     FRONTEND_BACKEND_FEATURES.slice(0, 5)
-  ).map((feature) => new UserStory({ title: feature, status: "TODO" }));
+  ).map(
+    (title, idx) =>
+      new UserStory({ id: generateId(idx + 1), title, status: "TODO" })
+  );
   const rest = [
     generateFrontentBackendTitles(FRONTEND_BACKEND_FEATURES.slice(5)),
     generateBackgroundTitles(BACKGROUND_TASKS),
   ]
     .flat()
-    .map((title) => ({ sort: Math.random(), title }))
+    .map((title, idx) => ({
+      sort: Math.random(),
+      title,
+      id: generateId(idx + 1),
+    }))
     .sort((a, b) => a.sort - b.sort)
     .map((feature) => new UserStory(feature));
-  return [...initial, ...rest];
+  return { initial, rest };
 };
+
+const generateId = (i) => `G${i.toString().padStart(4, "0")}`;
