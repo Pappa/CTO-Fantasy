@@ -1,4 +1,5 @@
 export class WorkItem {
+  estimate = 10;
   constructor({ id, title, status }) {
     this.id = id;
     this.title = title;

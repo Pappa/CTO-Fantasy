@@ -89,6 +89,7 @@ export class BootScene extends Phaser.Scene {
 
   loadAssets() {
     this.load.html("card", "assets/forms/card.html");
+    this.load.html("estimate_input", "assets/forms/estimate_input.html");
     this.load.html("event", "assets/forms/event.html");
     this.load.image("button", "assets/UIpack/PNG/blue_button00.png");
     this.load.image("button_hover", "assets/UIpack/PNG/blue_button01.png");
@@ -106,6 +107,7 @@ export class BootScene extends Phaser.Scene {
       "assets/freepik/teamwork/059-conversation.png"
     );
     this.load.image("backlog_icon", "assets/freepik/backlog.png");
+    this.load.image("mid_grey", "assets/px/px666666.png");
   }
 
   // executed once, after assets were loaded

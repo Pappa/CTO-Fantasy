@@ -43,17 +43,20 @@ export class SprintPlanningScene extends Phaser.Scene {
   }
 
   displayCommitment() {
-    this.make
-      .text({
-        x: 100,
-        y: 50,
-        text: `The team think they can achieve ${this.commitment} points this sprint.`,
-        style: theme.mainText,
-      })
-      .setOrigin(0);
+    this.add
+      .text(
+        400,
+        50,
+        `The team think they can achieve ${this.commitment} points this sprint.`,
+        theme.mainText
+      )
+      .setOrigin(0.5, 0);
   }
 
   displayBacklog() {
+    console.log("displayBacklog");
+    console.log("this.x", this.x);
+    console.log("this.y", this.y);
     this.backlog = new Backlog(this, 100, 100, {
       project: this.project,
       team: this.team,
