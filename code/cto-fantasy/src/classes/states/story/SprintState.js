@@ -3,11 +3,12 @@ import { State } from "../State";
 export class SprintState extends State {
   team;
   scene;
-  constructor(machine, scene, team, customer, project, events) {
+  constructor(machine, scene, team, customer, project, emitter, events) {
     super(machine);
     this.team = team;
     this.customer = customer;
     this.project = project;
+    this.emitter = emitter;
     this.scene = scene;
     this.events = events;
   }
@@ -18,6 +19,7 @@ export class SprintState extends State {
       customer: this.customer,
       project: this.project,
       events: this.events,
+      emitter: this.emitter,
       onClose: () => {
         this.machine.next();
       },

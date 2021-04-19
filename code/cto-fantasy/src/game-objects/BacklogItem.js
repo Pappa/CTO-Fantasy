@@ -4,10 +4,11 @@ import * as theme from "../theme";
 export class BacklogItem extends Phaser.GameObjects.Container {
   width = 560;
   height = 25;
-  constructor(scene, x = 0, y = 0, { item, project }) {
+  constructor(scene, x = 0, y = 0, { item, project, emitter }) {
     super(scene, x, y);
     this.item = item;
     this.project = project;
+    this.emitter = emitter;
     this.storyPointValues = this.project.storyPointValues;
     this.lastIndex = this.storyPointValues.length - 1;
     //this.scene.add.existing(this);
@@ -111,7 +112,6 @@ export class BacklogItem extends Phaser.GameObjects.Container {
   }
 
   updateEstimate = (direction) => {
-    const { updateEstimate } = this.project;
     const idx = this.storyPointValues.indexOf(this.item.estimate);
     let estimate;
     if (direction > 0 && idx < this.lastIndex) {
@@ -122,7 +122,7 @@ export class BacklogItem extends Phaser.GameObjects.Container {
     }
     if (estimate) {
       this.estimate.setText(estimate);
-      updateEstimate(this.item, estimate);
+      this.emitter.emit("estimate_updated", this.item, estimate);
       this.updateArrows();
     }
   };

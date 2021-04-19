@@ -13,8 +13,9 @@ export class MainScene extends Phaser.Scene {
   }
 
   init() {
+    this.emitter = this.events;
     const storyPointValues = this.registry.get("STORY_POINT_VALUES");
-    this.project = new Project({ storyPointValues });
+    this.project = new Project({ storyPointValues, emitter: this.emitter });
     this.customer = new Customer();
     this.createStartingEmployees();
     this.createStartingCandidates();
@@ -71,6 +72,7 @@ export class MainScene extends Phaser.Scene {
         this.team,
         this.customer,
         this.project,
+        this.emitter,
         []
       ),
       new SprintState(
@@ -79,6 +81,7 @@ export class MainScene extends Phaser.Scene {
         this.team,
         this.customer,
         this.project,
+        this.emitter,
         []
       ),
       new SprintState(
@@ -87,6 +90,7 @@ export class MainScene extends Phaser.Scene {
         this.team,
         this.customer,
         this.project,
+        this.emitter,
         []
       ),
     ];

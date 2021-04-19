@@ -3,10 +3,11 @@ import { BacklogItem } from "./BacklogItem";
 import * as theme from "../theme";
 
 export class Backlog extends Phaser.GameObjects.Container {
-  constructor(scene, x = 0, y = 0, { project, team }) {
+  constructor(scene, x = 0, y = 0, { project, team, emitter }) {
     super(scene, x, y);
     this.project = project;
     this.team = team;
+    this.emitter = emitter;
     this.scene.add.existing(this);
 
     this.createComponents();
@@ -32,6 +33,7 @@ export class Backlog extends Phaser.GameObjects.Container {
       return new BacklogItem(this.scene, 20, 50 + 30 * idx, {
         item,
         project: this.project,
+        emitter: this.emitter,
       });
     });
     this.add(this.rows);
@@ -68,7 +70,7 @@ export class Backlog extends Phaser.GameObjects.Container {
     const positions = this.rows
       .map(({ item: { id }, y }) => ({ id, y }))
       .sort((a, b) => a.y - b.y);
-    this.project.updateBacklogOrder(positions);
+    this.emitter.emit("update_backlog_order", positions);
     this.destroyBacklog();
     this.displayBacklog();
   }

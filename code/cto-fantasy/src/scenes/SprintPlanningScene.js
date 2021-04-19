@@ -11,9 +11,10 @@ export class SprintPlanningScene extends Phaser.Scene {
 
   preload() {}
 
-  create({ project, commitment, onClose }) {
+  create({ project, commitment, emitter, onClose }) {
     this.project = project;
     this.commitment = commitment;
+    this.emitter = emitter;
     this.onClose = onClose;
     this.createComponents();
     this.displayCommitment();
@@ -57,7 +58,7 @@ export class SprintPlanningScene extends Phaser.Scene {
     this.backlog = new Backlog(this, 100, 100, {
       project: this.project,
       team: this.team,
-      commitment: this.commitment,
+      emitter: this.emitter,
     });
   }
 

@@ -19,11 +19,12 @@ export class SprintScene extends Phaser.Scene {
 
   preload() {}
 
-  create({ team, customer, project, events = [], onClose }) {
+  create({ team, customer, project, events = [], emitter, onClose }) {
     this.team = team;
     this.customer = customer;
     this.project = project;
     this.events = events;
+    this.emitter = emitter;
     this.onClose = onClose;
     this.updateSprintNumber();
     this.setCommitment();
@@ -62,6 +63,7 @@ export class SprintScene extends Phaser.Scene {
         this.project,
         this.team,
         this.commitment,
+        this.emitter,
         this.handleEvents.bind(this)
       ),
     ];
