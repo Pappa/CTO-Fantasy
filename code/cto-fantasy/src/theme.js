@@ -34,6 +34,11 @@ export const mainText = {
   fill: "#ffffff",
 };
 
+export const estimate = {
+  font: "18px monospace",
+  fill: "#04af45",
+};
+
 export const hudText = {
   font: "12px monospace",
   fill: "#ffffff",

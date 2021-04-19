@@ -54,24 +54,11 @@ export class SprintPlanningScene extends Phaser.Scene {
   }
 
   displayBacklog() {
-    console.log("displayBacklog");
-    console.log("this.x", this.x);
-    console.log("this.y", this.y);
     this.backlog = new Backlog(this, 100, 100, {
       project: this.project,
       team: this.team,
       commitment: this.commitment,
     });
-    // this.project.productBacklog.forEach((item, idx) => {
-    //   this.make
-    //     .text({
-    //       x: 100,
-    //       y: 100 + 25 * (idx + 1),
-    //       text: `${item.title} - estimate ${this.getEstimateText(item)}`,
-    //       style: theme.mainText,
-    //     })
-    //     .setOrigin(0);
-    // }, this);
   }
 
   getEstimateText(item) {

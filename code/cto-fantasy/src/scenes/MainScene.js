@@ -13,13 +13,13 @@ export class MainScene extends Phaser.Scene {
   }
 
   init() {
-    this.project = new Project();
+    const storyPointValues = this.registry.get("STORY_POINT_VALUES");
+    this.project = new Project({ storyPointValues });
     this.customer = new Customer();
     this.createStartingEmployees();
     this.createStartingCandidates();
     this.createLinearStory();
     this.company = this.registry.get("company");
-    console.log(this.project);
   }
 
   // executed once, after assets were loaded

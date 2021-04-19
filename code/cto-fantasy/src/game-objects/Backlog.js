@@ -5,7 +5,6 @@ import * as theme from "../theme";
 export class Backlog extends Phaser.GameObjects.Container {
   constructor(scene, x = 0, y = 0, { project, team }) {
     super(scene, x, y);
-    console.log("Backlog", x, y);
     this.project = project;
     this.team = team;
     this.scene.add.existing(this);
@@ -30,8 +29,9 @@ export class Backlog extends Phaser.GameObjects.Container {
 
   displayBacklog() {
     this.rows = this.project.productBacklog.map((item, idx) => {
-      return new BacklogItem(this.scene, 20, this.y + 30 * idx, {
+      return new BacklogItem(this.scene, 20, 50 + 30 * idx, {
         item,
+        project: this.project,
       });
     });
     this.add(this.rows);
@@ -43,30 +43,23 @@ export class Backlog extends Phaser.GameObjects.Container {
   }
 
   createEvents() {
-    this.scene.input.on("gameobjectover", (pointer, obj) => {
-      console.log("gameobjectover", obj);
-      // obj.setTint(0x999999);
-    });
+    // this.scene.input.on("gameobjectover", (pointer, obj) => {
+    //   console.log("gameobjectover", obj);
+    // });
 
-    this.scene.input.on("gameobjectout", (pointer, obj) => {
-      console.log("gameobjectout");
-      // obj.clearTint();
-    });
+    // this.scene.input.on("gameobjectout", (pointer, obj) => {
+    //   console.log("gameobjectout");
+    // });
 
     this.scene.input.on("dragstart", (pointer, obj) => {
-      console.log("dragstart");
       this.bringToTop(obj);
-      // obj.setTint(0x009900);
     });
 
     this.scene.input.on("drag", (pointer, obj, dragX, dragY) => {
-      console.log("drag");
       obj.y = dragY;
     });
 
     this.scene.input.on("dragend", (pointer, obj) => {
-      console.log("dragend");
-      // obj.clearTint();
       this.updatePositions();
     });
   }
