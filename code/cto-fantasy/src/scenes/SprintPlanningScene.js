@@ -58,6 +58,7 @@ export class SprintPlanningScene extends Phaser.Scene {
     this.backlog = new Backlog(this, 100, 100, {
       project: this.project,
       team: this.team,
+      commitment: this.commitment,
       emitter: this.emitter,
     });
   }

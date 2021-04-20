@@ -22,7 +22,7 @@ export class Project {
   }
 
   createEvents() {
-    this.emitter.on("estimate_updated", this.updateEstimate);
+    this.emitter.on("update_estimate", this.updateEstimate);
     this.emitter.on("update_backlog_order", this.updateBacklogOrder);
   }
 
@@ -33,6 +33,7 @@ export class Project {
   updateEstimate = (item, estimate) => {
     const workItem = this.backlog.find(({ id }) => item.id === id) || {};
     workItem.estimate = estimate;
+    this.emitter.emit("backlog_updated");
   };
 
   updateBacklogOrder = (positions) => {
@@ -40,6 +41,7 @@ export class Project {
       this.backlog.find((item) => item.id === id)
     );
     this.backlog = ordered;
+    this.emitter.emit("backlog_updated");
   };
 
   get productBacklog() {

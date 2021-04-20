@@ -122,7 +122,7 @@ export class BacklogItem extends Phaser.GameObjects.Container {
     }
     if (estimate) {
       this.estimate.setText(estimate);
-      this.emitter.emit("estimate_updated", this.item, estimate);
+      this.emitter.emit("update_estimate", this.item, estimate);
       this.updateArrows();
     }
   };

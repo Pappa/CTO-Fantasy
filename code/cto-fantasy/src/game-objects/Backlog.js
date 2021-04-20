@@ -1,12 +1,16 @@
 import Phaser from "phaser";
 import { BacklogItem } from "./BacklogItem";
 import * as theme from "../theme";
+import { calculateBacklogCapacityRow } from "../utils/sprint";
 
 export class Backlog extends Phaser.GameObjects.Container {
-  constructor(scene, x = 0, y = 0, { project, team, emitter }) {
+  Y_START = 50;
+  ITEM_SPACING = 30;
+  constructor(scene, x = 0, y = 0, { project, team, commitment, emitter }) {
     super(scene, x, y);
     this.project = project;
     this.team = team;
+    this.commitment = commitment;
     this.emitter = emitter;
     this.scene.add.existing(this);
 
@@ -20,28 +24,46 @@ export class Backlog extends Phaser.GameObjects.Container {
       .lineStyle(1, 0xffffff, 1.0)
       .fillRoundedRect(0, 0, 600, 400)
       .strokeRoundedRect(0, 0, 600, 400);
+    this.estimateLine = this.scene.add
+      .graphics()
+      .fillStyle(0xff0000, 1.0)
+      .fillRect(0, this.Y_START, 600, 3);
     this.header = this.scene.add
       .text(300, 20, "Product Backlog", theme.mainText)
       .setOrigin(0.5);
-    this.add([this.background, this.header]);
-    this.displayBacklog();
+    this.add([this.background, this.header, this.estimateLine]);
     this.createEvents();
+    this.displayBacklog();
   }
 
   displayBacklog() {
     this.rows = this.project.productBacklog.map((item, idx) => {
-      return new BacklogItem(this.scene, 20, 50 + 30 * idx, {
-        item,
-        project: this.project,
-        emitter: this.emitter,
-      });
+      return new BacklogItem(
+        this.scene,
+        20,
+        this.Y_START + this.ITEM_SPACING * idx,
+        {
+          item,
+          project: this.project,
+          emitter: this.emitter,
+        }
+      );
     });
     this.add(this.rows);
-    //this.scene.input.setDraggable(this.rows);
+    this.emitter.emit("backlog_updated");
   }
 
   destroyBacklog() {
     this.rows.forEach((row) => row.destroy());
+  }
+
+  updateEstimateLine() {
+    const estimates = this.rows.map(({ item: { estimate } }) => estimate);
+    const row = calculateBacklogCapacityRow(estimates, this.commitment);
+    this.estimateLine
+      .clear()
+      .fillStyle(0xff0000, 1.0)
+      .fillRect(0, this.Y_START - 4 + row * this.ITEM_SPACING, 600, 3);
   }
 
   createEvents() {
@@ -63,6 +85,10 @@ export class Backlog extends Phaser.GameObjects.Container {
 
     this.scene.input.on("dragend", (pointer, obj) => {
       this.updatePositions();
+    });
+
+    this.emitter.on("backlog_updated", () => {
+      this.updateEstimateLine();
     });
   }
 
