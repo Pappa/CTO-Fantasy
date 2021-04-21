@@ -5,11 +5,23 @@ describe("generateProductFeatures", () => {
     const { initial, rest } = generateProductFeatures();
     expect(Array.isArray(initial)).toBeTruthy();
     expect(Array.isArray(rest)).toBeTruthy();
-    expect(initial.every(({ status }) => status === "TODO")).toBeTruthy();
-    expect(rest.every(({ status }) => status === "NOT_CREATED")).toBeTruthy();
     expect(
-      initial.every(({ title }) => typeof title === "string")
+      initial.every(
+        ({ id, status, title, feature }) =>
+          typeof id === "string" &&
+          status === "TODO" &&
+          typeof title === "string" &&
+          typeof feature === "string"
+      )
     ).toBeTruthy();
-    expect(rest.every(({ title }) => typeof title === "string")).toBeTruthy();
+    expect(
+      rest.every(
+        ({ id, status, title, feature }) =>
+          typeof id === "string" &&
+          status === "NOT_CREATED" &&
+          typeof title === "string" &&
+          typeof feature === "string"
+      )
+    ).toBeTruthy();
   });
 });

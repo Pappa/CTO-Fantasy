@@ -16,7 +16,7 @@ const FRONTEND_BACKEND_FEATURES = [
   "share",
 ];
 
-const BACKGROUND_TASKS = [
+const BACKGROUND_FEATURES = [
   "recommendations engine",
   "product aggregation",
   "user aggregation",
@@ -30,43 +30,47 @@ const BACKGROUND_TASKS = [
   "compliance",
 ];
 
-const generateFrontentBackendTitles = (features) => {
+const generateFrontentBackendTasks = (features) => {
   const verb = ["Implement", "Create", "Build"];
   const frontendNoun = ["page", "widget", "feature"];
   const backendNoun = ["endpoint", "API", "service"];
   return features
     .map((feature) => [
-      `${pick(verb)} ${feature} ${pick(frontendNoun)}`,
-      `${pick(verb)} ${feature} ${pick(backendNoun)}`,
+      { feature, title: `${pick(verb)} ${feature} ${pick(frontendNoun)}` },
+      { feature, title: `${pick(verb)} ${feature} ${pick(backendNoun)}` },
     ])
     .flat();
 };
 
-const generateBackgroundTitles = (features) => {
+const generateBackgroundTasks = (features) => {
   const verb = ["Implement", "Create", "Build"];
   const noun = ["endpoint", "API", "service"];
-  return features.map((feature) => `${pick(verb)} ${feature} ${pick(noun)}`);
+  return features.map((feature) => ({
+    feature,
+    title: `${pick(verb)} ${feature} ${pick(noun)}`,
+  }));
 };
 
 export const generateProductFeatures = () => {
-  const initial = generateFrontentBackendTitles(
+  const initial = generateFrontentBackendTasks(
     FRONTEND_BACKEND_FEATURES.slice(0, 5)
   ).map(
-    (title, idx) =>
-      new UserStory({ id: generateId(idx + 1), title, status: "TODO" })
+    ({ feature, title }, idx) =>
+      new UserStory({ id: generateId(idx + 1), title, feature, status: "TODO" })
   );
   const rest = [
-    generateFrontentBackendTitles(FRONTEND_BACKEND_FEATURES.slice(5)),
-    generateBackgroundTitles(BACKGROUND_TASKS),
+    generateFrontentBackendTasks(FRONTEND_BACKEND_FEATURES.slice(5)),
+    generateBackgroundTasks(BACKGROUND_FEATURES),
   ]
     .flat()
-    .map((title, idx) => ({
+    .map(({ feature, title }, idx) => ({
       sort: Math.random(),
       title,
+      feature,
       id: generateId(idx + 1),
     }))
     .sort((a, b) => a.sort - b.sort)
-    .map((feature) => new UserStory(feature));
+    .map((obj) => new UserStory(obj));
   return { initial, rest };
 };
 

@@ -16,10 +16,14 @@ export class MainScene extends Phaser.Scene {
     this.emitter = this.events;
     const storyPointValues = this.registry.get("STORY_POINT_VALUES");
     this.project = new Project({ storyPointValues, emitter: this.emitter });
-    this.customer = new Customer();
+    this.customer = new Customer({
+      emitter: this.emitter,
+      project: this.project,
+    });
     this.createStartingEmployees();
     this.createStartingCandidates();
     this.createLinearStory();
+    this.createEvents();
     this.company = this.registry.get("company");
   }
 
@@ -38,6 +42,13 @@ export class MainScene extends Phaser.Scene {
     this.createMenu();
 
     this.machine.next();
+  }
+
+  createEvents() {
+    this.emitter.on("customer_priorities_updated", (priorities) => {
+      // TODO show notification over customer_icon
+      console.log("priorities", priorities);
+    });
   }
 
   update(time, delta) {

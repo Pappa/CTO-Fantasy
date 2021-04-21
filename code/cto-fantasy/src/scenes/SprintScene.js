@@ -7,6 +7,7 @@ import * as theme from "../theme";
 import { randomInt } from "../utils/random";
 import { SprintReviewState } from "../classes/states/sprint/SprintReviewState";
 import { calculateNewSprintBugs } from "../utils/sprint";
+import { CustomerUpdateState } from "../classes/states/sprint/CustomerUpdateState";
 
 const SPRINT_LENGTH = 10;
 
@@ -57,6 +58,14 @@ export class SprintScene extends Phaser.Scene {
   createEvents() {
     this.machine = new LinearStateMachine();
     this.events = [
+      new CustomerUpdateState(
+        this.machine,
+        this.scene,
+        this.project,
+        this.customer,
+        this.emitter,
+        this.handleEvents.bind(this)
+      ),
       new SprintPlanningState(
         this.machine,
         this.scene,

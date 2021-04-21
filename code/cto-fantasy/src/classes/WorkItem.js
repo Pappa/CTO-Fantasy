@@ -1,9 +1,10 @@
 export class WorkItem {
   estimate = 0;
-  constructor({ id, title, status }) {
+  constructor({ id, title, status, feature }) {
     this.id = id;
     this.title = title;
     this.status = status || WorkItem.STATUS.NOT_CREATED;
+    this.feature = feature;
   }
 }
 
