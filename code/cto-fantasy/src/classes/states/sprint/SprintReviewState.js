@@ -1,21 +1,13 @@
 import { State } from "../State";
 
 export class SprintReviewState extends State {
-  card;
-  constructor(machine, scene, results, onClose) {
-    super(machine);
-    this.scene = scene;
-    this.results = results;
-    this.onClose = onClose;
+  constructor(machine, scene, data) {
+    super(machine, scene);
+    this.data = data;
   }
 
   enter() {
-    this.scene.launch("SprintReviewScene", {
-      results: this.results,
-      onClose: () => {
-        this.onClose();
-      },
-    });
+    this.scene.launch("SprintReviewScene", this.data);
   }
 
   exit() {

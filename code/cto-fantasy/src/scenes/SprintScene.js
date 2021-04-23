@@ -6,6 +6,7 @@ import { SprintPlanningState } from "../classes/states/sprint/SprintPlanningStat
 import * as theme from "../theme";
 import { randomInt } from "../utils/random";
 import { SprintReviewState } from "../classes/states/sprint/SprintReviewState";
+import { navigationStateFactory } from "../classes/states/NavigationState";
 import { calculateNewSprintBugs } from "../utils/sprint";
 import { CustomerUpdateState } from "../classes/states/sprint/CustomerUpdateState";
 
@@ -57,24 +58,25 @@ export class SprintScene extends Phaser.Scene {
 
   createEvents() {
     this.machine = new LinearStateMachine();
+    this.stateFactory = navigationStateFactory(this.machine, this.scene, {
+      team: this.team,
+      customer: this.customer,
+      project: this.project,
+      emitter: this.emitter,
+    });
     this.events = [
-      new CustomerUpdateState(
-        this.machine,
-        this.scene,
-        this.project,
-        this.customer,
-        this.emitter,
-        this.handleEvents.bind(this)
-      ),
-      new SprintPlanningState(
-        this.machine,
-        this.scene,
-        this.project,
-        this.team,
-        this.commitment,
-        this.emitter,
-        this.handleEvents.bind(this)
-      ),
+      new CustomerUpdateState(this.machine, this.scene, {
+        emitter: this.emitter,
+        onClose: () => {
+          this.handleEvents();
+        },
+      }),
+      this.stateFactory("SprintPlanningScene", {
+        commitment: this.commitment,
+        onClose: () => {
+          this.handleEvents();
+        },
+      }),
     ];
     // const randomEvents = this.getRandomSprintEvents();
     // this.events.push(...randomEvents);
@@ -88,16 +90,14 @@ export class SprintScene extends Phaser.Scene {
     // move to update() ?
     if (!this.machine.currentState) {
       this.machine.add(
-        new SprintReviewState(
-          this.machine,
-          this.scene,
-          this.calculateResults(),
-          () => {
-            console.log("SprintReviewState closed");
+        this.stateFactory("SprintReviewScene", {
+          results: this.calculateResults(),
+          onClose: () => {
+            console.log("SprintReviewState closed", this);
             this.machine.next();
             this.onClose();
-          }
-        )
+          },
+        })
       );
       this.machine.next();
     }

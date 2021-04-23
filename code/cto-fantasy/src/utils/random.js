@@ -84,7 +84,11 @@ export const randomInt = (min, max) =>
 
 export const pick = (items) => items[Math.floor(Math.random() * items.length)];
 
-export const randomName = (gender) => {
+export const randomBoolean = () => Math.random() <= 0.5;
+
+export const randomBit = () => (randomBoolean() ? 1 : 0);
+
+export const randomName = (gender = randomBit()) => {
   const first = !!gender ? FIRST_NAMES_FEMALE : FIRST_NAMES_MALE;
   return `${pick(first)} ${pick(LAST_NAME)}`;
 };

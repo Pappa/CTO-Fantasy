@@ -2,9 +2,9 @@ import { randomInt, randomName } from "../utils/random";
 import { shuffle, unique } from "../utils/collection";
 
 export class Customer {
+  currentNumberOfPriorities = 2;
   constructor({ emitter, project }) {
-    this.gender = Math.random() <= 0.5 ? Customer.MALE : Customer.FEMALE;
-    this.name = randomName(this.gender);
+    this.name = randomName();
     this.needForFeatures = randomInt(5, 7) / 10;
     this.acceptanceOfBugs = randomInt(5, 7) / 10;
     this.satisfaction = 0.5;
@@ -29,7 +29,7 @@ export class Customer {
   updatePriorities() {
     this.priorities = shuffle(
       unique(this.project.productBacklog.map(({ feature }) => feature))
-    ).slice(0, 2);
+    ).slice(0, this.currentNumberOfPriorities);
     this.emitter.emit("customer_priorities_updated", this.priorities);
   }
 
@@ -39,6 +39,3 @@ export class Customer {
     });
   }
 }
-
-Customer.MALE = 0;
-Customer.FEMALE = 1;

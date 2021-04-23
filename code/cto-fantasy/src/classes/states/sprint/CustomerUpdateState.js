@@ -1,20 +1,15 @@
 import { State } from "../State";
 
 export class CustomerUpdateState extends State {
-  card;
-  constructor(machine, scene, project, customer, emitter, onClose) {
-    super(machine);
-    this.scene = scene;
-    this.project = project;
-    this.customer = customer;
-    this.emitter = emitter;
-    this.onClose = onClose;
+  constructor(machine, scene, data) {
+    super(machine, scene);
+    this.data = data;
   }
 
   enter() {
-    this.emitter.emit("update_customer_priorities");
+    this.data.emitter.emit("update_customer_priorities");
     setTimeout(() => {
-      this.onClose();
+      this.data.onClose();
     }, 10);
   }
 

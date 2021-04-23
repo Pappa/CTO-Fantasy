@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
-import { SprintState } from "../classes/states/story/SprintState";
+import { navigationStateFactory } from "../classes/states/NavigationState";
 import { Team } from "../classes/Team";
 import { Project } from "../classes/Project";
 import { Customer } from "../classes/Customer";
@@ -25,6 +25,7 @@ export class MainScene extends Phaser.Scene {
     this.createLinearStory();
     this.createEvents();
     this.company = this.registry.get("company");
+    console.log(this.customer);
   }
 
   // executed once, after assets were loaded
@@ -76,34 +77,33 @@ export class MainScene extends Phaser.Scene {
 
   createLinearStory() {
     this.machine = new LinearStateMachine();
+    this.stateFactory = navigationStateFactory(this.machine, this.scene, {
+      team: this.team,
+      customer: this.customer,
+      project: this.project,
+      emitter: this.emitter,
+    });
     const states = [
-      new SprintState(
-        this.machine,
-        this.scene,
-        this.team,
-        this.customer,
-        this.project,
-        this.emitter,
-        []
-      ),
-      new SprintState(
-        this.machine,
-        this.scene,
-        this.team,
-        this.customer,
-        this.project,
-        this.emitter,
-        []
-      ),
-      new SprintState(
-        this.machine,
-        this.scene,
-        this.team,
-        this.customer,
-        this.project,
-        this.emitter,
-        []
-      ),
+      this.stateFactory("SprintScene", {
+        onClose: () => {
+          this.machine.next();
+        },
+      }),
+      this.stateFactory("SprintScene", {
+        onClose: () => {
+          this.machine.next();
+        },
+      }),
+      this.stateFactory("SprintScene", {
+        onClose: () => {
+          this.machine.next();
+        },
+      }),
+      this.stateFactory("SprintScene", {
+        onClose: () => {
+          this.machine.next();
+        },
+      }),
     ];
     this.machine.add(states);
   }

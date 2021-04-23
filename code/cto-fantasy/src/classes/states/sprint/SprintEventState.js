@@ -1,25 +1,16 @@
 import { State } from "../State";
 
 export class SprintEventState extends State {
-  dialog;
-  constructor(machine, dialog, { text, A, B }) {
-    super(machine);
-    this.dialog = dialog;
-    this.text = text;
-    this.A = A;
-    this.B = B;
+  constructor(machine, scene, data) {
+    super(machine, scene);
+    this.data = data;
   }
 
   enter() {
-    this.dialog.getChildByID("description").textContent = this.text;
-    const A = this.dialog.getChildByID("A");
-    const B = this.dialog.getChildByID("B");
-    A.addEventListener("click", this.A);
-    B.addEventListener("click", this.B);
-    this.dialog.setVisible(true);
+    this.scene.launch("SprintEventScene", this.data);
   }
 
   exit() {
-    this.dialog.setVisible(false);
+    this.scene.stop("SprintEventScene");
   }
 }
