@@ -35,10 +35,10 @@ export class Card extends Phaser.GameObjects.Container {
     if (callback) {
       button.textContent = text;
       button.addEventListener("click", callback);
-      this.button = this.scene.add.existing(
-        new Button(this.scene, 0, 155, text, callback)
-      );
-      this.add(this.button);
+      // this.button = this.scene.add.existing(
+      //   new Button(this.scene, 0, 155, text, callback)
+      // );
+      // this.add(this.button);
       button.style.display = "inline";
     } else {
       button.style.display = "none";

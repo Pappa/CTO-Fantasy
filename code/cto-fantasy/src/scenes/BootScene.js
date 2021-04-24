@@ -89,6 +89,7 @@ export class BootScene extends Phaser.Scene {
 
   loadAssets() {
     this.load.html("card", "assets/forms/card.html");
+    this.load.html("button", "assets/forms/button.html");
     this.load.html("estimate_input", "assets/forms/estimate_input.html");
     this.load.html("event", "assets/forms/event.html");
     this.load.image("button", "assets/UIpack/PNG/blue_button00.png");

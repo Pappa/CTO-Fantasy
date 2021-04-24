@@ -2,10 +2,13 @@ import Phaser from "phaser";
 import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 import { navigationStateFactory } from "../classes/states/NavigationState";
+import { clickToContinueStateFactory } from "../classes/states/ClickToContinueState";
 import { Team } from "../classes/Team";
 import { Project } from "../classes/Project";
 import { Customer } from "../classes/Customer";
 import { Hud } from "../game-objects/Hud";
+import { Button } from "../game-objects/Button";
+import { range } from "../utils/collection";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -13,6 +16,10 @@ export class MainScene extends Phaser.Scene {
   }
 
   init() {
+    this.width = this.cameras.main.width;
+    this.height = this.cameras.main.height;
+    this.centreX = this.width / 2;
+    this.centreY = this.height / 2;
     this.emitter = this.events;
     const storyPointValues = this.registry.get("STORY_POINT_VALUES");
     this.project = new Project({ storyPointValues, emitter: this.emitter });
@@ -22,16 +29,25 @@ export class MainScene extends Phaser.Scene {
     });
     this.createStartingEmployees();
     this.createStartingCandidates();
+    this.createNextButton();
     this.createLinearStory();
     this.createEvents();
     this.company = this.registry.get("company");
-    console.log(this.customer);
   }
 
   // executed once, after assets were loaded
   create() {
     this.office = this.add.image(400, 300, "office").setOrigin(0.5);
 
+    this.createHud();
+    this.createMenu();
+
+    this.emitter.emit("update_customer_priorities");
+
+    this.machine.next();
+  }
+
+  createHud() {
     this.hud = this.add.existing(
       new Hud(this, 15, 15, {
         company: this.company,
@@ -39,10 +55,13 @@ export class MainScene extends Phaser.Scene {
         team: this.team,
       })
     );
+  }
 
-    this.createMenu();
-
-    this.machine.next();
+  createNextButton() {
+    this.nextButton = this.add.existing(
+      new Button(this, this.centreX, this.height - 50)
+    );
+    this.nextButton.hide();
   }
 
   createEvents() {
@@ -59,11 +78,9 @@ export class MainScene extends Phaser.Scene {
   createStartingEmployees() {
     const teamSize = this.registry.get("settings").STARTING_TEAM_SIZE;
     this.team = new Team();
-    Array(teamSize)
-      .fill(null)
-      .forEach(() => {
-        this.team.add(new Dev());
-      });
+    range(teamSize + 1).forEach(() => {
+      this.team.add(new Dev());
+    });
   }
 
   createStartingCandidates() {
@@ -76,6 +93,7 @@ export class MainScene extends Phaser.Scene {
   }
 
   createLinearStory() {
+    const numberOfSprints = this.registry.get("settings").NUMBER_OF_SPRINTS;
     this.machine = new LinearStateMachine();
     this.stateFactory = navigationStateFactory(this.machine, this.scene, {
       team: this.team,
@@ -83,28 +101,25 @@ export class MainScene extends Phaser.Scene {
       project: this.project,
       emitter: this.emitter,
     });
-    const states = [
-      this.stateFactory("SprintScene", {
-        onClose: () => {
-          this.machine.next();
-        },
-      }),
-      this.stateFactory("SprintScene", {
-        onClose: () => {
-          this.machine.next();
-        },
-      }),
-      this.stateFactory("SprintScene", {
-        onClose: () => {
-          this.machine.next();
-        },
-      }),
-      this.stateFactory("SprintScene", {
-        onClose: () => {
-          this.machine.next();
-        },
-      }),
-    ];
+    this.clickStateFactory = clickToContinueStateFactory(
+      this.machine,
+      this.scene,
+      this.nextButton
+    );
+    const states = range(1, numberOfSprints + 1)
+      .map((sprintNo) => {
+        return [
+          this.clickStateFactory({
+            text: `Start the ${sprintNo === 1 ? "first" : "next"} sprint.`,
+          }),
+          this.stateFactory("SprintScene", {
+            onClose: () => {
+              this.machine.next();
+            },
+          }),
+        ];
+      })
+      .flat();
     this.machine.add(states);
   }
 
@@ -132,6 +147,9 @@ export class MainScene extends Phaser.Scene {
               }
               this.scene.launch(scene, {
                 team: this.team,
+                customer: this.customer,
+                project: this.project,
+                emitter: this.emitter,
                 candidates: this.candidates,
                 onClose: () => {
                   this.scene.stop(scene);

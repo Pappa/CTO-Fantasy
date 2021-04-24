@@ -9,6 +9,7 @@ import { HiringScene } from "./scenes/HiringScene";
 import { SprintScene } from "./scenes/SprintScene";
 import { SprintReviewScene } from "./scenes/SprintReviewScene";
 import { SprintPlanningScene } from "./scenes/SprintPlanningScene";
+import { CustomerScene } from "./scenes/CustomerScene";
 
 export class CtoFantasy {
   constructor() {
@@ -28,6 +29,7 @@ export class CtoFantasy {
         SprintScene,
         SprintReviewScene,
         SprintPlanningScene,
+        CustomerScene,
       ],
       title: "CTO Fantasy",
       dom: {

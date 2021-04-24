@@ -4,7 +4,7 @@ import { pick } from "./random";
 const FRONTEND_BACKEND_FEATURES = [
   "user login",
   "search",
-  "product",
+  "product details",
   "add to basket",
   "checkout",
   "preferences",
