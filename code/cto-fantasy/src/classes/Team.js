@@ -3,6 +3,9 @@ import { average } from "../utils/number";
 export class Team {
   members = [];
   velocities = [];
+  constructor(members) {
+    this.members = members;
+  }
 
   add(member) {
     this.members.push(member);

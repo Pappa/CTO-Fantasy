@@ -65,12 +65,12 @@ export class SprintScene extends Phaser.Scene {
       emitter: this.emitter,
     });
     this.events = [
-      new CustomerUpdateState(this.machine, this.scene, {
-        emitter: this.emitter,
-        onClose: () => {
-          this.handleEvents();
-        },
-      }),
+      // new CustomerUpdateState(this.machine, this.scene, {
+      //   emitter: this.emitter,
+      //   onClose: () => {
+      //     this.handleEvents();
+      //   },
+      // }),
       this.stateFactory("SprintPlanningScene", {
         commitment: this.commitment,
         onClose: () => {
@@ -93,7 +93,7 @@ export class SprintScene extends Phaser.Scene {
         this.stateFactory("SprintReviewScene", {
           results: this.calculateResults(),
           onClose: () => {
-            console.log("SprintReviewState closed", this);
+            this.emitter.emit("update_customer_priorities");
             this.machine.next();
             this.onClose();
           },

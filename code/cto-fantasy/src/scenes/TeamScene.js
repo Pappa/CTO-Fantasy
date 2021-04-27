@@ -19,8 +19,6 @@ export class TeamScene extends Phaser.Scene {
     this.meetTheTeam();
   }
 
-  update(time, delta) {}
-
   createComponents() {
     this.header = this.add.text(400, 15, " ", theme.h1).setOrigin(0.5, 0);
     this.close = this.add

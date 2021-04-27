@@ -6,9 +6,9 @@ const TOP_PRIORITIES = [
   "The *** feature is definitely my highest priority right now. We need to start making some money.",
 ];
 const LESSER_PRIORITIES = [
-  "I'd really like it if we could get the *** feature out to users for some feedback.'",
+  "I'd really like it if we could get the *** feature out to users for some feedback.",
   "It'd be good to get the *** feature deployed if we can.",
-  "Also, how about the *** feature? it'd be good to get that done soon.",
+  "Also, how about the *** feature? It'd be good to get that done soon.",
 ];
 
 export const getPriorityText = (priority, idx) =>

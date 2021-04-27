@@ -68,11 +68,9 @@ export class Backlog extends Phaser.GameObjects.Container {
 
   createEvents() {
     // this.scene.input.on("gameobjectover", (pointer, obj) => {
-    //   console.log("gameobjectover", obj);
     // });
 
     // this.scene.input.on("gameobjectout", (pointer, obj) => {
-    //   console.log("gameobjectout");
     // });
 
     this.scene.input.on("dragstart", (pointer, obj) => {
