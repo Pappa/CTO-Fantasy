@@ -31,7 +31,9 @@ The MVP should include the following:
    - Sprint Review
    - ~~Sprint Retrospective~~
 6. Feedback about customer satisfaction at the end of a sprint
-7. Bugs raised, based on team's
+7. Stories and bugs completed
+   - How to represent whether the team completed work in priority order?
+8. Bugs raised, based on team's
    - skill
    - quality mindset
    - collaboration
