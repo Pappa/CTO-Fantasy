@@ -33,6 +33,7 @@ The MVP should include the following:
 6. Feedback about customer satisfaction at the end of a sprint
 7. Stories and bugs completed
    - How to represent whether the team completed work in priority order?
+   - Use collaboration and flow to determine if the team focussed on getting tickets to done together, rather than working seperately.
 8. Bugs raised, based on team's
    - skill
    - quality mindset

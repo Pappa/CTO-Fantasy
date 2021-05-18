@@ -21,6 +21,14 @@ export class Project {
     this.createEvents();
   }
 
+  setCustomer(customer) {
+    this.customer = customer;
+  }
+
+  setTeam(team) {
+    this.team = team;
+  }
+
   createEvents() {
     this.emitter.on("update_estimate", this.updateEstimate);
     this.emitter.on("update_backlog_order", this.updateBacklogOrder);

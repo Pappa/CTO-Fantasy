@@ -11,6 +11,8 @@ export class Employee {
     happiness,
     qualityMindset,
     collaboration,
+    flow,
+    estimation,
     psychologicalSafety,
   } = {}) {
     this.skill = skill || this.randomiseStat("skill");
@@ -22,6 +24,8 @@ export class Employee {
     this.qualityMindset =
       qualityMindset || this.randomiseStat("qualityMindset");
     this.collaboration = collaboration || this.randomiseStat("collaboration");
+    this.flow = flow || this.randomiseStat("flow");
+    this.estimation = estimation || this.randomiseStat("estimation");
     this.psychologicalSafety =
       psychologicalSafety || this.randomiseStat("psychologicalSafety");
   }
@@ -38,9 +42,6 @@ export class Employee {
         return randomInt(1, 5) / 10;
       case "experience":
         return randomInt(1, 10);
-      case "skill":
-      case "happiness":
-      case "qualityMindset":
       default:
         return randomStat();
     }

@@ -1,9 +1,10 @@
 import { average } from "../utils/number";
+import { randomInt, randomBoolean } from "../utils/random";
 
 export class Team {
   members = [];
   velocities = [];
-  constructor(members) {
+  constructor(members = []) {
     this.members = members;
   }
 
@@ -32,6 +33,10 @@ export class Team {
     return this.getAverageStat("skill");
   }
 
+  get experience() {
+    return this.getAverageStat("experience");
+  }
+
   get happiness() {
     return this.getAverageStat("happiness");
   }
@@ -42,6 +47,14 @@ export class Team {
 
   get collaboration() {
     return this.getAverageStat("collaboration");
+  }
+
+  get flow() {
+    return this.getAverageStat("flow");
+  }
+
+  get estimation() {
+    return this.getAverageStat("estimation");
   }
 
   get psychologicalSafety() {
@@ -56,5 +69,38 @@ export class Team {
     return this.velocities.length
       ? Math.round(average(this.velocities.slice(-3)))
       : undefined;
+  }
+
+  /**
+   * Not a pure function
+   */
+  getCommitment() {
+    const velocity = this.velocity || randomInt(30, 60);
+    let commitment = velocity;
+
+    // adjust +/- based on estimation
+    const estimationShiftPercentageMax = (1 - this.estimation) * 100;
+    const estimationShiftPercentage = randomInt(
+      0,
+      estimationShiftPercentageMax
+    );
+    const estimationShift = (velocity / 100) * estimationShiftPercentage;
+
+    randomBoolean()
+      ? (commitment += estimationShift)
+      : (commitment -= estimationShift);
+
+    // adjust + based on experience
+    const MAX_YEARS_EXPERIENCE = 20;
+    const experienceShiftPercentageMax =
+      ((MAX_YEARS_EXPERIENCE - this.experience) / MAX_YEARS_EXPERIENCE) * 100;
+    const experienceShiftPercentage = randomInt(
+      0,
+      experienceShiftPercentageMax
+    );
+    const experienceShift = (velocity / 100) * experienceShiftPercentage;
+    commitment += experienceShift;
+
+    return Math.round(commitment);
   }
 }

@@ -36,8 +36,14 @@ export class MainScene extends Phaser.Scene {
       team: this.createTeam(),
       candidates: this.createCandidates(),
     };
+    this.updateProject();
     this.createNextButton();
     this.createLinearStory();
+  }
+
+  updateProject() {
+    this.project.setCustomer(this.customer);
+    this.project.setTeam(this.modules.team);
   }
 
   // executed once, after assets were loaded

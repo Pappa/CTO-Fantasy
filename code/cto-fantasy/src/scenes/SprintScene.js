@@ -9,8 +9,7 @@ import { SprintReviewState } from "../classes/states/sprint/SprintReviewState";
 import { navigationStateFactory } from "../classes/states/NavigationState";
 import { calculateNewSprintBugs } from "../utils/sprint";
 import { CustomerUpdateState } from "../classes/states/sprint/CustomerUpdateState";
-
-const SPRINT_LENGTH = 10;
+import { Sprint } from "../classes/Sprint";
 
 export class SprintScene extends Phaser.Scene {
   constructor() {
@@ -28,25 +27,24 @@ export class SprintScene extends Phaser.Scene {
     this.events = events;
     this.emitter = emitter;
     this.onClose = onClose;
-    this.updateSprintNumber();
-    this.setCommitment();
+    this.createSprint();
     this.createComponents();
     this.createEvents();
   }
 
-  update(time, delta) {
-    if (!this.events.length) {
-      //this.onClose();
-    }
-  }
-
-  updateSprintNumber() {
-    this.sprintNumber = this.registry.inc("sprintNumber").get("sprintNumber");
+  createSprint() {
+    const newSprintNo = this.registry.inc("sprintNumber").get("sprintNumber");
+    this.sprint = new Sprint({
+      number: newSprintNo,
+      project: this.project,
+      registry: this.registry,
+      emitter: this.emitter,
+    });
   }
 
   createComponents() {
     this.header = this.add
-      .text(400, 15, `Sprint ${this.sprintNumber}`, theme.h1)
+      .text(400, 15, `Sprint ${this.sprint.number}`, theme.h1)
       .setOrigin(0.5, 0);
     this.eventDialog = this.add
       .dom(400, 300)
@@ -72,7 +70,7 @@ export class SprintScene extends Phaser.Scene {
       //   },
       // }),
       this.stateFactory("SprintPlanningScene", {
-        commitment: this.commitment,
+        sprint: this.sprint,
         onClose: () => {
           this.handleEvents();
         },
@@ -118,27 +116,12 @@ export class SprintScene extends Phaser.Scene {
   //     .map((ev) => new SprintEventState(this.machine, this.eventDialog, ev));
   // }
 
-  setCommitment() {
-    this.commitment = randomInt(30, 60);
-  }
-
   calculateResults() {
-    const velocity = this.getVelocity();
-    const bugs = this.calculateBugs();
-    this.customer.update({ velocity, bugs });
-    this.project.update({ bugs });
-    this.team.update({ velocity });
-    return {
-      commitment: this.commitment,
-      velocity,
-      success: Number.parseFloat((velocity / this.commitment).toFixed(2)),
-      bugs,
-      customerSatisfaction: this.customer.satisfaction,
-    };
-  }
-
-  getVelocity() {
-    return Math.floor(this.team.skill * this.team.size * SPRINT_LENGTH);
+    const results = this.sprint.getResults();
+    this.customer.update(results);
+    this.project.update(results);
+    this.team.update(results);
+    return results;
   }
 
   calculateBugs() {
