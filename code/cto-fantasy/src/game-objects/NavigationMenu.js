@@ -41,7 +41,7 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
             .image(25, idx * 100 - 10, "notification")
             .setScale(0.5)
             .setOrigin(0.5)
-            .setAlpha(0.7)
+            .setAlpha(0.8)
             .setVisible(false),
         };
       },
@@ -51,7 +51,7 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
     this.notifications.forEach((notification) => {
       this.scene.tweens.add({
         targets: notification,
-        scale: 0.55,
+        scale: 0.6,
         ease: "Cubic.easeIn",
         duration: 400,
         hold: 100,
