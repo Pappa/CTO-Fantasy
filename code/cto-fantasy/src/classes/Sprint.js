@@ -3,7 +3,6 @@ import { calculateNewSprintBugs } from "../utils/sprint";
 export class Sprint {
   SPRINT_LENGTH = 10;
   constructor({ number, project, registry, emitter }) {
-    console.log(project);
     this.number = number;
     this.project = project;
     this.team = this.project.team;
@@ -14,7 +13,9 @@ export class Sprint {
   }
 
   getVelocity() {
-    return Math.floor(this.team.skill * this.team.size * this.SPRINT_LENGTH);
+    return Math.floor(
+      this.team.skill * ((this.team.size * this.SPRINT_LENGTH) / 2)
+    );
   }
 
   getResults() {

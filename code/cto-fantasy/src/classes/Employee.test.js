@@ -1,12 +1,13 @@
 import { Dev, Employee, ProductOwner, ScrumMaster, Tester } from "./Employee";
 
 describe("Male Employee", () => {
+  let rand;
   beforeEach(() => {
-    jest.spyOn(global.Math, "random").mockReturnValue(0.5);
+    rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
   });
 
   afterEach(() => {
-    jest.spyOn(global.Math, "random").mockRestore();
+    rand.mockRestore();
   });
 
   it("should match object", () => {
@@ -29,12 +30,13 @@ describe("Male Employee", () => {
 });
 
 describe("Female Employee", () => {
+  let rand;
   beforeEach(() => {
-    jest.spyOn(global.Math, "random").mockReturnValue(0.8);
+    rand = jest.spyOn(global.Math, "random").mockReturnValue(0.8);
   });
 
   afterEach(() => {
-    jest.spyOn(global.Math, "random").mockRestore();
+    rand.mockRestore();
   });
 
   it("should match object when gender threshold is >= 0.7", () => {
@@ -56,12 +58,13 @@ describe("Female Employee", () => {
   });
 
   describe("Other Employee types", () => {
+    let rand;
     beforeEach(() => {
-      jest.spyOn(global.Math, "random").mockReturnValue(0.5);
+      rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
     });
 
     afterEach(() => {
-      jest.spyOn(global.Math, "random").mockRestore();
+      rand.mockRestore();
     });
 
     it("should match object for Dev", () => {

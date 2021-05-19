@@ -1,11 +1,11 @@
 import { randomInt, pick, randomName, randomStat } from "./random";
-
+let rand;
 beforeEach(() => {
-  jest.spyOn(global.Math, "random").mockReturnValue(0.5);
+  rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
 });
 
 afterEach(() => {
-  jest.spyOn(global.Math, "random").mockRestore();
+  rand.mockRestore();
 });
 
 describe("randomInt()", () => {

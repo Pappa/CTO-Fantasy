@@ -55,7 +55,7 @@ describe("getCommitment()", () => {
   });
 
   afterEach(() => {
-    jest.spyOn(global.Math, "random").mockRestore();
+    rand.mockRestore();
   });
 
   it("should have a low variation due to good estimation and experience", () => {
@@ -90,7 +90,7 @@ describe("getCommitment()", () => {
     const team = new Team([dev]);
     const commitment = team.getCommitment();
 
-    expect(commitment).toBe(73);
+    expect(commitment).toBe(29);
   });
 
   it("should shift high", () => {

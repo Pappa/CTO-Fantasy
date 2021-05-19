@@ -1,4 +1,10 @@
-import { calculateNewSprintBugs, calculateBacklogCapacityRow } from "./sprint";
+import {
+  calculateNewSprintBugs,
+  calculateBacklogCapacityRow,
+  getBacklogEstimates,
+} from "./sprint";
+import { generateProductFeatures } from "./features";
+import { UserStory } from "../classes/WorkItem";
 
 describe("calculateNewSprintBugs()", () => {
   const BUGINESS_RATIO = 10;
@@ -57,5 +63,92 @@ describe("calculateBacklogCapacityRow()", () => {
     const estimates = [100, 200, 300];
     const velocity = 2;
     expect(calculateBacklogCapacityRow(estimates, velocity)).toBe(0);
+  });
+});
+
+describe("getBacklogEstimates()", () => {
+  const storyPointValues = [1, 2, 3, 5, 8, 13, 20];
+  let backlog;
+  let rand;
+  beforeEach(() => {
+    rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
+    const { initial } = generateProductFeatures(storyPointValues);
+    backlog = initial;
+  });
+  afterEach(() => {
+    rand.mockRestore();
+  });
+
+  it("should get updated estimates of the backlog", () => {
+    const team = { size: 10, estimation: 0.5 };
+
+    rand
+      .mockReturnValueOnce(0.2)
+      .mockReturnValueOnce(0.5)
+      .mockReturnValueOnce(0.8)
+      .mockReturnValueOnce(0.2)
+      .mockReturnValueOnce(0.5)
+      .mockReturnValueOnce(0.8)
+      .mockReturnValueOnce(0.2)
+      .mockReturnValueOnce(0.5)
+      .mockReturnValueOnce(0.8);
+    const estimates = getBacklogEstimates(backlog, team, storyPointValues);
+
+    expect(estimates).toEqual([
+      { id: "G0001", estimate: 3 },
+      { id: "G0002", estimate: 5 },
+      { id: "G0003", estimate: 1 },
+      { id: "G0004", estimate: 3 },
+      { id: "G0005", estimate: 5 },
+      { id: "G0006", estimate: 1 },
+      { id: "G0007", estimate: 3 },
+      { id: "G0008", estimate: 5 },
+    ]);
+  });
+
+  it("should skip estimated items", () => {
+    const team = { size: 10, estimation: 0.5 };
+    backlog[0].estimate = 8;
+    backlog[2].estimate = 8;
+    backlog[4].estimate = 8;
+
+    rand
+      .mockReturnValueOnce(0.2)
+      .mockReturnValueOnce(0.5)
+      .mockReturnValueOnce(0.8)
+      .mockReturnValueOnce(0.2)
+      .mockReturnValueOnce(0.5)
+      .mockReturnValueOnce(0.8)
+      .mockReturnValueOnce(0.2)
+      .mockReturnValueOnce(0.5)
+      .mockReturnValueOnce(0.8);
+    const estimates = getBacklogEstimates(backlog, team, storyPointValues);
+
+    expect(estimates).toEqual([
+      { id: "G0002", estimate: 3 },
+      { id: "G0004", estimate: 5 },
+      { id: "G0006", estimate: 1 },
+      { id: "G0007", estimate: 3 },
+      { id: "G0008", estimate: 5 },
+      { id: "G0009", estimate: 1 },
+      { id: "G0010", estimate: 3 },
+    ]);
+  });
+
+  it("should handle no items to estimate", () => {
+    const team = { size: 10, estimation: 0.5 };
+    const story = new UserStory({
+      id: "G0001",
+      title: "title",
+      feature: "user login",
+      status: "TODO",
+      effort: 5,
+    });
+    story.setEstimate(5);
+    const backlog = [story];
+
+    const estimates = getBacklogEstimates(backlog, team, storyPointValues);
+
+    expect(estimates).toEqual([]);
   });
 });

@@ -12,7 +12,7 @@ export class Project {
     this.storyPointValues = storyPointValues;
     this.budget = budget || randomInt(50000, 100000);
     this.emitter = emitter;
-    const { initial, rest } = generateProductFeatures();
+    const { initial, rest } = generateProductFeatures(storyPointValues);
     this.backlog = initial;
     this.potentialWorkItems = rest;
     this.numberOfBugs = 0;
@@ -31,6 +31,7 @@ export class Project {
 
   createEvents() {
     this.emitter.on("update_estimate", this.updateEstimate);
+    this.emitter.on("update_estimates", this.updateEstimates);
     this.emitter.on("update_backlog_order", this.updateBacklogOrder);
   }
 
@@ -41,6 +42,14 @@ export class Project {
   updateEstimate = (item, estimate) => {
     const workItem = this.backlog.find(({ id }) => item.id === id) || {};
     workItem.estimate = estimate;
+    this.emitter.emit("backlog_updated");
+  };
+
+  updateEstimates = (items) => {
+    items.forEach((item) => {
+      const workItem = this.backlog.find(({ id }) => item.id === id) || {};
+      workItem.estimate = item.estimate;
+    });
     this.emitter.emit("backlog_updated");
   };
 

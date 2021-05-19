@@ -10,6 +10,7 @@ import { navigationStateFactory } from "../classes/states/NavigationState";
 import { calculateNewSprintBugs } from "../utils/sprint";
 import { CustomerUpdateState } from "../classes/states/sprint/CustomerUpdateState";
 import { Sprint } from "../classes/Sprint";
+import { RefinementState } from "../classes/states/sprint/RefinementState";
 
 export class SprintScene extends Phaser.Scene {
   constructor() {
@@ -63,12 +64,11 @@ export class SprintScene extends Phaser.Scene {
       emitter: this.emitter,
     });
     this.events = [
-      // new CustomerUpdateState(this.machine, this.scene, {
-      //   emitter: this.emitter,
-      //   onClose: () => {
-      //     this.handleEvents();
-      //   },
-      // }),
+      new RefinementState(this.machine, this.scene, {
+        emitter: this.emitter,
+        team: this.team,
+        project: this.project,
+      }),
       this.stateFactory("SprintPlanningScene", {
         sprint: this.sprint,
         onClose: () => {

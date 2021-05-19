@@ -51,12 +51,19 @@ const generateBackgroundTasks = (features) => {
   }));
 };
 
-export const generateProductFeatures = () => {
+export const generateProductFeatures = (storyPointValues) => {
+  const points = storyPointValues.filter((x) => x < 13);
   const initial = generateFrontentBackendTasks(
     FRONTEND_BACKEND_FEATURES.slice(0, 5)
   ).map(
     ({ feature, title }, idx) =>
-      new UserStory({ id: generateId(idx + 1), title, feature, status: "TODO" })
+      new UserStory({
+        id: generateId(idx + 1),
+        title,
+        feature,
+        status: "TODO",
+        effort: pick(points),
+      })
   );
   const rest = [
     generateFrontentBackendTasks(FRONTEND_BACKEND_FEATURES.slice(5)),
@@ -68,6 +75,7 @@ export const generateProductFeatures = () => {
       title,
       feature,
       id: generateId(idx + 1),
+      effort: pick(points),
     }))
     .sort((a, b) => a.sort - b.sort)
     .map((obj) => new UserStory(obj));
