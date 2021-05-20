@@ -10,6 +10,7 @@ import { Hud } from "../game-objects/Hud";
 import { Button } from "../game-objects/Button";
 import { range } from "../utils/collection";
 import { NavigationMenu } from "../game-objects/NavigationMenu";
+import { RefinementState } from "../classes/states/sprint/RefinementState";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -98,6 +99,11 @@ export class MainScene extends Phaser.Scene {
     const states = range(1, numberOfSprints + 1)
       .map((sprintNo) => {
         return [
+          new RefinementState(this.machine, this.scene, {
+            emitter: this.emitter,
+            team: this.modules.team,
+            project: this.modules.project,
+          }),
           this.clickStateFactory({
             text: `Start the ${sprintNo === 1 ? "first" : "next"} sprint.`,
           }),

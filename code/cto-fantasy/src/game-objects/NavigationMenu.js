@@ -10,7 +10,7 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
       { icon: "team_icon", scene: "TeamScene" },
       { icon: "recruiter_icon", scene: "HiringScene" },
       { icon: "customer_icon", scene: "CustomerScene" },
-      { icon: "backlog_icon", scene: "BacklogScene" },
+      { icon: "backlog_icon", scene: "ProductBacklogScene" },
     ];
 
     this.createComponents();

@@ -69,7 +69,7 @@ export class SprintScene extends Phaser.Scene {
         team: this.team,
         project: this.project,
       }),
-      this.stateFactory("SprintPlanningScene", {
+      this.stateFactory("ProductBacklogScene", {
         sprint: this.sprint,
         onClose: () => {
           this.handleEvents();

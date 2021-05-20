@@ -8,7 +8,7 @@ import { TeamScene } from "./scenes/TeamScene";
 import { HiringScene } from "./scenes/HiringScene";
 import { SprintScene } from "./scenes/SprintScene";
 import { SprintReviewScene } from "./scenes/SprintReviewScene";
-import { SprintPlanningScene } from "./scenes/SprintPlanningScene";
+import { ProductBacklogScene } from "./scenes/ProductBacklogScene";
 import { CustomerScene } from "./scenes/CustomerScene";
 
 export class CtoFantasy {
@@ -28,7 +28,7 @@ export class CtoFantasy {
         HiringScene,
         SprintScene,
         SprintReviewScene,
-        SprintPlanningScene,
+        ProductBacklogScene,
         CustomerScene,
       ],
       title: "CTO Fantasy",

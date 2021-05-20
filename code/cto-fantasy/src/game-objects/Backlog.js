@@ -27,7 +27,8 @@ export class Backlog extends Phaser.GameObjects.Container {
     this.estimateLine = this.scene.add
       .graphics()
       .fillStyle(0xff0000, 1.0)
-      .fillRect(0, this.Y_START, 600, 3);
+      .fillRect(0, this.Y_START, 600, 3)
+      .setVisible(!!this.commitment);
     this.header = this.scene.add
       .text(300, 20, "Product Backlog", theme.mainText)
       .setOrigin(0.5);
@@ -58,12 +59,14 @@ export class Backlog extends Phaser.GameObjects.Container {
   }
 
   updateEstimateLine() {
-    const estimates = this.rows.map(({ item: { estimate } }) => estimate);
-    const row = calculateBacklogCapacityRow(estimates, this.commitment);
-    this.estimateLine
-      .clear()
-      .fillStyle(0xff0000, 1.0)
-      .fillRect(0, this.Y_START - 4 + row * this.ITEM_SPACING, 600, 3);
+    if (this.commitment) {
+      const estimates = this.rows.map(({ item: { estimate } }) => estimate);
+      const row = calculateBacklogCapacityRow(estimates, this.commitment);
+      this.estimateLine
+        .clear()
+        .fillStyle(0xff0000, 1.0)
+        .fillRect(0, this.Y_START - 4 + row * this.ITEM_SPACING, 600, 3);
+    }
   }
 
   createEvents() {

@@ -7,10 +7,10 @@ export class SprintPlanningState extends State {
   }
 
   enter() {
-    this.scene.launch("SprintPlanningScene", this.data);
+    this.scene.launch("ProductBacklogScene", this.data);
   }
 
   exit() {
-    this.scene.stop("SprintPlanningScene");
+    this.scene.stop("ProductBacklogScene");
   }
 }

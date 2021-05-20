@@ -5,11 +5,9 @@ export class RefinementState extends State {
   constructor(machine, scene, data) {
     super(machine, scene);
     this.data = data;
-    console.log("this.data", Object.keys(this.data));
   }
 
   enter() {
-    console.log("this.data", Object.keys(this.data));
     const estimates = getBacklogEstimates(
       this.data.project.productBacklog,
       this.data.team,
