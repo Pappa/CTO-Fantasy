@@ -10,6 +10,7 @@ import { SprintScene } from "./scenes/SprintScene";
 import { SprintReviewScene } from "./scenes/SprintReviewScene";
 import { ProductBacklogScene } from "./scenes/ProductBacklogScene";
 import { CustomerScene } from "./scenes/CustomerScene";
+import { SprintBoardScene } from "./scenes/SprintBoardScene";
 
 export class CtoFantasy {
   constructor() {
@@ -24,6 +25,7 @@ export class CtoFantasy {
         VacanciesScene,
         MainScene,
         CreditsScene,
+        SprintBoardScene,
         TeamScene,
         HiringScene,
         SprintScene,

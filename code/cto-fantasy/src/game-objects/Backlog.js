@@ -58,10 +58,19 @@ export class Backlog extends Phaser.GameObjects.Container {
     this.rows.forEach((row) => row.destroy());
   }
 
+  getCommittedItems() {
+    const last = this.getLastCommittedBacklogItemIndex();
+    return this.project.productBacklog.slice(0, last);
+  }
+
+  getLastCommittedBacklogItemIndex() {
+    const estimates = this.rows.map(({ item: { estimate } }) => estimate);
+    return calculateBacklogCapacityRow(estimates, this.commitment);
+  }
+
   updateEstimateLine() {
     if (this.commitment) {
-      const estimates = this.rows.map(({ item: { estimate } }) => estimate);
-      const row = calculateBacklogCapacityRow(estimates, this.commitment);
+      const row = this.getLastCommittedBacklogItemIndex();
       this.estimateLine
         .clear()
         .fillStyle(0xff0000, 1.0)

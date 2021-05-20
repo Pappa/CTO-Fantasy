@@ -2,13 +2,9 @@ import Phaser from "phaser";
 import { Card } from "../game-objects/Card";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 //import { SprintEventState } from "../classes/states/sprint/SprintEventState";
-import { SprintPlanningState } from "../classes/states/sprint/SprintPlanningState";
 import * as theme from "../theme";
-import { randomInt } from "../utils/random";
-import { SprintReviewState } from "../classes/states/sprint/SprintReviewState";
 import { navigationStateFactory } from "../classes/states/NavigationState";
 import { calculateNewSprintBugs } from "../utils/sprint";
-import { CustomerUpdateState } from "../classes/states/sprint/CustomerUpdateState";
 import { Sprint } from "../classes/Sprint";
 import { RefinementState } from "../classes/states/sprint/RefinementState";
 
@@ -70,6 +66,12 @@ export class SprintScene extends Phaser.Scene {
         project: this.project,
       }),
       this.stateFactory("ProductBacklogScene", {
+        sprint: this.sprint,
+        onClose: () => {
+          this.handleEvents();
+        },
+      }),
+      this.stateFactory("SprintBoardScene", {
         sprint: this.sprint,
         onClose: () => {
           this.handleEvents();

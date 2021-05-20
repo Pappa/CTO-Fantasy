@@ -64,7 +64,6 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
 
   createEvents() {
     this.modules.emitter.on("customer_priorities_updated", (priorities) => {
-      console.log("customer_priorities_updated");
       this.notificationsObj["customer_icon"].setVisible(true);
     });
   }

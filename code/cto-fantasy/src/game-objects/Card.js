@@ -1,5 +1,4 @@
 import Phaser from "phaser";
-import { Button } from "./Button";
 
 export class Card extends Phaser.GameObjects.Container {
   constructor(scene, x = 0, y = 0, content = {}, callback) {

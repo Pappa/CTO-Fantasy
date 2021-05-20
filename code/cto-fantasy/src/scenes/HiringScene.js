@@ -53,8 +53,4 @@ export class HiringScene extends Phaser.Scene {
       );
     }, this);
   }
-
-  selectCandidate(candidate) {
-    console.log(candidate);
-  }
 }

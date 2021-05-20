@@ -41,6 +41,10 @@ export class ProductBacklogScene extends Phaser.Scene {
       .setOrigin(0.5, 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerup", () => {
+        if (this.sprint) {
+          const items = this.backlog.getCommittedItems();
+          this.emitter.emit("sprint_backlog_selected", items);
+        }
         this.onClose();
       });
   }

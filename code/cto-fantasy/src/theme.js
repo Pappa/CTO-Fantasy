@@ -43,3 +43,18 @@ export const hudText = {
   font: "12px monospace",
   fill: "#ffffff",
 };
+
+export const boardText = {
+  font: "16px monospace",
+  fill: "#000000",
+};
+
+export const boardTitles = {
+  font: "14px monospace",
+  fill: "#000000",
+};
+
+export const sprintBoardItemText = {
+  font: "12px monospace",
+  fill: "#000000",
+};
