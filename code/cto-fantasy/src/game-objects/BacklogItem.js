@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { UserStory, Bug } from "../classes/WorkItem";
 import * as theme from "../theme";
 
 export class BacklogItem extends Phaser.GameObjects.Container {
@@ -47,14 +48,19 @@ export class BacklogItem extends Phaser.GameObjects.Container {
         x: 20,
         y: 3,
         text: `${this.item.id}`,
-        style: theme.mainText,
+        style:
+          this.item instanceof UserStory
+            ? theme.backlogItemStory
+            : this.item instanceof Bug
+            ? theme.backlogItemBug
+            : theme.mainText,
       })
       .setOrigin(0);
     this.title = this.scene.make
       .text({
         x: 100,
         y: 3,
-        text: `${this.item.title}`,
+        text: this.truncateTitle(this.item.title),
         style: theme.mainText,
       })
       .setOrigin(0);
@@ -126,4 +132,8 @@ export class BacklogItem extends Phaser.GameObjects.Container {
       this.updateArrows();
     }
   };
+
+  truncateTitle(text) {
+    return text.length > 37 ? `${text.slice(0, 34)}...` : text;
+  }
 }

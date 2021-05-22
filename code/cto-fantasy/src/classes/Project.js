@@ -1,5 +1,6 @@
 import { randomInt } from "../utils/random";
 import { generateProductFeatures } from "../utils/features";
+import { WorkItem } from "./WorkItem";
 
 export class Project {
   constructor({
@@ -68,11 +69,17 @@ export class Project {
         this.backlog.push(item);
       }
     });
-    const tmpStatuses = sprintBacklog.map(({ status }) => status);
-    console.log("backlog statuses: ", tmpStatuses);
   };
 
   get productBacklog() {
-    return this.backlog;
+    return this.backlog.filter(
+      (item) =>
+        item.status !== WorkItem.STATUS.DONE &&
+        item.status !== WorkItem.STATUS.NOT_VISIBLE
+    );
+  }
+
+  get completedItems() {
+    return this.backlog.filter((item) => item.status === WorkItem.STATUS.DONE);
   }
 }

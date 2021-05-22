@@ -114,6 +114,7 @@ export class SprintBoardScene extends Phaser.Scene {
     if (this.daysRemaining === 0) {
       console.log("sprint ended");
       this.emitter.emit("sprint_ended", this.sprint.sprintBacklog);
+      this.onClose();
     }
   }
 }

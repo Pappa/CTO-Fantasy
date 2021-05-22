@@ -34,6 +34,16 @@ export const mainText = {
   fill: "#ffffff",
 };
 
+export const backlogItemStory = {
+  font: "18px monospace",
+  fill: "#04af45",
+};
+
+export const backlogItemBug = {
+  font: "18px monospace",
+  fill: "#af1504",
+};
+
 export const estimate = {
   font: "18px monospace",
   fill: "#04af45",
