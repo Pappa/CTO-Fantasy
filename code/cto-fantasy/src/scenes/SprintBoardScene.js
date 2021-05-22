@@ -17,6 +17,12 @@ export class SprintBoardScene extends Phaser.Scene {
 
   preload() {}
 
+  // update(time, delta) {
+  //   console.log("this.startTime", this.startTime);
+  //   console.log("time", time);
+  //   console.log("diff", time - this.startTime);
+  // }
+
   create({ project, sprint, emitter, onClose }) {
     this.project = project;
     this.sprint = sprint;
@@ -26,6 +32,7 @@ export class SprintBoardScene extends Phaser.Scene {
     this.createComponents();
     this.createBoard();
     this.createItemCards();
+    this.createTimer();
   }
 
   createComponents() {
@@ -88,5 +95,25 @@ export class SprintBoardScene extends Phaser.Scene {
           emitter: this.emitter,
         })
     );
+  }
+
+  createTimer() {
+    this.sprintTimer = this.time.addEvent({
+      delay: 1000,
+      callback: this.dayPassing,
+      //args: [],
+      callbackScope: this,
+      repeat: this.sprint.SPRINT_LENGTH - 1,
+    });
+  }
+
+  dayPassing() {
+    this.sprint.workOnItems();
+    this.daysRemaining--;
+    this.header.setText(`Days remaining: ${this.daysRemaining}`);
+    if (this.daysRemaining === 0) {
+      console.log("sprint ended");
+      this.emitter.emit("sprint_ended", this.sprint.sprintBacklog);
+    }
   }
 }

@@ -8,24 +8,24 @@ describe("generateProductFeatures", () => {
     expect(Array.isArray(rest)).toBeTruthy();
     expect(
       initial.every(
-        ({ id, status, title, feature, effort, completedEffort }) =>
+        ({ id, status, title, feature, effort, effortRemaining }) =>
           typeof id === "string" &&
           status === "TODO" &&
           typeof title === "string" &&
           typeof feature === "string" &&
           typeof effort === "number" &&
-          completedEffort === 0
+          typeof effortRemaining === "number"
       )
     ).toBeTruthy();
     expect(
       rest.every(
-        ({ id, status, title, feature, effort, completedEffort }) =>
+        ({ id, status, title, feature, effort, effortRemaining }) =>
           typeof id === "string" &&
-          status === "NOT_CREATED" &&
+          status === "NOT_VISIBLE" &&
           typeof title === "string" &&
           typeof feature === "string" &&
           typeof effort === "number" &&
-          completedEffort === 0
+          typeof effortRemaining === "number"
       )
     ).toBeTruthy();
   });

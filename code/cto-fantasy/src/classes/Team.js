@@ -1,5 +1,6 @@
 import { average } from "../utils/number";
 import { randomInt, randomBoolean } from "../utils/random";
+import { Tester } from "./Employee";
 
 export class Team {
   members = [];
@@ -29,6 +30,10 @@ export class Team {
     );
   }
 
+  getSumOfStat(property) {
+    return this.members.reduce((acc, m) => acc + m[property], 0);
+  }
+
   get skill() {
     return this.getAverageStat("skill");
   }
@@ -42,7 +47,14 @@ export class Team {
   }
 
   get qualityMindset() {
-    return this.getAverageStat("qualityMindset");
+    let qualityMindset = this.getAverageStat("qualityMindset");
+    this.members
+      .filter((member) => member instanceof Tester)
+      .forEach((member) => {
+        // for each tester add 10%
+        qualityMindset = qualityMindset * 1.1;
+      });
+    return Math.min(qualityMindset, 1);
   }
 
   get collaboration() {
@@ -59,6 +71,14 @@ export class Team {
 
   get psychologicalSafety() {
     return this.getAverageStat("psychologicalSafety");
+  }
+
+  get dailyDev() {
+    return this.members.map((member) => ({
+      collaboration: Number.parseFloat(member.collaboration),
+      effort: Number.parseFloat(member.dailyDevEffort),
+      qualityMindset: Number.parseFloat(member.qualityMindset),
+    }));
   }
 
   get size() {

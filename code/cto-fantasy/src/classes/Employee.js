@@ -30,6 +30,10 @@ export class Employee {
       psychologicalSafety || this.randomiseStat("psychologicalSafety");
   }
 
+  get dailyDevEffort() {
+    return 0;
+  }
+
   randomiseStat(property) {
     switch (property) {
       case "gender":
@@ -52,15 +56,14 @@ Employee.MALE = 0;
 Employee.FEMALE = 1;
 
 export class Dev extends Employee {
-  type = "Developer";
+  get dailyDevEffort() {
+    return (this.skill + this.experience / 10) / 2;
+  }
 }
 
-export class Tester extends Employee {
-  type = "Tester";
-}
+export class Tester extends Employee {}
 
 export class ScrumMaster extends Employee {
-  type = "Scrum Master";
   randomiseStat(property) {
     switch (property) {
       case "experience":
@@ -74,7 +77,6 @@ export class ScrumMaster extends Employee {
 }
 
 export class ProductOwner extends Employee {
-  type = "Product Owner";
   randomiseStat(property) {
     switch (property) {
       case "experience":

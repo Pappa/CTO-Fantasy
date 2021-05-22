@@ -2,9 +2,13 @@ import {
   calculateNewSprintBugs,
   calculateBacklogCapacityRow,
   getBacklogEstimates,
+  workOnSprintBacklogItems,
 } from "./sprint";
 import { generateProductFeatures } from "./features";
 import { UserStory } from "../classes/WorkItem";
+import { Dev } from "../classes/Employee";
+import { Team } from "../classes/Team";
+import { range } from "./collection";
 
 describe("calculateNewSprintBugs()", () => {
   const BUGINESS_RATIO = 10;
@@ -150,5 +154,55 @@ describe("getBacklogEstimates()", () => {
     const estimates = getBacklogEstimates(backlog, team, storyPointValues);
 
     expect(estimates).toEqual([]);
+  });
+});
+
+describe("workOnSprintBacklogItems()", () => {
+  const dev1 = new Dev({
+    skill: 0.4,
+    experience: 4,
+    happiness: 0.4,
+    qualityMindset: 0.4,
+    collaboration: 0.4,
+    flow: 0.4,
+    estimation: 0.4,
+    psychologicalSafety: 0.4,
+  });
+  const dev2 = new Dev({
+    skill: 0.6,
+    experience: 6,
+    happiness: 0.6,
+    qualityMindset: 0.6,
+    collaboration: 0.6,
+    flow: 0.6,
+    estimation: 0.6,
+    psychologicalSafety: 0.6,
+  });
+  const team = new Team([dev1, dev2]);
+  const backlog = range(1, 5).map(
+    (idx) =>
+      new UserStory({
+        id: `G${idx}`,
+        title: "title",
+        feature: `feature ${idx}`,
+        status: "TODO",
+        effort: 5,
+      })
+  );
+  const storyPointValues = [1, 2, 3, 5, 8, 13, 20];
+
+  it("should work on backlog with no disractions", () => {
+    const distractions = [];
+    const results = workOnSprintBacklogItems(
+      backlog,
+      team,
+      distractions,
+      storyPointValues
+    );
+    expect(results).toBe(backlog);
+    // TODO: decide what to test here
+    // the function need to be broken up more
+    // and Math.random() mocked with different
+    // results on multiple calls.
   });
 });

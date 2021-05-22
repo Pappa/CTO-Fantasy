@@ -33,6 +33,7 @@ export class Project {
     this.emitter.on("update_estimate", this.updateEstimate);
     this.emitter.on("update_estimates", this.updateEstimates);
     this.emitter.on("update_backlog_order", this.updateBacklogOrder);
+    this.emitter.on("sprint_ended", this.updateBacklogOnSprintEnd);
   }
 
   update({ bugs }) {
@@ -59,6 +60,16 @@ export class Project {
     );
     this.backlog = ordered;
     this.emitter.emit("backlog_updated");
+  };
+
+  updateBacklogOnSprintEnd = (sprintBacklog) => {
+    sprintBacklog.forEach((item) => {
+      if (!this.backlog.includes(item)) {
+        this.backlog.push(item);
+      }
+    });
+    const tmpStatuses = sprintBacklog.map(({ status }) => status);
+    console.log("backlog statuses: ", tmpStatuses);
   };
 
   get productBacklog() {

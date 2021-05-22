@@ -1,4 +1,7 @@
-import { calculateNewSprintBugs } from "../utils/sprint";
+import {
+  calculateNewSprintBugs,
+  workOnSprintBacklogItems,
+} from "../utils/sprint";
 
 export class Sprint {
   SPRINT_LENGTH = 10;
@@ -12,10 +15,6 @@ export class Sprint {
     this.commitment = this.team.getCommitment();
 
     this.createEvents();
-
-    // TODO: take into account firefighting events
-    // and other distractions, such as training
-    this.workOnItems();
   }
 
   getVelocity() {
@@ -43,6 +42,14 @@ export class Sprint {
   // should this be called one day at a time?
   workOnItems() {
     console.log("this.team", this.team);
+    console.log("this.sprintBacklog", this.sprintBacklog);
+
+    this.sprintBacklog = workOnSprintBacklogItems(
+      this.sprintBacklog,
+      this.team,
+      [], // <------ distractions
+      this.project.storyPointValues
+    );
 
     // how well do the team focus on completion before starting new work?
     // team.flow
@@ -52,6 +59,14 @@ export class Sprint {
 
     // how capable are the team
     // team.skill & team.experience
+
+    // how many bugs do the team produce
+    // team.qualityMindset
+
+    // how many bugs do the team find
+    // can bugs be created and not found (as in remain hidden to the team)
+    // the customer could find these bugs at the end of the sprint
+    // number of testers? & team.qualityMindset
   }
 
   createEvents() {

@@ -1,4 +1,4 @@
-import { UserStory } from "../classes/WorkItem";
+import { UserStory, WorkItem } from "../classes/WorkItem";
 import { pick } from "./random";
 
 const FRONTEND_BACKEND_FEATURES = [
@@ -58,10 +58,10 @@ export const generateProductFeatures = (storyPointValues) => {
   ).map(
     ({ feature, title }, idx) =>
       new UserStory({
-        id: generateId(idx + 1),
+        id: generateWorkItemId(idx + 1),
         title,
         feature,
-        status: "TODO",
+        status: WorkItem.STATUS.TODO,
         effort: pick(points),
       })
   );
@@ -74,7 +74,7 @@ export const generateProductFeatures = (storyPointValues) => {
       sort: Math.random(),
       title,
       feature,
-      id: generateId(idx + 1),
+      id: generateWorkItemId(idx + 1),
       effort: pick(points),
     }))
     .sort((a, b) => a.sort - b.sort)
@@ -82,4 +82,4 @@ export const generateProductFeatures = (storyPointValues) => {
   return { initial, rest };
 };
 
-const generateId = (i) => `G${i.toString().padStart(4, "0")}`;
+export const generateWorkItemId = (i) => `G${i.toString().padStart(4, "0")}`;

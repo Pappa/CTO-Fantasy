@@ -81,7 +81,6 @@ describe("Female Employee", () => {
         collaboration: 0.6,
         qualityMindset: 0.6,
         psychologicalSafety: 0.3,
-        type: "Developer",
       });
     });
 
@@ -99,7 +98,6 @@ describe("Female Employee", () => {
         collaboration: 0.6,
         qualityMindset: 0.6,
         psychologicalSafety: 0.3,
-        type: "Tester",
       });
     });
 
@@ -117,7 +115,6 @@ describe("Female Employee", () => {
         collaboration: 0.6,
         qualityMindset: 0.6,
         psychologicalSafety: 0.3,
-        type: "Scrum Master",
       });
     });
 
@@ -135,7 +132,6 @@ describe("Female Employee", () => {
         collaboration: 0.6,
         qualityMindset: 0.6,
         psychologicalSafety: 0.3,
-        type: "Product Owner",
       });
     });
   });
