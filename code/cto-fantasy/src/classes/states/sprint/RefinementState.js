@@ -9,7 +9,7 @@ export class RefinementState extends State {
 
   enter() {
     const estimates = getBacklogEstimates(
-      this.data.project.productBacklog,
+      this.data.project.stories,
       this.data.team,
       this.data.project.storyPointValues
     );

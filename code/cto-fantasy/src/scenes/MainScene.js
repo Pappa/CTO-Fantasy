@@ -23,8 +23,15 @@ export class MainScene extends Phaser.Scene {
     this.centreX = this.width / 2;
     this.centreY = this.height / 2;
     this.emitter = this.events;
-    const storyPointValues = this.registry.get("STORY_POINT_VALUES");
-    this.project = new Project({ storyPointValues, emitter: this.emitter });
+    const {
+      STORY_POINT_VALUES,
+      NUMBER_OF_NEW_STORIES_PER_SPRINT,
+    } = this.registry.get("settings");
+    this.project = new Project({
+      storyPointValues: STORY_POINT_VALUES,
+      newStoriesPerSprint: NUMBER_OF_NEW_STORIES_PER_SPRINT,
+      emitter: this.emitter,
+    });
     this.customer = new Customer({
       emitter: this.emitter,
       project: this.project,

@@ -95,7 +95,7 @@ export class Team {
    * Not a pure function
    */
   getCommitment() {
-    const velocity = this.velocity || randomInt(10, 25);
+    const velocity = this.velocity || randomInt(10, 20);
     let commitment = velocity;
 
     // adjust +/- based on estimation

@@ -1,22 +1,24 @@
 import { randomInt } from "../utils/random";
 import { generateProductFeatures } from "../utils/features";
-import { Bug, UserStory } from "./WorkItem";
+import { Bug, UserStory, WorkItem } from "./WorkItem";
+import { shuffle } from "../utils/collection";
 
 export class Project {
   constructor({
     name = "Project Genesis",
     storyPointValues = [1, 2, 3, 5, 8, 13, 20],
+    newStoriesPerSprint,
     budget,
     emitter,
   }) {
     this.name = name;
     this.storyPointValues = storyPointValues;
+    this.newStoriesPerSprint = newStoriesPerSprint;
     this.budget = budget || randomInt(50000, 100000);
     this.emitter = emitter;
     const { initial, rest } = generateProductFeatures(storyPointValues);
     this.backlog = initial;
     this.potentialWorkItems = rest;
-    this.numberOfBugs = 0;
     this.testCoverage = 0;
 
     this.createEvents();
@@ -35,10 +37,7 @@ export class Project {
     this.emitter.on("update_estimates", this.updateEstimates);
     this.emitter.on("update_backlog_order", this.updateBacklogOrder);
     this.emitter.on("sprint_ended", this.updateBacklogOnSprintEnd);
-  }
-
-  update({ bugs }) {
-    this.numberOfBugs += bugs;
+    this.emitter.on("create_more_stories", this.addMoreStoriesToBacklog);
   }
 
   updateEstimate = (item, estimate) => {
@@ -69,6 +68,24 @@ export class Project {
         this.backlog.push(item);
       }
     });
+  };
+
+  addMoreStoriesToBacklog = () => {
+    console.log("backlog", this.backlog.length);
+    console.log("potentialWorkItems", this.potentialWorkItems.length);
+    console.log("newStoriesPerSprint", this.newStoriesPerSprint);
+    const storiesToAdd = shuffle(this.potentialWorkItems).slice(
+      0,
+      this.newStoriesPerSprint
+    );
+    storiesToAdd.forEach((item) => {
+      item.status = WorkItem.STATUS.TODO;
+    });
+    console.log("storiesToAdd", storiesToAdd);
+    this.backlog.push(...storiesToAdd);
+    this.potentialWorkItems = this.potentialWorkItems.filter((item) =>
+      storiesToAdd.includes(item)
+    );
   };
 
   get productBacklog() {

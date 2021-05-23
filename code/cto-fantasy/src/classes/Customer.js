@@ -44,14 +44,11 @@ export class Customer {
         .filter((feature) => this.priorities.includes(feature))
     );
 
-    const storiesNotDone = this.project.productBacklog.filter(
-      (item) => item instanceof UserStory && !item.done() && item.visible()
-    ).length;
-    const bugsNotDone = this.project.productBacklog.filter(
-      (item) => item instanceof Bug && !item.done() && item.visible()
-    ).length;
+    const storiesNotDone = this.project.stories.length;
+    const bugsNotDone = this.project.bugs.length;
     const bugsToStoriesRatio = bugsNotDone / storiesNotDone;
 
+    console.log("customer.priorities", this.priorities);
     console.log("featuresCompleted", featuresCompleted);
     console.log("featuresNotCompleted", featuresNotCompleted);
     console.log("featuresWithNewBugs", featuresWithNewBugs);

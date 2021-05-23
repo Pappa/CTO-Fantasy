@@ -97,6 +97,7 @@ export class SprintScene extends Phaser.Scene {
           results: this.calculateResults(),
           onClose: () => {
             this.emitter.emit("update_customer_priorities");
+            this.emitter.emit("create_more_stories");
             this.machine.next();
             this.onClose();
           },
@@ -125,7 +126,6 @@ export class SprintScene extends Phaser.Scene {
     const results = this.sprint.getResults();
     // these calls modify `results`
     this.customer.update(results);
-    this.project.update(results);
     this.team.update(results);
     return { ...results, customerSatisfaction: this.customer.satisfaction };
   }

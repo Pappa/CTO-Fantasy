@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { UserStory, Bug } from "../classes/WorkItem";
+import { UserStory, Bug, WorkItem } from "../classes/WorkItem";
 import * as theme from "../theme";
 
 export class BacklogItem extends Phaser.GameObjects.Container {
@@ -71,7 +71,8 @@ export class BacklogItem extends Phaser.GameObjects.Container {
         text: `${this.item.estimate || "-"}`,
         style: theme.estimate,
       })
-      .setOrigin(0);
+      .setOrigin(0)
+      .setVisible(this.item.type === WorkItem.TYPE.STORY);
 
     this.upArrow = this.scene.make
       .image({

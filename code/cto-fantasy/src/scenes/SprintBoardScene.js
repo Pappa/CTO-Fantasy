@@ -87,13 +87,12 @@ export class SprintBoardScene extends Phaser.Scene {
 
   createItemCards() {
     // scene.physics.add.existing(gameObject, bodyType);
-    this.items = this.sprint.sprintBacklog.map(
-      (item) =>
-        new SprintBoardItem(this, 0, 0, {
-          item,
-          project: this.project,
-          emitter: this.emitter,
-        })
+    this.items = this.sprint.sprintBacklog.map((item) =>
+      new SprintBoardItem(this, 0, 0, {
+        item,
+        project: this.project,
+        emitter: this.emitter,
+      }).setVisible(false)
     );
   }
 

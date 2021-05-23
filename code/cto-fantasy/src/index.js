@@ -1,3 +1,6 @@
 import { CtoFantasy } from "./CtoFantasy";
 
-new CtoFantasy();
+const game = new CtoFantasy();
+
+// for debugging
+window.game = game;

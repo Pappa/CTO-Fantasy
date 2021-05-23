@@ -67,7 +67,7 @@ export class SprintReviewScene extends Phaser.Scene {
           features.complete.length === 1 ? "was" : "were"
         } deployed this sprint.`
       );
-      if (features.complete.length < this.customer.priorities.length) {
+      if (features.incomplete.length) {
         lines.push(
           `But, I was hoping to see progress on\n${features.incomplete.join(
             " and "
@@ -94,16 +94,14 @@ export class SprintReviewScene extends Phaser.Scene {
       );
     }
 
-    lines.forEach((l, idx) => {
-      this.make
-        .text({
-          x: 200,
-          y: 200 + 60 * (idx + 1),
-          text: l,
-          style: theme.mainText,
-        })
-        .setOrigin(0);
-    }, this);
+    this.make
+      .text({
+        x: 200,
+        y: 260,
+        text: lines.join("\n\n"),
+        style: theme.mainText,
+      })
+      .setOrigin(0);
   }
 
   //update(time, delta) {}
