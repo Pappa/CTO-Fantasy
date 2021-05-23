@@ -10,11 +10,15 @@ export class SprintReviewScene extends Phaser.Scene {
 
   preload() {}
 
-  create({ results, onClose }) {
+  create({ team, customer, project, results, onClose }) {
+    this.team = team;
+    this.customer = customer;
+    this.project = project;
     this.results = results;
     this.onClose = onClose;
     this.createComponents();
     this.displayResults();
+    this.displayCustomerFeedback();
   }
 
   createComponents() {
@@ -40,12 +44,62 @@ export class SprintReviewScene extends Phaser.Scene {
   }
 
   displayResults() {
-    Object.entries(this.results).forEach(([k, v], idx) => {
+    Object.entries(this.results)
+      .filter(([k, v]) => ["commitment", "velocity", "success"].includes(k))
+      .forEach(([k, v], idx) => {
+        this.make
+          .text({
+            x: 100,
+            y: 50 + 20 * (idx + 1),
+            text: `${k}: ${JSON.stringify(v)}`,
+            style: theme.mainText,
+          })
+          .setOrigin(0);
+      }, this);
+  }
+
+  displayCustomerFeedback() {
+    const features = this.customer.satisfaction.features;
+    const lines = [];
+    if (features.complete.length) {
+      lines.push(
+        `It's great ${features.complete.join(" and ")}\n${
+          features.complete.length === 1 ? "was" : "were"
+        } deployed this sprint.`
+      );
+      if (features.complete.length < this.customer.priorities.length) {
+        lines.push(
+          `But, I was hoping to see progress on\n${features.incomplete.join(
+            " and "
+          )}.`
+        );
+      }
+    } else {
+      lines.push(
+        `The team didin't complete any work on\n${this.customer.priorities.join(
+          " and "
+        )} this sprint.\n\nWhat happened?`
+      );
+    }
+    if (features.bugs.length) {
+      lines.push(
+        `The ${features.bugs.join(" and ")}\n${
+          features.bugs.length === 1 ? "feature is" : "features are"
+        } a bit buggy.`
+      );
+    }
+    if (!this.customer.satisfaction.bugs) {
+      lines.push(
+        "The application is really quite buggy.\nThe team need work on quality."
+      );
+    }
+
+    lines.forEach((l, idx) => {
       this.make
         .text({
-          x: 100,
-          y: 50 + 20 * (idx + 1),
-          text: `${k}: ${v}`,
+          x: 200,
+          y: 200 + 60 * (idx + 1),
+          text: l,
           style: theme.mainText,
         })
         .setOrigin(0);

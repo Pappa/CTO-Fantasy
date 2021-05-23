@@ -1,5 +1,7 @@
 import { randomInt, randomName } from "../utils/random";
 import { shuffle, unique } from "../utils/collection";
+import { findAndUpdateBugs } from "../utils/sprint";
+import { Bug, UserStory } from "./WorkItem";
 
 export class Customer {
   currentNumberOfPriorities = 2;
@@ -7,7 +9,10 @@ export class Customer {
     this.name = randomName();
     this.needForFeatures = randomInt(5, 7) / 10;
     this.acceptanceOfBugs = randomInt(5, 7) / 10;
-    this.satisfaction = 0.5;
+    this.satisfaction = {
+      features: {},
+      bugsInBacklog: {},
+    };
     this.priorities = [];
     this.emitter = emitter;
     this.project = project;
@@ -15,15 +20,57 @@ export class Customer {
     this.createEvents();
   }
 
-  update({
-    team,
-    averageVelocity,
-    currentVelocity,
-    existingBugs,
-    bugsFixed,
-    newBugs,
-  }) {
+  update({ commitment, velocity, success, sprintBugs, sprintBacklog }) {
+    findAndUpdateBugs(sprintBugs, this.acceptanceOfBugs);
+
+    const featuresCompleted = unique(
+      sprintBacklog
+        .filter((item) => item instanceof UserStory && item.done())
+        .map(({ feature }) => feature)
+        .filter((feature) => this.priorities.includes(feature))
+    );
+    const featuresNotCompleted = unique(
+      sprintBacklog
+        .filter((item) => item instanceof UserStory && !item.done())
+        .map(({ feature }) => feature)
+        .filter((feature) => this.priorities.includes(feature))
+    );
+    const newBugs = sprintBugs.filter(
+      (item) => item instanceof Bug && item.visible()
+    );
+    const featuresWithNewBugs = unique(
+      newBugs
+        .map(({ feature }) => feature)
+        .filter((feature) => this.priorities.includes(feature))
+    );
+
+    const storiesNotDone = this.project.productBacklog.filter(
+      (item) => item instanceof UserStory && !item.done() && item.visible()
+    ).length;
+    const bugsNotDone = this.project.productBacklog.filter(
+      (item) => item instanceof Bug && !item.done() && item.visible()
+    ).length;
+    const bugsToStoriesRatio = bugsNotDone / storiesNotDone;
+
+    console.log("featuresCompleted", featuresCompleted);
+    console.log("featuresNotCompleted", featuresNotCompleted);
+    console.log("featuresWithNewBugs", featuresWithNewBugs);
+    console.log("storiesNotDone", storiesNotDone);
+    console.log("bugsNotDone", bugsNotDone);
+    console.log("bugsToStoriesRatio", bugsToStoriesRatio);
     // TODO update satisfaction
+
+    const featuresScore = featuresCompleted.length / this.priorities.length;
+
+    this.satisfaction.features = {
+      complete: featuresCompleted,
+      incomplete: featuresNotCompleted,
+      bugs: featuresWithNewBugs,
+      score: featuresScore,
+    };
+
+    this.satisfaction.bugs =
+      !bugsNotDone || this.acceptanceOfBugs > bugsToStoriesRatio;
   }
 
   updatePriorities() {
@@ -34,8 +81,6 @@ export class Customer {
   }
 
   createEvents() {
-    this.emitter.on("update_customer_priorities", () => {
-      this.updatePriorities();
-    });
+    this.emitter.on("update_customer_priorities", this.updatePriorities, this);
   }
 }

@@ -97,9 +97,7 @@ export class Backlog extends Phaser.GameObjects.Container {
       this.updatePositions();
     });
 
-    this.emitter.on("backlog_updated", () => {
-      this.updateEstimateLine();
-    });
+    this.emitter.on("backlog_updated", this.updateEstimateLine, this);
   }
 
   updatePositions() {

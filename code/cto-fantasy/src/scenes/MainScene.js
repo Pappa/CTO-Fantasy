@@ -70,10 +70,6 @@ export class MainScene extends Phaser.Scene {
     this.nextButton.hide();
   }
 
-  update(time, delta) {
-    this.hud.update();
-  }
-
   createTeam() {
     const teamSize = this.registry.get("settings").STARTING_TEAM_SIZE;
     return new Team(range(teamSize + 1).map(() => new Dev()));

@@ -20,6 +20,14 @@ export class WorkItem {
       return 0;
     }
   }
+
+  done() {
+    return this.status === WorkItem.STATUS.DONE;
+  }
+
+  visible() {
+    return this.status !== WorkItem.STATUS.NOT_VISIBLE;
+  }
 }
 
 WorkItem.STATUS = {

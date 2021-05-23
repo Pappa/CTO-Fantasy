@@ -1,6 +1,6 @@
 import { randomInt } from "../utils/random";
 import { generateProductFeatures } from "../utils/features";
-import { WorkItem } from "./WorkItem";
+import { Bug, UserStory } from "./WorkItem";
 
 export class Project {
   constructor({
@@ -63,7 +63,7 @@ export class Project {
     this.emitter.emit("backlog_updated");
   };
 
-  updateBacklogOnSprintEnd = (sprintBacklog) => {
+  updateBacklogOnSprintEnd = ({ sprintBacklog, bugs }) => {
     sprintBacklog.forEach((item) => {
       if (!this.backlog.includes(item)) {
         this.backlog.push(item);
@@ -72,14 +72,18 @@ export class Project {
   };
 
   get productBacklog() {
-    return this.backlog.filter(
-      (item) =>
-        item.status !== WorkItem.STATUS.DONE &&
-        item.status !== WorkItem.STATUS.NOT_VISIBLE
-    );
+    return this.backlog.filter((item) => !item.done() && item.visible());
   }
 
   get completedItems() {
-    return this.backlog.filter((item) => item.status === WorkItem.STATUS.DONE);
+    return this.backlog.filter((item) => item.done());
+  }
+
+  get bugs() {
+    return this.productBacklog.filter((item) => item instanceof Bug);
+  }
+
+  get stories() {
+    return this.productBacklog.filter((item) => item instanceof UserStory);
   }
 }

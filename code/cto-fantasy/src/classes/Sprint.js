@@ -1,7 +1,6 @@
-import {
-  calculateNewSprintBugs,
-  workOnSprintBacklogItems,
-} from "../utils/sprint";
+import { UserStory } from "./WorkItem";
+import { workOnSprintBacklogItems } from "../utils/sprint";
+import { sum } from "../utils/number";
 
 export class Sprint {
   SPRINT_LENGTH = 10;
@@ -18,8 +17,10 @@ export class Sprint {
   }
 
   getVelocity() {
-    return Math.floor(
-      this.team.skill * ((this.team.size * this.SPRINT_LENGTH) / 2)
+    return sum(
+      this.sprintBacklog
+        .filter((item) => item instanceof UserStory && item.done())
+        .map(({ estimate }) => estimate)
     );
   }
 
@@ -29,50 +30,29 @@ export class Sprint {
       commitment: this.commitment,
       velocity,
       success: Number.parseFloat((velocity / this.commitment).toFixed(2)),
-      bugs: this.getBugs(),
-      customerSatisfaction: this.project.customer.satisfaction,
+      sprintBugs: this.sprintBugs,
+      sprintBacklog: this.sprintBacklog,
     };
-  }
-
-  getBugs() {
-    const BUGINESS_RATIO = this.registry.get("settings").BUGINESS_RATIO;
-    return calculateNewSprintBugs(this.team, BUGINESS_RATIO);
   }
 
   // should this be called one day at a time?
   workOnItems() {
-    console.log("this.team", this.team);
-    console.log("this.sprintBacklog", this.sprintBacklog);
-
-    this.sprintBacklog = workOnSprintBacklogItems(
+    const { backlog, bugs } = workOnSprintBacklogItems(
       this.sprintBacklog,
+      this.sprintBugs,
       this.team,
-      [], // <------ distractions
+      [], // TODO: distractions
       this.project.storyPointValues
     );
 
-    // how well do the team focus on completion before starting new work?
-    // team.flow
-
-    // how well do the team work together
-    // team.collboration
-
-    // how capable are the team
-    // team.skill & team.experience
-
-    // how many bugs do the team produce
-    // team.qualityMindset
-
-    // how many bugs do the team find
-    // can bugs be created and not found (as in remain hidden to the team)
-    // the customer could find these bugs at the end of the sprint
-    // number of testers? & team.qualityMindset
+    this.sprintBacklog = backlog;
+    this.sprintBugs = bugs;
   }
 
   createEvents() {
     this.emitter.on("sprint_backlog_selected", (items) => {
       this.sprintBacklog = items;
-      console.log("this.sprintBacklog", this.sprintBacklog);
+      this.sprintBugs = [];
     });
   }
 }

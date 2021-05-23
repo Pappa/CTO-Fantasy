@@ -1,19 +1,8 @@
 import { Bug, WorkItem } from "../classes/WorkItem";
-import { average, sum } from "../utils/number";
+import { sum } from "../utils/number";
 import { range, shuffle } from "./collection";
 import { generateWorkItemId } from "./features";
 import { pick } from "./random";
-
-export const calculateNewSprintBugs = (
-  { skill, qualityMindset, collaboration },
-  ratio
-) => {
-  const sloppiness = 1 - skill;
-  const lackOfQuality = 1 - qualityMindset;
-  const lackOfCollaboration = 1 - collaboration;
-  const buginess = average([sloppiness, lackOfQuality, lackOfCollaboration]);
-  return Math.ceil(buginess * ratio);
-};
 
 export const calculateBacklogCapacityRow = (estimates, velocity) => {
   const cumulative = estimates.reduce(
@@ -62,6 +51,7 @@ const calculateEstimate = (effort, estimation, storyPointValues) => {
 
 export const workOnSprintBacklogItems = (
   backlog,
+  bugs,
   team,
   distractions,
   storyPointValues
@@ -82,11 +72,7 @@ export const workOnSprintBacklogItems = (
     isThereEffortRemaining(todaysDevEffort) &&
     isThereworkToDo(backlog)
   ) {
-    const items = backlog.filter(
-      ({ status }) =>
-        status !== WorkItem.STATUS.DONE &&
-        status !== WorkItem.STATUS.NOT_VISIBLE
-    );
+    const items = backlog.filter((item) => !item.done() && item.visible());
     // select item, based on team.fow
     const item = selectNextBacklogItem(items, team);
 
@@ -102,15 +88,15 @@ export const workOnSprintBacklogItems = (
             todaysDevEffort[idx].effort = remaining;
 
             if (wasBugCreated(qualityMindset)) {
-              backlog.push(
-                new Bug({
-                  id: generateWorkItemId(WorkItem.COUNT + 1),
-                  title: `Error in ${item.title}`,
-                  feature: item.feature,
-                  effort: pick(points),
-                  story: item.type === WorkItem.TYPE.BUG ? item.story : item,
-                })
-              );
+              const bug = new Bug({
+                id: generateWorkItemId(WorkItem.COUNT + 1),
+                title: `Bug: ${item.title}`,
+                feature: item.feature,
+                effort: pick(points),
+                story: item.type === WorkItem.TYPE.BUG ? item.story : item,
+              });
+              backlog.push(bug);
+              bugs.push(bug);
             }
             hasFirstDevWorked = true;
           }
@@ -121,19 +107,9 @@ export const workOnSprintBacklogItems = (
   }
 
   // did the team find any of the bugs
-  backlog
-    .filter(
-      (item) =>
-        item.type === WorkItem.TYPE.BUG &&
-        item.status === WorkItem.STATUS.NOT_VISIBLE
-    )
-    .forEach((item) => {
-      if (team.qualityMindset >= Math.random()) {
-        item.status = WorkItem.STATUS.TODO;
-      }
-    });
+  findAndUpdateBugs(backlog, team.qualityMindset);
 
-  return backlog;
+  return { backlog, bugs };
 };
 
 const isThereworkToDo = (backlog) =>
@@ -156,3 +132,16 @@ export const selectNextBacklogItem = (items, team) => {
     idx++;
   }
 };
+
+export const findAndUpdateBugs = (bugs, qualityMetric) =>
+  bugs
+    .filter(
+      (item) =>
+        item.type === WorkItem.TYPE.BUG &&
+        item.status === WorkItem.STATUS.NOT_VISIBLE
+    )
+    .forEach((item) => {
+      if (qualityMetric >= Math.random()) {
+        item.status = WorkItem.STATUS.TODO;
+      }
+    });

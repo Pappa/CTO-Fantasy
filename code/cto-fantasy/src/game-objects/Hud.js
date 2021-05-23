@@ -2,14 +2,16 @@ import Phaser from "phaser";
 import * as theme from "../theme";
 
 export class Hud extends Phaser.GameObjects.Container {
-  constructor(scene, x = 0, y = 0, { company, project, team }) {
+  constructor(scene, x = 0, y = 0, { emitter, company, project, team }) {
     super(scene, x, y);
+    this.emitter = emitter;
     this.company = company;
     this.project = project;
     this.team = team;
     this.scene.add.existing(this);
 
     this.createComponents();
+    this.createEvents();
   }
 
   createComponents() {
@@ -42,14 +44,15 @@ export class Hud extends Phaser.GameObjects.Container {
     this.add(this.stats);
   }
 
-  // TODO: this is ineficient.
-  // It's getting called on every update cycle, rather than when the stats change.
-  // Use an event based approach.
+  createEvents() {
+    this.emitter.on("sprint_ended", this.update, this);
+  }
+
   update() {
     const itemsToUpdate = [
       `Budget: ${this.project.budget}`,
       `Team size: ${this.team.size}`,
-      `Number of bugs: ${this.project.numberOfBugs}`,
+      `Number of bugs: ${this.project.bugs.length}`,
     ];
 
     itemsToUpdate.forEach((item, idx) => {

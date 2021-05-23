@@ -4,7 +4,6 @@ import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 //import { SprintEventState } from "../classes/states/sprint/SprintEventState";
 import * as theme from "../theme";
 import { navigationStateFactory } from "../classes/states/NavigationState";
-import { calculateNewSprintBugs } from "../utils/sprint";
 import { Sprint } from "../classes/Sprint";
 import { RefinementState } from "../classes/states/sprint/RefinementState";
 
@@ -74,6 +73,10 @@ export class SprintScene extends Phaser.Scene {
       this.stateFactory("SprintBoardScene", {
         sprint: this.sprint,
         onClose: () => {
+          console.log("sprint ended");
+          this.emitter.emit("sprint_ended", {
+            sprintBacklog: this.sprint.sprintBacklog,
+          });
           this.handleEvents();
         },
       }),
@@ -120,14 +123,10 @@ export class SprintScene extends Phaser.Scene {
 
   calculateResults() {
     const results = this.sprint.getResults();
+    // these calls modify `results`
     this.customer.update(results);
     this.project.update(results);
     this.team.update(results);
-    return results;
-  }
-
-  calculateBugs() {
-    const BUGINESS_RATIO = this.registry.get("settings").BUGINESS_RATIO;
-    return calculateNewSprintBugs(this.team, BUGINESS_RATIO);
+    return { ...results, customerSatisfaction: this.customer.satisfaction };
   }
 }
