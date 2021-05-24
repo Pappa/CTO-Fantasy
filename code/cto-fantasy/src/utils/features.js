@@ -52,7 +52,7 @@ const generateBackgroundTasks = (features) => {
 };
 
 export const generateProductFeatures = (storyPointValues) => {
-  const points = storyPointValues.filter((x) => x < 13 && x > 1);
+  const points = storyPointValues.filter((x) => x < 13);
   const initial = generateFrontentBackendTasks(
     FRONTEND_BACKEND_FEATURES.slice(0, 5)
   ).map(
