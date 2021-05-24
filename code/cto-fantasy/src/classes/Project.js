@@ -10,14 +10,14 @@ export class Project {
     newStoriesPerSprint = 4,
     budget = randomInt(50000, 100000),
     emitter,
-    featueGenerator = generateProductFeatures,
+    featureGenerator = generateProductFeatures,
   }) {
     this.name = name;
     this.storyPointValues = storyPointValues;
     this.newStoriesPerSprint = newStoriesPerSprint;
     this.budget = budget;
     this.emitter = emitter;
-    const { initial, rest } = featueGenerator(storyPointValues);
+    const { initial, rest } = featureGenerator(storyPointValues);
     this.backlog = initial;
     this.potentialWorkItems = rest;
     this.testCoverage = 0;

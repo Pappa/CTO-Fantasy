@@ -7,7 +7,7 @@ describe("Project", () => {
   let initial;
   let rest;
   let bugs;
-  const featueGenerator = () => ({
+  const featureGenerator = () => ({
     initial,
     rest,
   });
@@ -69,14 +69,14 @@ describe("Project", () => {
   });
 
   it("should create a backlog and list of potential work items", () => {
-    const project = new Project({ emitter, featueGenerator });
+    const project = new Project({ emitter, featureGenerator });
 
     expect(project.backlog).toBe(initial);
     expect(project.potentialWorkItems).toBe(rest);
   });
 
   it("should return the correct values for getters", () => {
-    const project = new Project({ emitter, featueGenerator });
+    const project = new Project({ emitter, featureGenerator });
 
     expect(project.productBacklog.length).toBe(4);
     expect(project.completedItems.length).toBe(0);
@@ -85,7 +85,7 @@ describe("Project", () => {
   });
 
   it("should return the correct values for getters once items have been changed", () => {
-    const project = new Project({ emitter, featueGenerator });
+    const project = new Project({ emitter, featureGenerator });
 
     project.updateBacklogOnSprintEnd(bugs);
     project.backlog.find((item) => item.id === "G1").status =
@@ -100,7 +100,7 @@ describe("Project", () => {
   it("should add more stories to the backlog", () => {
     const project = new Project({
       emitter,
-      featueGenerator,
+      featureGenerator,
       newStoriesPerSprint: 2,
     });
 
