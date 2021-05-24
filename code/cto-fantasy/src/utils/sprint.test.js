@@ -2,7 +2,7 @@ import {
   calculateBacklogCapacityRow,
   getBacklogEstimates,
   workOnSprintBacklogItems,
-  isThereworkToDo,
+  isThereWorkToDo,
   isThereEffortRemaining,
   selectNextBacklogItem,
   getTodaysCapability,
@@ -199,7 +199,7 @@ describe("workOnSprintBacklogItems()", () => {
   });
 });
 
-describe("isThereworkToDo()", () => {
+describe("isThereWorkToDo()", () => {
   const itemsWithEffort = range(5).map(
     (idx) =>
       new UserStory({
@@ -222,10 +222,10 @@ describe("isThereworkToDo()", () => {
   );
 
   it("should return true if items have remaining effort", () => {
-    expect(isThereworkToDo(itemsWithEffort)).toBeTruthy();
+    expect(isThereWorkToDo(itemsWithEffort)).toBeTruthy();
   });
   it("should return false if items do not have remaining effort", () => {
-    expect(isThereworkToDo(itemsWithoutEffort)).toBeFalsy();
+    expect(isThereWorkToDo(itemsWithoutEffort)).toBeFalsy();
   });
 });
 
