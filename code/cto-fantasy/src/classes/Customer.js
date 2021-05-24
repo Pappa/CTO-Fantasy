@@ -1,6 +1,6 @@
 import { randomInt, randomName } from "../utils/random";
 import { shuffle, unique } from "../utils/collection";
-import { findAndUpdateBugs } from "../utils/sprint";
+import { findBugs } from "../utils/sprint";
 import { Bug, UserStory } from "./WorkItem";
 
 export class Customer {
@@ -21,7 +21,7 @@ export class Customer {
   }
 
   update({ commitment, velocity, success, sprintBugs, sprintBacklog }) {
-    findAndUpdateBugs(sprintBugs, this.acceptanceOfBugs);
+    findBugs(sprintBugs, this.acceptanceOfBugs);
 
     const featuresCompleted = unique(
       sprintBacklog

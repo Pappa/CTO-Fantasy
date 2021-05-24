@@ -58,7 +58,52 @@ export const workOnSprintBacklogItems = (
 ) => {
   const points = storyPointValues.filter((x) => x < 13);
   // how much work can the team do today?
-  const todaysDevEffort = shuffle(team.dailyEffort)
+  const todaysCapability = getTodaysCapability(team.dailyEffort, distractions);
+
+  let i = 0;
+  while (
+    i < 100 &&
+    isThereEffortRemaining(todaysCapability) &&
+    isThereworkToDo(backlog)
+  ) {
+    const items = backlog.filter((item) => !item.done() && item.visible());
+    // select item, based on team.fow
+    const item = selectNextBacklogItem(items, team.flow);
+
+    let hasFirstDevWorked = false;
+    todaysCapability
+      .filter(({ effort }) => effort > 0)
+      .forEach(({ collaboration, effort, qualityMindset }, idx) => {
+        // 1st dev works on item
+        // then other devs if their collaboration is high enough
+        if (
+          item &&
+          !item.done() &&
+          (!hasFirstDevWorked || collaboration >= Math.random())
+        ) {
+          item.status = WorkItem.STATUS.IN_PROGRESS;
+          const remaining = item.doWork(effort);
+          todaysCapability[idx].effort = remaining;
+
+          if (isCodeBuggy(qualityMindset)) {
+            const bug = createBugOnStory(item, pick(points));
+            backlog.push(bug);
+            bugs.push(bug);
+          }
+          hasFirstDevWorked = true;
+        }
+      });
+    i++;
+  }
+
+  // did the team find any of the bugs
+  findBugs(backlog, team.qualityMindset);
+
+  return { backlog, bugs };
+};
+
+export const getTodaysCapability = (dailyEffort, distractions) =>
+  shuffle(dailyEffort)
     .map(({ collaboration, effort, qualityMindset }, idx) => ({
       collaboration,
       effort: Math.max(effort - (distractions[idx] || 0), 0),
@@ -66,82 +111,36 @@ export const workOnSprintBacklogItems = (
     }))
     .filter(({ effort }) => effort > 0);
 
-  let i = 0;
-  while (
-    i < 100 &&
-    isThereEffortRemaining(todaysDevEffort) &&
-    isThereworkToDo(backlog)
-  ) {
-    const items = backlog.filter((item) => !item.done() && item.visible());
-    // select item, based on team.fow
-    const item = selectNextBacklogItem(items, team);
-
-    let hasFirstDevWorked = false;
-    todaysDevEffort.forEach(
-      ({ collaboration, effort, qualityMindset }, idx) => {
-        if (effort > 0) {
-          // 1st dev works on item
-          // then other devs if their collaboration is high enough
-          if (!hasFirstDevWorked || collaboration >= Math.random()) {
-            item.status = WorkItem.STATUS.IN_PROGRESS;
-            const remaining = item.doWork(effort);
-            todaysDevEffort[idx].effort = remaining;
-
-            if (wasBugCreated(qualityMindset)) {
-              const bug = new Bug({
-                id: generateWorkItemId(WorkItem.COUNT + 1),
-                title: `Bug: ${item.title}`,
-                feature: item.feature,
-                effort: pick(points),
-                story: item.type === WorkItem.TYPE.BUG ? item.story : item,
-              });
-              backlog.push(bug);
-              bugs.push(bug);
-            }
-            hasFirstDevWorked = true;
-          }
-        }
-      }
-    );
-    i++;
-  }
-
-  // did the team find any of the bugs
-  findAndUpdateBugs(backlog, team.qualityMindset);
-
-  return { backlog, bugs };
-};
-
-const isThereworkToDo = (backlog) =>
+export const isThereworkToDo = (backlog) =>
   sum(backlog.map(({ effortRemaining }) => effortRemaining)) > 0;
 
-const isThereEffortRemaining = (todaysDevEffort) =>
-  sum(todaysDevEffort.map(({ effort }) => effort)) > 0;
+export const isThereEffortRemaining = (todaysCapability) =>
+  sum(todaysCapability.map(({ effort }) => effort)) > 0;
 
-const wasBugCreated = (qualityMindset) => qualityMindset < Math.random() * 0.5;
+const isCodeBuggy = (qualityMindset) => qualityMindset < Math.random() * 0.5;
 
-export const selectNextBacklogItem = (items, team) => {
-  let idx = 0;
-  while (true) {
-    if (idx === items.length) {
-      idx = 0;
-    }
-    if (team.flow >= Math.random()) {
-      return items[idx];
-    }
-    idx++;
-  }
-};
+export const selectNextBacklogItem = (items, flow) =>
+  items.find(() => flow >= Math.random()) || items[items.length - 1];
 
-export const findAndUpdateBugs = (bugs, qualityMetric) =>
-  bugs
+export const findBugs = (items, qualityMetric) =>
+  items
     .filter(
       (item) =>
-        item.type === WorkItem.TYPE.BUG &&
-        item.status === WorkItem.STATUS.NOT_VISIBLE
+        item instanceof Bug && item.status === WorkItem.STATUS.NOT_VISIBLE
     )
     .forEach((item) => {
       if (qualityMetric >= Math.random()) {
         item.status = WorkItem.STATUS.TODO;
       }
     });
+
+export const createBugOnStory = (item, effort) => {
+  const story = item instanceof Bug ? item.story : item;
+  return new Bug({
+    id: generateWorkItemId(WorkItem.COUNT + 1),
+    title: `Bug: ${story.title}`,
+    feature: story.feature,
+    effort,
+    story,
+  });
+};

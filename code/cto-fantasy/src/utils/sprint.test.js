@@ -2,6 +2,10 @@ import {
   calculateBacklogCapacityRow,
   getBacklogEstimates,
   workOnSprintBacklogItems,
+  isThereworkToDo,
+  isThereEffortRemaining,
+  selectNextBacklogItem,
+  getTodaysCapability,
 } from "./sprint";
 import { generateProductFeatures } from "./features";
 import { Bug, UserStory, WorkItem } from "../classes/WorkItem";
@@ -192,5 +196,134 @@ describe("workOnSprintBacklogItems()", () => {
     // the function need to be broken up more
     // and Math.random() mocked with different
     // results on multiple calls.
+  });
+});
+
+describe("isThereworkToDo()", () => {
+  const itemsWithEffort = range(5).map(
+    (idx) =>
+      new UserStory({
+        id: `G${idx}`,
+        title: "title",
+        feature: `feature ${idx}`,
+        status: WorkItem.STATUS.TODO,
+        effort: 5,
+      })
+  );
+  const itemsWithoutEffort = range(5).map(
+    (idx) =>
+      new UserStory({
+        id: `G${idx}`,
+        title: "title",
+        feature: `feature ${idx}`,
+        status: WorkItem.STATUS.DONE,
+        effort: 0,
+      })
+  );
+
+  it("should return true if items have remaining effort", () => {
+    expect(isThereworkToDo(itemsWithEffort)).toBeTruthy();
+  });
+  it("should return false if items do not have remaining effort", () => {
+    expect(isThereworkToDo(itemsWithoutEffort)).toBeFalsy();
+  });
+});
+
+describe("isThereEffortRemaining()", () => {
+  const teamWithCapability = range(5).map((idx) => ({ effort: 5 }));
+  const teamWithoutCapability = range(5).map((idx) => ({ effort: 0 }));
+
+  it("should return true if items have remaining effort", () => {
+    expect(isThereEffortRemaining(teamWithCapability)).toBeTruthy();
+  });
+  it("should return false if items do not have remaining effort", () => {
+    expect(isThereEffortRemaining(teamWithoutCapability)).toBeFalsy();
+  });
+});
+
+describe("selectNextBacklogItem()", () => {
+  const items = range(3).map(
+    (idx) =>
+      new UserStory({
+        id: `G${idx}`,
+        title: "title",
+        feature: `feature ${idx}`,
+        status: WorkItem.STATUS.TODO,
+        effort: 5,
+      })
+  );
+  let rand;
+  beforeEach(() => {
+    rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
+  });
+
+  afterEach(() => {
+    rand.mockRestore();
+  });
+
+  it("should pick the first item, using the team's flow value", () => {
+    expect(selectNextBacklogItem(items, 0.9)).toBe(items[0]);
+  });
+
+  it("should pick the next item, using the team's flow value", () => {
+    rand.mockReturnValueOnce(0.9).mockReturnValueOnce(0.1);
+    expect(selectNextBacklogItem(items, 0.5)).toBe(items[1]);
+  });
+
+  it("should pick the last item when there are no others to choose from", () => {
+    expect(selectNextBacklogItem(items, 0.4)).toBe(items[2]);
+  });
+});
+
+describe("getTodaysCapability()", () => {
+  const dailyEffort = [0.2, 0.5, 0.8].map((x, idx) => ({
+    collaboration: x,
+    effort: idx,
+    qualityMindset: x,
+  }));
+  let rand;
+  beforeEach(() => {
+    rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
+  });
+
+  afterEach(() => {
+    rand.mockRestore();
+  });
+
+  it("should calculate effort with no distractions", () => {
+    const result = getTodaysCapability(dailyEffort, []);
+    expect(result).toEqual([
+      {
+        collaboration: 0.5,
+        effort: 1,
+        qualityMindset: 0.5,
+      },
+      {
+        collaboration: 0.8,
+        effort: 2,
+        qualityMindset: 0.8,
+      },
+    ]);
+  });
+
+  it("should calculate effort with small distractions - filtering 0 effort after applying distractions", () => {
+    const result = getTodaysCapability(dailyEffort, [0.5, 0.5]);
+    expect(result).toEqual([
+      {
+        collaboration: 0.5,
+        effort: 0.5,
+        qualityMindset: 0.5,
+      },
+      {
+        collaboration: 0.8,
+        effort: 2,
+        qualityMindset: 0.8,
+      },
+    ]);
+  });
+
+  it("should calculate effort with large distractions", () => {
+    const result = getTodaysCapability(dailyEffort, [5, 5, 5]);
+    expect(result).toEqual([]);
   });
 });
