@@ -58,7 +58,7 @@ export const workOnSprintBacklogItems = (
 ) => {
   const points = storyPointValues.filter((x) => x < 13);
   // how much work can the team do today?
-  const todaysDevEffort = shuffle(team.dailyDev)
+  const todaysDevEffort = shuffle(team.dailyEffort)
     .map(({ collaboration, effort, qualityMindset }, idx) => ({
       collaboration,
       effort: Math.max(effort - (distractions[idx] || 0), 0),

@@ -70,7 +70,7 @@ Retrospectives should have more valuable outcomes, if the team's collaboration, 
 - WIP limits
 - Better Daily Scrum practices
 
-## 4. Company practices dashboard
+## 4. Company practices dashboard & in-sprint feedback
 
 Provide a dashboard showing many/all of the attributes, displaying some text to indicate the quality of the attribute based on thresholds. This will allow the player to get a better understanding of how they are achieving.
 
@@ -79,6 +79,8 @@ For example:
 "Unit testing: The project has 50% unit test coverage".
 
 "Estimation: The team's estimates aren't very accurate".
+
+Provide a real-time sprint burndown chart visible during the sprint (showing stories and bugs).
 
 ## 5. Introducing best practices via training or conference attendance
 

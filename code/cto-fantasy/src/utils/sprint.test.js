@@ -4,7 +4,7 @@ import {
   workOnSprintBacklogItems,
 } from "./sprint";
 import { generateProductFeatures } from "./features";
-import { UserStory } from "../classes/WorkItem";
+import { Bug, UserStory, WorkItem } from "../classes/WorkItem";
 import { Dev } from "../classes/Employee";
 import { Team } from "../classes/Team";
 import { range } from "./collection";
@@ -121,7 +121,7 @@ describe("getBacklogEstimates()", () => {
       id: "G0001",
       title: "title",
       feature: "user login",
-      status: "TODO",
+      status: WorkItem.STATUS.TODO,
       effort: 5,
     });
     story.setEstimate(5);
@@ -155,13 +155,23 @@ describe("workOnSprintBacklogItems()", () => {
     psychologicalSafety: 0.6,
   });
   const team = new Team([dev1, dev2]);
-  const backlog = range(1, 5).map(
+  const sprintBacklog = range(1, 5).map(
     (idx) =>
       new UserStory({
         id: `G${idx}`,
         title: "title",
         feature: `feature ${idx}`,
-        status: "TODO",
+        status: WorkItem.STATUS.TODO,
+        effort: 5,
+      })
+  );
+  const sprintBugs = range(6, 10).map(
+    (idx) =>
+      new Bug({
+        id: `G${idx}`,
+        title: "title",
+        feature: `feature ${idx}`,
+        status: WorkItem.STATUS.TODO,
         effort: 5,
       })
   );
@@ -169,13 +179,15 @@ describe("workOnSprintBacklogItems()", () => {
 
   it("should work on backlog with no disractions", () => {
     const distractions = [];
-    const results = workOnSprintBacklogItems(
-      backlog,
+    const { backlog, bugs } = workOnSprintBacklogItems(
+      sprintBacklog,
+      sprintBugs,
       team,
       distractions,
       storyPointValues
     );
-    expect(results).toBe(backlog);
+    expect(backlog).toBe(sprintBacklog);
+    expect(bugs).toBe(sprintBugs);
     // TODO: decide what to test here
     // the function need to be broken up more
     // and Math.random() mocked with different

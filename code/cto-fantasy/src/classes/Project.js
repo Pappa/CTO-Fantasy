@@ -7,16 +7,17 @@ export class Project {
   constructor({
     name = "Project Genesis",
     storyPointValues = [1, 2, 3, 5, 8, 13, 20],
-    newStoriesPerSprint,
-    budget,
+    newStoriesPerSprint = 4,
+    budget = randomInt(50000, 100000),
     emitter,
+    featueGenerator = generateProductFeatures,
   }) {
     this.name = name;
     this.storyPointValues = storyPointValues;
     this.newStoriesPerSprint = newStoriesPerSprint;
-    this.budget = budget || randomInt(50000, 100000);
+    this.budget = budget;
     this.emitter = emitter;
-    const { initial, rest } = generateProductFeatures(storyPointValues);
+    const { initial, rest } = featueGenerator(storyPointValues);
     this.backlog = initial;
     this.potentialWorkItems = rest;
     this.testCoverage = 0;
@@ -62,7 +63,7 @@ export class Project {
     this.emitter.emit("backlog_updated");
   };
 
-  updateBacklogOnSprintEnd = ({ sprintBacklog, bugs }) => {
+  updateBacklogOnSprintEnd = (sprintBacklog) => {
     sprintBacklog.forEach((item) => {
       if (!this.backlog.includes(item)) {
         this.backlog.push(item);
@@ -71,9 +72,6 @@ export class Project {
   };
 
   addMoreStoriesToBacklog = () => {
-    console.log("backlog", this.backlog.length);
-    console.log("potentialWorkItems", this.potentialWorkItems.length);
-    console.log("newStoriesPerSprint", this.newStoriesPerSprint);
     const storiesToAdd = shuffle(this.potentialWorkItems).slice(
       0,
       this.newStoriesPerSprint
@@ -81,7 +79,6 @@ export class Project {
     storiesToAdd.forEach((item) => {
       item.status = WorkItem.STATUS.TODO;
     });
-    console.log("storiesToAdd", storiesToAdd);
     this.backlog.push(...storiesToAdd);
     this.potentialWorkItems = this.potentialWorkItems.filter((item) =>
       storiesToAdd.includes(item)

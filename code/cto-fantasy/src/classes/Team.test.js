@@ -90,7 +90,7 @@ describe("getCommitment()", () => {
     const team = new Team([dev]);
     const commitment = team.getCommitment();
 
-    expect(commitment).toBe(29);
+    expect(commitment).toBe(24);
   });
 
   it("should shift high", () => {

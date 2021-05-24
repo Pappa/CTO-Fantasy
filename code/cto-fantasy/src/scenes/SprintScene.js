@@ -73,10 +73,7 @@ export class SprintScene extends Phaser.Scene {
       this.stateFactory("SprintBoardScene", {
         sprint: this.sprint,
         onClose: () => {
-          console.log("sprint ended");
-          this.emitter.emit("sprint_ended", {
-            sprintBacklog: this.sprint.sprintBacklog,
-          });
+          this.emitter.emit("sprint_ended", this.sprint.sprintBacklog);
           this.handleEvents();
         },
       }),

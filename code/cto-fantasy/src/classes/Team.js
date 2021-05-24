@@ -1,6 +1,6 @@
 import { average } from "../utils/number";
 import { randomInt, randomBoolean } from "../utils/random";
-import { Tester } from "./Employee";
+import { Dev, Tester } from "./Employee";
 
 export class Team {
   members = [];
@@ -73,12 +73,14 @@ export class Team {
     return this.getAverageStat("psychologicalSafety");
   }
 
-  get dailyDev() {
-    return this.members.map((member) => ({
-      collaboration: Number.parseFloat(member.collaboration),
-      effort: Number.parseFloat(member.dailyDevEffort),
-      qualityMindset: Number.parseFloat(member.qualityMindset),
-    }));
+  get dailyEffort() {
+    return this.members
+      .filter((member) => member instanceof Dev || member instanceof Tester)
+      .map((member) => ({
+        collaboration: Number.parseFloat(member.collaboration),
+        effort: Number.parseFloat(member.dailyEffort),
+        qualityMindset: Number.parseFloat(member.qualityMindset),
+      }));
   }
 
   get size() {

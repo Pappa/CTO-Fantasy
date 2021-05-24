@@ -30,8 +30,8 @@ export class Employee {
       psychologicalSafety || this.randomiseStat("psychologicalSafety");
   }
 
-  get dailyDevEffort() {
-    return 0;
+  get dailyEffort() {
+    return (this.skill + this.experience / 10) / 2;
   }
 
   randomiseStat(property) {
@@ -55,11 +55,7 @@ export class Employee {
 Employee.MALE = 0;
 Employee.FEMALE = 1;
 
-export class Dev extends Employee {
-  get dailyDevEffort() {
-    return (this.skill + this.experience / 10) / 2;
-  }
-}
+export class Dev extends Employee {}
 
 export class Tester extends Employee {}
 
