@@ -112,10 +112,10 @@ export const getTodaysCapability = (dailyEffort, distractions) =>
     .filter(({ effort }) => effort > 0);
 
 export const isThereworkToDo = (backlog) =>
-  sum(backlog.map(({ effortRemaining }) => effortRemaining)) > 0;
+  backlog.every(({ effortRemaining }) => effortRemaining > 0);
 
 export const isThereEffortRemaining = (todaysCapability) =>
-  sum(todaysCapability.map(({ effort }) => effort)) > 0;
+  todaysCapability.every(({ effort }) => effort > 0);
 
 const isCodeBuggy = (qualityMindset) => qualityMindset < Math.random() * 0.5;
 
