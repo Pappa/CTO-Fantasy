@@ -6,11 +6,9 @@ import { truncate } from "../utils/strings";
 export class SprintBoardItem extends Phaser.GameObjects.Container {
   width = 100;
   height = 50;
-  constructor(scene, x = 0, y = 0, { item, project, emitter }) {
+  constructor(scene, x = 0, y = 0, { item }) {
     super(scene, x, y);
     this.item = item;
-    this.project = project;
-    this.emitter = emitter;
     this.scene.add.existing(this);
 
     this.createComponents();

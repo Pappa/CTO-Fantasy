@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { SprintBoardItem } from "../game-objects/SprintBoardItem";
+import { SprintBurndownChart } from "../game-objects/SprintBurndownChart";
 import * as theme from "../theme";
 
 const STATUSES = [
@@ -50,6 +51,10 @@ export class SprintBoardScene extends Phaser.Scene {
     this.header = this.add
       .text(120, 120, `Days remaining: ${this.daysRemaining}`, theme.boardText)
       .setOrigin(0);
+
+    this.burndown = new SprintBurndownChart(this, 20, 20, {
+      sprint: this.sprint,
+    });
   }
 
   createBoard() {
@@ -92,8 +97,6 @@ export class SprintBoardScene extends Phaser.Scene {
   createItemCard = (item) => {
     return new SprintBoardItem(this, STATUS_X_POSITIONS[item.status] + 5, 180, {
       item,
-      project: this.project,
-      emitter: this.emitter,
     }); /*.setVisible(false)*/
   };
 
@@ -112,8 +115,9 @@ export class SprintBoardScene extends Phaser.Scene {
     this.daysRemaining--;
     this.header.setText(`Days remaining: ${this.daysRemaining}`);
     this.updateItemCardPositions();
+    this.burndown.update();
     if (this.daysRemaining === 0) {
-      this.onClose();
+      //this.onClose();
     }
   }
 
