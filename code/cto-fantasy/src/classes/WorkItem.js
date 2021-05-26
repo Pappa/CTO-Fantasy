@@ -21,6 +21,10 @@ export class WorkItem {
     }
   }
 
+  addEffort(effort) {
+    this.effortRemaining += effort;
+  }
+
   done() {
     return this.status === WorkItem.STATUS.DONE;
   }

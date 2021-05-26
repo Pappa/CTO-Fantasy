@@ -46,7 +46,7 @@ export class SprintBoardScene extends Phaser.Scene {
     this.background = this.add
       .graphics()
       .fillStyle(0xffffff, 1.0)
-      .fillRect(100, 100, width - 200, height - 200);
+      .fillRect(100, 100, width - 200, height - 150);
     this.header = this.add
       .text(120, 120, `Days remaining: ${this.daysRemaining}`, theme.boardText)
       .setOrigin(0);
@@ -59,14 +59,14 @@ export class SprintBoardScene extends Phaser.Scene {
     this.board = this.add
       .graphics()
       .lineStyle(1, 0x000000, 1.0)
-      .strokeRect(125, 150, width - 250, height - 275);
+      .strokeRect(110, 150, width - 220, height - 225);
 
     this.columns = STATUSES.map(({ status, x }, idx) => ({
       status,
       column: this.add
         .graphics()
         .lineStyle(1, 0x000000, 1.0)
-        .strokeRect(x, 175, colWidth, height - 325),
+        .strokeRect(x, 175, colWidth, height - 265),
     })).reduce((acc, { status, column }) => {
       acc[status] = column;
       return acc;
@@ -132,6 +132,7 @@ export class SprintBoardScene extends Phaser.Scene {
       categorisedCards[status] &&
         categorisedCards[status].forEach((card, idx) => {
           card.setPosition(x + 5, 180 + 55 * idx);
+          card.setVisible(idx <= 5);
         });
     });
   }

@@ -73,3 +73,8 @@ export const sprintBoardItemText = {
   font: "8px monospace",
   fill: "#000000",
 };
+
+export const sprintBoardItemEstimate = {
+  font: "12px monospace",
+  fill: "#04af45",
+};

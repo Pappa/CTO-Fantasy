@@ -210,6 +210,16 @@ describe("isThereWorkToDo()", () => {
         effort: 5,
       })
   );
+  const itemsWithAndWithoutEffort = range(5).map(
+    (idx) =>
+      new UserStory({
+        id: `G${idx}`,
+        title: "title",
+        feature: `feature ${idx}`,
+        status: WorkItem.STATUS.DONE,
+        effort: idx % 2 ? 0 : 1,
+      })
+  );
   const itemsWithoutEffort = range(5).map(
     (idx) =>
       new UserStory({
@@ -221,10 +231,13 @@ describe("isThereWorkToDo()", () => {
       })
   );
 
-  it("should return true if items have remaining effort", () => {
+  it("should return true if all items have remaining effort", () => {
     expect(isThereWorkToDo(itemsWithEffort)).toBeTruthy();
   });
-  it("should return false if items do not have remaining effort", () => {
+  it("should return true if some items do not have remaining effort", () => {
+    expect(isThereWorkToDo(itemsWithAndWithoutEffort)).toBeTruthy();
+  });
+  it("should return false if all items do not have remaining effort", () => {
     expect(isThereWorkToDo(itemsWithoutEffort)).toBeFalsy();
   });
 });

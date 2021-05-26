@@ -58,7 +58,7 @@ export const workOnSprintBacklogItems = (
 ) => {
   const points = storyPointValues.filter((x) => x < 13);
   // how much work can the team do today?
-  const todaysCapability = getTodaysCapability(team.dailyEffort, distractions);
+  let todaysCapability = getTodaysCapability(team.dailyEffort, distractions);
 
   let i = 0;
   while (
@@ -71,9 +71,10 @@ export const workOnSprintBacklogItems = (
     const item = selectNextBacklogItem(items, team.flow);
 
     let hasFirstDevWorked = false;
-    todaysCapability
-      .filter(({ effort }) => effort > 0)
-      .forEach(({ collaboration, effort, qualityMindset }, idx) => {
+    todaysCapability = todaysCapability.filter(({ effort }) => effort > 0);
+
+    todaysCapability.forEach(
+      ({ collaboration, effort, qualityMindset }, idx, self) => {
         // 1st dev works on item
         // then other devs if their collaboration is high enough
         if (
@@ -83,16 +84,22 @@ export const workOnSprintBacklogItems = (
         ) {
           item.status = WorkItem.STATUS.IN_PROGRESS;
           const remaining = item.doWork(effort);
-          todaysCapability[idx].effort = remaining;
+          self[idx].effort = remaining;
 
           if (isCodeBuggy(qualityMindset)) {
-            const bug = createBugOnStory(item, pick(points));
-            backlog.push(bug);
-            bugs.push(bug);
+            if (item instanceof Bug) {
+              // add more effort to existing bug
+              item.addEffort(pick(points));
+            } else {
+              const bug = createBugOnStory(item, pick(points));
+              backlog.push(bug);
+              bugs.push(bug);
+            }
           }
           hasFirstDevWorked = true;
         }
-      });
+      }
+    );
     i++;
   }
 
@@ -112,10 +119,10 @@ export const getTodaysCapability = (dailyEffort, distractions) =>
     .filter(({ effort }) => effort > 0);
 
 export const isThereWorkToDo = (backlog) =>
-  backlog.every(({ effortRemaining }) => effortRemaining > 0);
+  backlog.some(({ effortRemaining }) => effortRemaining > 0);
 
 export const isThereEffortRemaining = (todaysCapability) =>
-  todaysCapability.every(({ effort }) => effort > 0);
+  todaysCapability.some(({ effort }) => effort > 0);
 
 const isCodeBuggy = (qualityMindset) => qualityMindset < Math.random() * 0.5;
 
@@ -134,8 +141,7 @@ export const findBugs = (items, qualityMetric) =>
       }
     });
 
-export const createBugOnStory = (item, effort) => {
-  const story = item instanceof Bug ? item.story : item;
+export const createBugOnStory = (story, effort) => {
   return new Bug({
     id: generateWorkItemId(WorkItem.COUNT + 1),
     title: `Bug: ${story.title}`,

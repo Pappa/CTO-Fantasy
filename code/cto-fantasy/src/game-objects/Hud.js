@@ -12,6 +12,7 @@ export class Hud extends Phaser.GameObjects.Container {
 
     this.createComponents();
     this.createEvents();
+    this.update();
   }
 
   createComponents() {
