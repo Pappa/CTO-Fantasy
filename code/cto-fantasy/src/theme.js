@@ -64,7 +64,12 @@ export const boardTitles = {
   fill: "#000000",
 };
 
+export const sprintBoardItemId = {
+  font: "10px monospace",
+  fill: "#000000",
+};
+
 export const sprintBoardItemText = {
-  font: "12px monospace",
+  font: "8px monospace",
   fill: "#000000",
 };

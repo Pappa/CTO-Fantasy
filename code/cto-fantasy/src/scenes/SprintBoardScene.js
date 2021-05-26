@@ -3,10 +3,13 @@ import { SprintBoardItem } from "../game-objects/SprintBoardItem";
 import * as theme from "../theme";
 
 const STATUSES = [
-  { status: "TODO", text: "To do" },
-  { status: "IN_PROGRESS", text: "In progress" },
-  { status: "DONE", text: "Done" },
+  { status: "TODO", text: "To do", x: 150 },
+  { status: "IN_PROGRESS", text: "In progress", x: 325 },
+  { status: "DONE", text: "Done", x: 500 },
 ];
+const STATUS_X_POSITIONS = STATUSES.reduce((acc, { status, x }) => {
+  return { ...acc, [status]: x };
+}, {});
 
 export class SprintBoardScene extends Phaser.Scene {
   constructor() {
@@ -32,6 +35,7 @@ export class SprintBoardScene extends Phaser.Scene {
     this.createComponents();
     this.createBoard();
     this.createItemCards();
+    this.updateItemCardPositions();
     this.createTimer();
   }
 
@@ -46,37 +50,33 @@ export class SprintBoardScene extends Phaser.Scene {
     this.header = this.add
       .text(120, 120, `Days remaining: ${this.daysRemaining}`, theme.boardText)
       .setOrigin(0);
-
-    // move ticket each day
-    // this.physics.moveTo(item, x, y, 60);
   }
 
   createBoard() {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
-    const colPositions = [150, 325, 500];
     const colWidth = 150;
     this.board = this.add
       .graphics()
       .lineStyle(1, 0x000000, 1.0)
       .strokeRect(125, 150, width - 250, height - 275);
 
-    this.columns = STATUSES.map(({ status }, idx) => ({
+    this.columns = STATUSES.map(({ status, x }, idx) => ({
       status,
       column: this.add
         .graphics()
         .lineStyle(1, 0x000000, 1.0)
-        .strokeRect(colPositions[idx], 175, colWidth, height - 325),
+        .strokeRect(x, 175, colWidth, height - 325),
     })).reduce((acc, { status, column }) => {
       acc[status] = column;
       return acc;
     }, {});
 
-    this.columnHeaders = STATUSES.map(({ status, text }, idx) => {
+    this.columnHeaders = STATUSES.map(({ status, text, x }, idx) => {
       return {
         status,
         text: this.add
-          .text(colPositions[idx] + colWidth / 2, 165, text, theme.boardTitles)
+          .text(x + colWidth / 2, 165, text, theme.boardTitles)
           .setOrigin(0.5),
       };
     }).reduce((acc, { status, text }) => {
@@ -86,15 +86,16 @@ export class SprintBoardScene extends Phaser.Scene {
   }
 
   createItemCards() {
-    // scene.physics.add.existing(gameObject, bodyType);
-    this.items = this.sprint.sprintBacklog.map((item) =>
-      new SprintBoardItem(this, 0, 0, {
-        item,
-        project: this.project,
-        emitter: this.emitter,
-      }).setVisible(false)
-    );
+    this.itemCards = this.sprint.sprintBacklog.map(this.createItemCard);
   }
+
+  createItemCard = (item) => {
+    return new SprintBoardItem(this, STATUS_X_POSITIONS[item.status] + 5, 180, {
+      item,
+      project: this.project,
+      emitter: this.emitter,
+    }); /*.setVisible(false)*/
+  };
 
   createTimer() {
     this.sprintTimer = this.time.addEvent({
@@ -110,8 +111,28 @@ export class SprintBoardScene extends Phaser.Scene {
     this.sprint.workOnItems();
     this.daysRemaining--;
     this.header.setText(`Days remaining: ${this.daysRemaining}`);
+    this.updateItemCardPositions();
     if (this.daysRemaining === 0) {
       this.onClose();
     }
+  }
+
+  updateItemCardPositions() {
+    const cardsToAdd = this.sprint.sprintBacklog.filter(
+      (item) => !this.itemCards.some((card) => card.item === item)
+    );
+    this.itemCards.push(...cardsToAdd.map(this.createItemCard));
+    const categorisedCards = this.itemCards.reduce((acc, card) => {
+      const status = card.item.status;
+      acc[status] = acc[status] || [];
+      acc[status].push(card);
+      return { ...acc };
+    }, {});
+    STATUSES.forEach(({ status, x }) => {
+      categorisedCards[status] &&
+        categorisedCards[status].forEach((card, idx) => {
+          card.setPosition(x + 5, 180 + 55 * idx);
+        });
+    });
   }
 }

@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import * as theme from "../theme";
+import { truncate } from "../utils/strings";
 
 export class SprintBoardItem extends Phaser.GameObjects.Container {
   width = 100;
@@ -17,28 +18,29 @@ export class SprintBoardItem extends Phaser.GameObjects.Container {
   createComponents() {
     this.background = this.scene.make
       .graphics()
+      .fillStyle(0xffffff, 1.0)
       .lineStyle(1, 0x000000, 1.0)
-      .strokeRect(0, 0, 100, 50);
+      .strokeRect(0, 0, 140, 50);
     this.workItemId = this.scene.make
       .text({
-        x: 20,
-        y: 3,
+        x: 5,
+        y: 35,
         text: `${this.item.id}`,
-        style: theme.sprintBoardItemText,
+        style: theme.sprintBoardItemId,
       })
       .setOrigin(0);
     this.title = this.scene.make
       .text({
-        x: 1,
-        y: 3,
-        text: `${this.item.title}`,
+        x: 5,
+        y: 5,
+        text: `${truncate(this.item.title, 20)}`,
         style: theme.sprintBoardItemText,
       })
       .setOrigin(0);
     this.estimate = this.scene.make
       .text({
-        x: 3,
-        y: 3,
+        x: 120,
+        y: 25,
         text: `${this.item.estimate || "-"}`,
         style: theme.estimate,
       })

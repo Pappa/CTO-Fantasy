@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { UserStory, Bug, WorkItem } from "../classes/WorkItem";
 import * as theme from "../theme";
+import { truncate } from "../utils/strings";
 
 export class BacklogItem extends Phaser.GameObjects.Container {
   width = 560;
@@ -60,7 +61,7 @@ export class BacklogItem extends Phaser.GameObjects.Container {
       .text({
         x: 100,
         y: 3,
-        text: this.truncateTitle(this.item.title),
+        text: truncate(this.item.title, 37),
         style: theme.mainText,
       })
       .setOrigin(0);
@@ -133,8 +134,4 @@ export class BacklogItem extends Phaser.GameObjects.Container {
       this.updateArrows();
     }
   };
-
-  truncateTitle(text) {
-    return text.length > 37 ? `${text.slice(0, 34)}...` : text;
-  }
 }
