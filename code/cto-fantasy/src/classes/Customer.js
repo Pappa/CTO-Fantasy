@@ -47,16 +47,6 @@ export class Customer {
     const storiesNotDone = this.project.stories.length;
     const bugsNotDone = this.project.bugs.length;
     const bugsToStoriesRatio = bugsNotDone / storiesNotDone;
-
-    console.log("customer.priorities", this.priorities);
-    console.log("featuresCompleted", featuresCompleted);
-    console.log("featuresNotCompleted", featuresNotCompleted);
-    console.log("featuresWithNewBugs", featuresWithNewBugs);
-    console.log("storiesNotDone", storiesNotDone);
-    console.log("bugsNotDone", bugsNotDone);
-    console.log("bugsToStoriesRatio", bugsToStoriesRatio);
-    // TODO update satisfaction
-
     const featuresScore = featuresCompleted.length / this.priorities.length;
 
     this.satisfaction.features = {

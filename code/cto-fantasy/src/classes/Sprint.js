@@ -35,7 +35,6 @@ export class Sprint {
     };
   }
 
-  // should this be called one day at a time?
   workOnItems() {
     const { backlog, bugs } = workOnSprintBacklogItems(
       this.sprintBacklog,

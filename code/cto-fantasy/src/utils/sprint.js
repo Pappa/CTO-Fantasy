@@ -1,5 +1,4 @@
 import { Bug, WorkItem } from "../classes/WorkItem";
-import { sum } from "../utils/number";
 import { range, shuffle } from "./collection";
 import { generateWorkItemId } from "./features";
 import { pick } from "./random";

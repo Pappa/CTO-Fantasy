@@ -78,3 +78,8 @@ export const sprintBoardItemEstimate = {
   font: "12px monospace",
   fill: "#04af45",
 };
+
+export const burndownTitle = {
+  font: "10px monospace",
+  fill: "#333333",
+};

@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { UserStory } from "../classes/WorkItem";
 import { sum } from "../utils/number";
+import * as theme from "../theme";
 
 export class SprintBurndownChart extends Phaser.GameObjects.Container {
   width = 100;
@@ -21,6 +22,15 @@ export class SprintBurndownChart extends Phaser.GameObjects.Container {
       .strokeRect(0, 0, this.width, this.height)
       .fillRect(0, 0, this.width, this.height);
 
+    this.header = this.scene.make
+      .text({
+        x: 50,
+        y: 20,
+        text: "Burndown\n Chart",
+        style: theme.burndownTitle,
+      })
+      .setOrigin(0.5, 0.5);
+
     this.guideline = this.scene.make
       .graphics()
       .lineStyle(1, 0x000000, 1.0)
@@ -29,12 +39,14 @@ export class SprintBurndownChart extends Phaser.GameObjects.Container {
       .lineTo(100, 100)
       .closePath()
       .strokePath();
-    this.graph = this.scene.make.graphics();
 
-    // const polygon = new Phaser.Geom.Polygon([0, 0, 200, 200]);
-    // this.guideline.fillPoints(polygon.points, true);
+    this.graph = this.scene.make
+      .graphics()
+      .lineStyle(3, 0x04af45, 1.0)
+      .moveTo(0, 0)
+      .strokePath();
 
-    this.add([this.background, this.guideline, this.graph]);
+    this.add([this.background, this.guideline, this.graph, this.header]);
   }
 
   setStartingValues() {
@@ -63,10 +75,21 @@ export class SprintBurndownChart extends Phaser.GameObjects.Container {
 
     this.runningTotalPoints.push(totalDone);
 
-    console.log("totalPoints", this.totalPoints);
-    console.log("runningTotalPoints", this.runningTotalPoints);
     this.drawGraph();
   }
 
-  drawGraph() {}
+  drawGraph() {
+    const points = this.runningTotalPoints.map((total, idx) => [
+      (idx + 1) * 10,
+      (total / this.totalPoints) * 100,
+    ]);
+
+    this.graph.moveTo(0, 0);
+
+    points.forEach(([x, y]) => {
+      this.graph.lineTo(x, y);
+    });
+
+    this.graph.strokePath();
+  }
 }
