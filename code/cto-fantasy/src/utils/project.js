@@ -1,20 +1,24 @@
 import { randomStat } from "../utils/random";
 
-// TEST_CATEGORISATION needs a better name,
-// referring to choosing the right kind of testing for the job
 const CATEGORIES = {
   AGILE: [
     "THREE_AMIGOS",
     "REFINEMENT",
     "DAILY_SCRUM",
     "RETROSPECTIVE",
+    "REVIEW",
     "PSYCHOLOGICAL_SAFETY",
+    "WIP_LIMIT",
+    "SPRINT_GOAL",
+    "CONTINUOUS_IMPROVEMENT",
   ],
   QUALITY_ASSURANCE: [
     "TEST_DESIGN",
     "TEST_AUTOMATION",
     "SHIFT_LEFT",
-    "TEST_CATEGORISATION",
+    // TEST_SPECIALISATION needs a better name,
+    // referring to choosing the right kind of testing for the job
+    "TEST_SPECIALISATION",
   ],
   SOFTWARE_ENGINEERING: [
     "UNIT_TESTING",
@@ -24,12 +28,23 @@ const CATEGORIES = {
     "PAIR_PROGRAMMING",
     "CI_CD",
     "TECH_TALKS",
+    "DEVOPS",
+    "CLOUD_USAGE",
   ],
 };
 
-export const generateProjectAttributes = (category) => {
-  return (CATEGORIES[category] || []).reduce(
-    (attributes, attribute) => ({ ...attributes, [attribute]: randomStat() }),
+export const generateProjectAttributes = () => {
+  return Object.entries(CATEGORIES).reduce(
+    (categories, [category, attributes]) => ({
+      ...categories,
+      [category]: attributes.reduce(
+        (attributes, attribute) => ({
+          ...attributes,
+          [attribute]: randomStat(),
+        }),
+        {}
+      ),
+    }),
     {}
   );
 };

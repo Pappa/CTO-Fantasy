@@ -6,12 +6,15 @@ const PROJECT_ATTRIBUTE_CATEGORIES = [
   "SOFTWARE_ENGINEERING",
 ];
 
+// TODO: these are currently random
+// the values should depend on the values of the team, org, etc..
+
 export class ProjectAttributes {
   constructor(config = {}) {
-    this.attributes = {};
+    this.attributes = generateProjectAttributes();
     PROJECT_ATTRIBUTE_CATEGORIES.forEach((c) => {
       this.attributes[c] = {
-        ...generateProjectAttributes(c),
+        ...this.attributes[c],
         ...config[c],
       };
     });
