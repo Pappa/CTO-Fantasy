@@ -20,7 +20,6 @@ export class Project {
       emitter,
       featueGenerator,
     });
-    this.testCoverage = 0;
   }
 
   setCustomer(customer) {
