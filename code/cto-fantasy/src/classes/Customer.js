@@ -44,8 +44,8 @@ export class Customer {
         .filter((feature) => this.priorities.includes(feature))
     );
 
-    const storiesNotDone = this.project.stories.length;
-    const bugsNotDone = this.project.bugs.length;
+    const storiesNotDone = this.project.backlog.stories.length;
+    const bugsNotDone = this.project.backlog.bugs.length;
     const bugsToStoriesRatio = bugsNotDone / storiesNotDone;
     const featuresScore = featuresCompleted.length / this.priorities.length;
 
@@ -62,7 +62,7 @@ export class Customer {
 
   updatePriorities() {
     this.priorities = shuffle(
-      unique(this.project.productBacklog.map(({ feature }) => feature))
+      unique(this.project.backlog.items.map(({ feature }) => feature))
     ).slice(0, this.currentNumberOfPriorities);
     this.emitter.emit("customer_priorities_updated", this.priorities);
   }

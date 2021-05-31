@@ -38,7 +38,7 @@ export class Backlog extends Phaser.GameObjects.Container {
   }
 
   displayBacklog() {
-    this.rows = this.project.productBacklog.map((item, idx) => {
+    this.rows = this.project.backlog.items.map((item, idx) => {
       return new BacklogItem(
         this.scene,
         20,
@@ -60,7 +60,7 @@ export class Backlog extends Phaser.GameObjects.Container {
 
   getCommittedItems() {
     const last = this.getLastCommittedBacklogItemIndex();
-    return this.project.productBacklog.slice(0, last);
+    return this.project.backlog.items.slice(0, last);
   }
 
   getLastCommittedBacklogItemIndex() {

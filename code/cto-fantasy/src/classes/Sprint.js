@@ -41,7 +41,7 @@ export class Sprint {
       this.sprintBugs,
       this.team,
       [], // TODO: distractions
-      this.project.storyPointValues
+      this.project.backlog.storyPointValues
     );
 
     this.sprintBacklog = backlog;

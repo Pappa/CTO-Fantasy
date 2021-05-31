@@ -2,18 +2,20 @@ import { getBacklogEstimates } from "../../../utils/sprint";
 import { State } from "../State";
 
 export class RefinementState extends State {
-  constructor(machine, scene, data) {
+  constructor(machine, scene, { project, team, emitter }) {
     super(machine, scene);
-    this.data = data;
+    this.project = project;
+    this.team = team;
+    this.emitter = emitter;
   }
 
   enter() {
     const estimates = getBacklogEstimates(
-      this.data.project.stories,
-      this.data.team,
-      this.data.project.storyPointValues
+      this.project.backlog.stories,
+      this.team,
+      this.project.backlog.storyPointValues
     );
-    this.data.emitter.emit("update_estimates", estimates);
+    this.emitter.emit("update_estimates", estimates);
     this.machine.next();
   }
 

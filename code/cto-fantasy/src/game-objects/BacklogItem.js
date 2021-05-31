@@ -11,7 +11,7 @@ export class BacklogItem extends Phaser.GameObjects.Container {
     this.item = item;
     this.project = project;
     this.emitter = emitter;
-    this.storyPointValues = this.project.storyPointValues;
+    this.storyPointValues = this.project.backlog.storyPointValues;
     this.lastIndex = this.storyPointValues.length - 1;
     //this.scene.add.existing(this);
 
@@ -106,13 +106,15 @@ export class BacklogItem extends Phaser.GameObjects.Container {
   }
 
   updateArrows() {
-    const { storyPointValues } = this.project;
-    if (this.item.estimate === storyPointValues[this.lastIndex]) {
+    if (this.item.estimate === this.storyPointValues[this.lastIndex]) {
       this.upArrow.setTint(0x999999).disableInteractive();
     } else {
       this.upArrow.clearTint().setInteractive();
     }
-    if (!this.item.estimate || this.item.estimate === storyPointValues[0]) {
+    if (
+      !this.item.estimate ||
+      this.item.estimate === this.storyPointValues[0]
+    ) {
       this.downArrow.setTint(0x999999).disableInteractive();
     } else {
       this.downArrow.clearTint().setInteractive();
