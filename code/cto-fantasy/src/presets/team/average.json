@@ -12,7 +12,8 @@
       "collaboration": 0.5,
       "flow": 0.5,
       "estimation": 0.5,
-      "psychologicalSafety": 0.5
+      "psychologicalSafety": 0.5,
+      "agileMindset": 0.5
     }
   },
   {
@@ -28,7 +29,8 @@
       "collaboration": 0.5,
       "flow": 0.5,
       "estimation": 0.5,
-      "psychologicalSafety": 0.5
+      "psychologicalSafety": 0.5,
+      "agileMindset": 0.5
     }
   },
   {
@@ -44,7 +46,8 @@
       "collaboration": 0.5,
       "flow": 0.5,
       "estimation": 0.5,
-      "psychologicalSafety": 0.5
+      "psychologicalSafety": 0.5,
+      "agileMindset": 0.5
     }
   },
   {
@@ -60,7 +63,8 @@
       "collaboration": 0.5,
       "flow": 0.5,
       "estimation": 0.5,
-      "psychologicalSafety": 0.5
+      "psychologicalSafety": 0.5,
+      "agileMindset": 0.5
     }
   }
 ]

@@ -14,17 +14,22 @@ export class ProjectAttributes {
     this.team = team;
     this.emitter = emitter;
     this.attributes = generateProjectAttributes(team);
-    PROJECT_ATTRIBUTE_CATEGORIES.forEach((c) => {
-      this.attributes[c] = {
-        ...this.attributes[c],
-        ...config[c],
-      };
-    });
+    // console.log("attributes", JSON.stringify(this.attributes, null, 4));
+    // PROJECT_ATTRIBUTE_CATEGORIES.forEach((c) => {
+    //   this.attributes[c] = {
+    //     ...this.attributes[c],
+    //     ...config[c],
+    //   };
+    // });
     this.createEvents();
   }
 
   createEvents() {
-    //
+    this.emitter.on("team_updated", this.updateAttributes, this);
+  }
+
+  updateAttributes() {
+    // TODO
   }
 }
 

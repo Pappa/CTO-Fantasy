@@ -5,6 +5,7 @@ import { Dev, Tester } from "./Employee";
 export class Team {
   members = [];
   velocities = [];
+  discoveries = []; // TODO: to represent the ProjectAttributes the team have learned
   constructor(members = []) {
     this.members = members;
   }
@@ -71,6 +72,10 @@ export class Team {
 
   get psychologicalSafety() {
     return this.getAverageStat("psychologicalSafety");
+  }
+
+  get agileMindset() {
+    return this.getAverageStat("agileMindset");
   }
 
   get dailyEffort() {

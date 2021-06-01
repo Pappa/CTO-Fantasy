@@ -11,10 +11,12 @@ export class Project {
     budget = randomInt(50000, 100000),
     emitter,
     featueGenerator = generateProductFeatures,
+    config,
   }) {
     this.name = name;
     this.budget = budget;
     this.emitter = emitter;
+    this.config = config;
     this.backlog = new ProductBacklog({
       storyPointValues,
       newStoriesPerSprint,
@@ -26,6 +28,10 @@ export class Project {
   init({ customer, team }) {
     this.customer = customer;
     this.team = team;
-    this.attributes = new ProjectAttributes({ team });
+    this.attributes = new ProjectAttributes({
+      team,
+      config: this.config,
+      emitter: this.emitter,
+    });
   }
 }

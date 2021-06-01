@@ -14,6 +14,7 @@ export class Employee {
     flow,
     estimation,
     psychologicalSafety,
+    agileMindset,
   } = {}) {
     this.skill = skill || this.randomiseStat("skill");
     this.experience = experience || this.randomiseStat("experience");
@@ -28,6 +29,7 @@ export class Employee {
     this.estimation = estimation || this.randomiseStat("estimation");
     this.psychologicalSafety =
       psychologicalSafety || this.randomiseStat("psychologicalSafety");
+    this.agileMindset = agileMindset || this.randomiseStat("agileMindset");
   }
 
   get dailyEffort() {
@@ -66,6 +68,8 @@ export class ScrumMaster extends Employee {
         return super.randomiseStat("experience") + 5;
       case "salary":
         return super.randomiseStat("salary") + 10000;
+      case "agileMindset":
+        return randomInt(6, 8) / 10;
       default:
         return super.randomiseStat(property);
     }
@@ -79,6 +83,8 @@ export class ProductOwner extends Employee {
         return super.randomiseStat("experience") + 5;
       case "salary":
         return super.randomiseStat("salary") + 10000;
+      case "agileMindset":
+        return randomInt(6, 8) / 10;
       default:
         return super.randomiseStat(property);
     }

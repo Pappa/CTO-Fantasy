@@ -23,6 +23,7 @@ describe("Male Employee", () => {
       happiness: 0.4,
       collaboration: 0.4,
       qualityMindset: 0.4,
+      agileMindset: 0.4,
       psychologicalSafety: 0.3,
       type: undefined,
     });
@@ -52,6 +53,7 @@ describe("Female Employee", () => {
       happiness: 0.5,
       collaboration: 0.5,
       qualityMindset: 0.5,
+      agileMindset: 0.5,
       psychologicalSafety: 0.5,
       type: undefined,
     });
@@ -80,6 +82,7 @@ describe("Female Employee", () => {
         happiness: 0.4,
         collaboration: 0.4,
         qualityMindset: 0.4,
+        agileMindset: 0.4,
         psychologicalSafety: 0.3,
       });
     });
@@ -97,6 +100,7 @@ describe("Female Employee", () => {
         happiness: 0.4,
         collaboration: 0.4,
         qualityMindset: 0.4,
+        agileMindset: 0.4,
         psychologicalSafety: 0.3,
       });
     });
@@ -114,6 +118,7 @@ describe("Female Employee", () => {
         happiness: 0.4,
         collaboration: 0.4,
         qualityMindset: 0.4,
+        agileMindset: 0.7,
         psychologicalSafety: 0.3,
       });
     });
@@ -131,6 +136,7 @@ describe("Female Employee", () => {
         happiness: 0.4,
         collaboration: 0.4,
         qualityMindset: 0.4,
+        agileMindset: 0.7,
         psychologicalSafety: 0.3,
       });
     });
