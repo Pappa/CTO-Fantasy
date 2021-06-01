@@ -1,6 +1,7 @@
 import { randomInt } from "../utils/random";
 import { generateProductFeatures } from "../utils/features";
 import { ProductBacklog } from "./ProductBacklog";
+import { ProjectAttributes } from "./ProjectAttributes";
 
 export class Project {
   constructor({
@@ -20,6 +21,7 @@ export class Project {
       emitter,
       featueGenerator,
     });
+    this.attributes = new ProjectAttributes();
   }
 
   setCustomer(customer) {

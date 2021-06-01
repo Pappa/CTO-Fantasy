@@ -3,7 +3,7 @@ import { randomStat } from "../utils/random";
 const CATEGORIES = {
   AGILE: [
     "THREE_AMIGOS",
-    "REFINEMENT",
+    "REFINEMENT", // agile + collaboration?
     "DAILY_SCRUM",
     "RETROSPECTIVE",
     "REVIEW",

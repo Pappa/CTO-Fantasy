@@ -3,7 +3,7 @@ import { BootScene } from "./scenes/BootScene";
 import { VacanciesScene } from "./scenes/VacanciesScene";
 import { MainScene } from "./scenes/MainScene";
 import { CreditsScene } from "./scenes/CreditsScene";
-import config from "./config.json";
+import settings from "./config.json";
 import { TeamScene } from "./scenes/TeamScene";
 import { HiringScene } from "./scenes/HiringScene";
 import { SprintScene } from "./scenes/SprintScene";
@@ -13,7 +13,7 @@ import { CustomerScene } from "./scenes/CustomerScene";
 import { SprintBoardScene } from "./scenes/SprintBoardScene";
 
 export class CtoFantasy {
-  constructor() {
+  constructor(presets = {}) {
     const gameConfig = {
       type: Phaser.AUTO,
       width: 800,
@@ -42,7 +42,7 @@ export class CtoFantasy {
       },
       callbacks: {
         preBoot: function (game) {
-          game.registry.merge({ settings: config });
+          game.registry.merge({ settings, presets });
         },
       },
     };

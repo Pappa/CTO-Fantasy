@@ -11,6 +11,7 @@ import { Button } from "../game-objects/Button";
 import { range } from "../utils/collection";
 import { NavigationMenu } from "../game-objects/NavigationMenu";
 import { RefinementState } from "../classes/states/sprint/RefinementState";
+import { createTeamFromPresets } from "../utils/team";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -79,6 +80,10 @@ export class MainScene extends Phaser.Scene {
 
   createTeam() {
     const teamSize = this.registry.get("settings").STARTING_TEAM_SIZE;
+    const presets = this.registry.get("presets");
+    if (presets.team && presets.team.length) {
+      return createTeamFromPresets(presets.team);
+    }
     return new Team(range(teamSize + 1).map(() => new Dev()));
   }
 

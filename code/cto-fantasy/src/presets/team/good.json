@@ -1,0 +1,66 @@
+[
+  {
+    "type": "Dev",
+    "config": {
+      "skill": 0.9,
+      "experience": 10,
+      "gender": 0,
+      "name": "Dave Jones",
+      "salary": 50000,
+      "happiness": 0.9,
+      "qualityMindset": 0.9,
+      "collaboration": 0.9,
+      "flow": 0.9,
+      "estimation": 0.9,
+      "psychologicalSafety": 0.9
+    }
+  },
+  {
+    "type": "Dev",
+    "config": {
+      "skill": 0.9,
+      "experience": 10,
+      "gender": 0,
+      "name": "Mike Davies",
+      "salary": 50000,
+      "happiness": 0.9,
+      "qualityMindset": 0.9,
+      "collaboration": 0.9,
+      "flow": 0.9,
+      "estimation": 0.9,
+      "psychologicalSafety": 0.9
+    }
+  },
+  {
+    "type": "Dev",
+    "config": {
+      "skill": 0.9,
+      "experience": 10,
+      "gender": 0,
+      "name": "Alan Williams",
+      "salary": 50000,
+      "happiness": 0.9,
+      "qualityMindset": 0.9,
+      "collaboration": 0.9,
+      "flow": 0.9,
+      "estimation": 0.9,
+      "psychologicalSafety": 0.9
+    }
+  },
+  {
+    "type": "Tester",
+    "config": {
+      "skill": 0.9,
+      "experience": 10,
+      "gender": 0,
+      "name": "Dai Thomas",
+      "salary": 50000,
+      "happiness": 0.9,
+      "qualityMindset": 0.9,
+      "collaboration": 0.9,
+      "flow": 0.9,
+      "estimation": 0.9,
+      "psychologicalSafety": 0.9
+    }
+  }
+]

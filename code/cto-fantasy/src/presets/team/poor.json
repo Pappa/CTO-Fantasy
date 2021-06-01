@@ -1,0 +1,50 @@
+[
+  {
+    "type": "Dev",
+    "config": {
+      "skill": 0.1,
+      "experience": 1,
+      "gender": 0,
+      "name": "Dave Jones",
+      "salary": 25000,
+      "happiness": 0.1,
+      "qualityMindset": 0.1,
+      "collaboration": 0.1,
+      "flow": 0.1,
+      "estimation": 0.1,
+      "psychologicalSafety": 0.1
+    }
+  },
+  {
+    "type": "Dev",
+    "config": {
+      "skill": 0.1,
+      "experience": 1,
+      "gender": 0,
+      "name": "Mike Davies",
+      "salary": 25000,
+      "happiness": 0.1,
+      "qualityMindset": 0.1,
+      "collaboration": 0.1,
+      "flow": 0.1,
+      "estimation": 0.1,
+      "psychologicalSafety": 0.1
+    }
+  },
+  {
+    "type": "Dev",
+    "config": {
+      "skill": 0.1,
+      "experience": 1,
+      "gender": 0,
+      "name": "Alan Williams",
+      "salary": 25000,
+      "happiness": 0.1,
+      "qualityMindset": 0.1,
+      "collaboration": 0.1,
+      "flow": 0.1,
+      "estimation": 0.1,
+      "psychologicalSafety": 0.1
+    }
+  }
+]
