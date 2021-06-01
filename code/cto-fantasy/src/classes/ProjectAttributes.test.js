@@ -11,7 +11,7 @@ describe("ProjectAttributes", () => {
   });
 
   it("should return default attributes", () => {
-    const attributes = new ProjectAttributes();
+    const attributes = new ProjectAttributes({});
     expect(attributes.attributes).not.toBeUndefined();
   });
 });

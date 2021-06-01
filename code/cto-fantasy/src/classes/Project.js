@@ -21,14 +21,11 @@ export class Project {
       emitter,
       featueGenerator,
     });
-    this.attributes = new ProjectAttributes();
   }
 
-  setCustomer(customer) {
+  init({ customer, team }) {
     this.customer = customer;
-  }
-
-  setTeam(team) {
     this.team = team;
+    this.attributes = new ProjectAttributes({ team });
   }
 }

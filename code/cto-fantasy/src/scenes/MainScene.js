@@ -33,26 +33,20 @@ export class MainScene extends Phaser.Scene {
       newStoriesPerSprint: NUMBER_OF_NEW_STORIES_PER_SPRINT,
       emitter: this.emitter,
     });
-    this.customer = new Customer({
-      emitter: this.emitter,
-      project: this.project,
-    });
     this.modules = {
       emitter: this.emitter,
       project: this.project,
-      customer: this.customer,
+      customer: new Customer({
+        emitter: this.emitter,
+        project: this.project,
+      }),
       company: this.registry.get("company"),
       team: this.createTeam(),
       candidates: this.createCandidates(),
     };
-    this.updateProject();
+    this.project.init(this.modules);
     this.createNextButton();
     this.createLinearStory();
-  }
-
-  updateProject() {
-    this.project.setCustomer(this.customer);
-    this.project.setTeam(this.modules.team);
   }
 
   // executed once, after assets were loaded
