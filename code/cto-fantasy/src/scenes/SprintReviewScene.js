@@ -63,34 +63,34 @@ export class SprintReviewScene extends Phaser.Scene {
     const lines = [];
     if (features.complete.length) {
       lines.push(
-        `It's great ${features.complete.join(" and ")}\n${
+        `It's great ${features.complete.join(" and ")} ${
           features.complete.length === 1 ? "was" : "were"
         } deployed this sprint.`
       );
       if (features.incomplete.length) {
         lines.push(
-          `But, I was hoping to see progress on\n${features.incomplete.join(
+          `But, I was hoping to see progress on ${features.incomplete.join(
             " and "
           )}.`
         );
       }
     } else {
       lines.push(
-        `The team didin't complete any work on\n${this.customer.priorities.join(
+        `The team didin't complete any work on ${this.customer.priorities.join(
           " and "
         )} this sprint.\n\nWhat happened?`
       );
     }
     if (features.bugs.length) {
       lines.push(
-        `The ${features.bugs.join(" and ")}\n${
+        `The ${features.bugs.join(" and ")} ${
           features.bugs.length === 1 ? "feature is" : "features are"
         } a bit buggy.`
       );
     }
     if (!this.customer.satisfaction.bugs) {
       lines.push(
-        "The application is really quite buggy.\nThe team need work on quality."
+        "The application is really quite buggy. The team need work on quality."
       );
     }
 
@@ -99,7 +99,11 @@ export class SprintReviewScene extends Phaser.Scene {
         x: 200,
         y: 260,
         text: lines.join("\n\n"),
-        style: theme.mainText,
+        style: {
+          ...theme.mainText,
+          align: "left",
+          wordWrap: { width: 500, useAdvancedWrap: true },
+        },
       })
       .setOrigin(0);
   }

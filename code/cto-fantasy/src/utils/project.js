@@ -33,18 +33,24 @@ const CATEGORIES = {
   ],
 };
 
-export const generateProjectAttributes = () => {
+export const generateProjectAttributes = (team) => {
   return Object.entries(CATEGORIES).reduce(
     (categories, [category, attributes]) => ({
       ...categories,
-      [category]: attributes.reduce(
-        (attributes, attribute) => ({
+      [category]: attributes.reduce((attributes, attribute) => {
+        const stat = generateStat(team, attribute);
+        return {
           ...attributes,
-          [attribute]: randomStat(),
-        }),
-        {}
-      ),
+          [attribute]: stat !== undefined ? stat : randomStat(),
+        };
+      }, {}),
     }),
     {}
   );
+};
+
+export const generateStat = (team, attribute) => {
+  switch (attribute) {
+    default:
+  }
 };

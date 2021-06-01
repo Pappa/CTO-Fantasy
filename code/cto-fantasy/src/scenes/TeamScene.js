@@ -20,7 +20,13 @@ export class TeamScene extends Phaser.Scene {
   }
 
   createComponents() {
-    this.header = this.add.text(400, 15, " ", theme.h1).setOrigin(0.5, 0);
+    this.header = this.add
+      .text(400, 15, " ", {
+        ...theme.h1,
+        align: "center",
+        wordWrap: { width: 500, useAdvancedWrap: true },
+      })
+      .setOrigin(0.5, 0);
     this.close = this.add
       .text(760, 15, "X", theme.x)
       .setOrigin(0)

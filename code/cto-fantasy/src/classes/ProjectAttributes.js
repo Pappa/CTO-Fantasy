@@ -10,15 +10,21 @@ const PROJECT_ATTRIBUTE_CATEGORIES = [
 // the values should depend on the values of the team, org, etc..
 
 export class ProjectAttributes {
-  constructor({ team, config = {} }) {
+  constructor({ team, config = {}, emitter }) {
     this.team = team;
-    this.attributes = generateProjectAttributes();
+    this.emitter = emitter;
+    this.attributes = generateProjectAttributes(team);
     PROJECT_ATTRIBUTE_CATEGORIES.forEach((c) => {
       this.attributes[c] = {
         ...this.attributes[c],
         ...config[c],
       };
     });
+    this.createEvents();
+  }
+
+  createEvents() {
+    //
   }
 }
 
