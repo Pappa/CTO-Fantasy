@@ -98,6 +98,14 @@ export class Team {
       : undefined;
   }
 
+  get devs() {
+    return this.members.filter((member) => member instanceof Dev);
+  }
+
+  get testers() {
+    return this.members.filter((member) => member instanceof Tester);
+  }
+
   /**
    * Not a pure function
    */

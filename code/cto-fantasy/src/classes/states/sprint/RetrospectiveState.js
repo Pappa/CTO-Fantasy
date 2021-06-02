@@ -11,7 +11,12 @@ export class RetrospectiveState extends State {
   }
 
   enter() {
-    console.log("Retrospective goes here");
+    console.log("Retrospective");
+    console.log("project attributes", this.project.attributes.attributes);
+    console.log(
+      "project attributes list",
+      this.project.attributes.attributesList
+    );
     this.onClose();
   }
 

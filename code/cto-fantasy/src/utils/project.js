@@ -1,4 +1,4 @@
-import { ProductOwner, Tester } from "../classes/Employee";
+import { ProductOwner } from "../classes/Employee";
 import { randomStat } from "../utils/random";
 import { average } from "./number";
 
@@ -42,37 +42,25 @@ const CATEGORIES = {
   QUALITY_ASSURANCE: {
     TEST_DESIGN: (team) =>
       team.discoveries.includes("TEST_DESIGN")
-        ? average(
-            team.members
-              .filter((member) => member instanceof Tester)
-              .map(({ qualityMindset }) => qualityMindset)
-          ) || team.qualityMindset / 2
+        ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
+          team.qualityMindset / 2
         : 0,
     TEST_AUTOMATION: (team) =>
       team.discoveries.includes("TEST_AUTOMATION")
-        ? average(
-            team.members
-              .filter((member) => member instanceof Tester)
-              .map(({ qualityMindset }) => qualityMindset)
-          ) || team.qualityMindset / 2
+        ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
+          team.qualityMindset / 2
         : 0,
     SHIFT_LEFT: (team) =>
       team.discoveries.includes("SHIFT_LEFT")
-        ? average(
-            team.members
-              .filter((member) => member instanceof Tester)
-              .map(({ qualityMindset }) => qualityMindset)
-          ) || team.qualityMindset / 2
+        ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
+          team.qualityMindset / 2
         : 0,
     // TEST_SPECIALISATION needs a better name,
     // referring to choosing the right kind of testing for the job
     TEST_SPECIALISATION: (team) =>
       team.discoveries.includes("TEST_SPECIALISATION")
-        ? average(
-            team.members
-              .filter((member) => member instanceof Tester)
-              .map(({ qualityMindset }) => qualityMindset)
-          ) || team.qualityMindset / 2
+        ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
+          team.qualityMindset / 2
         : 0,
   },
   // TODO: complete these functions
