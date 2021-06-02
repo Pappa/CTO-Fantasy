@@ -30,19 +30,19 @@ export class SprintBoardScene extends Phaser.Scene {
 
   createTimer() {
     this.sprintTimer = this.time.addEvent({
-      delay: 1000,
+      delay: 1200,
       callback: this.dayPassing,
       //args: [],
       callbackScope: this,
-      repeat: this.sprint.SPRINT_LENGTH - 1,
+      repeat: this.sprint.SPRINT_LENGTH,
     });
   }
 
-  dayPassing(args) {
+  dayPassing() {
     this.sprint.workOnItems();
     this.sprintBoard.dayPassing();
     this.burndown.update();
-    if (this.sprintBoard.daysRemaining === 0) {
+    if (this.sprintTimer.repeatCount === 0) {
       this.onClose();
     }
   }

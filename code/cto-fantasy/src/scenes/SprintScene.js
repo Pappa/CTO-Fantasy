@@ -6,6 +6,7 @@ import * as theme from "../theme";
 import { navigationStateFactory } from "../classes/states/NavigationState";
 import { Sprint } from "../classes/Sprint";
 import { RefinementState } from "../classes/states/sprint/RefinementState";
+import { RetrospectiveState } from "../classes/states/sprint/RetrospectiveState";
 
 export class SprintScene extends Phaser.Scene {
   constructor() {
@@ -86,20 +87,27 @@ export class SprintScene extends Phaser.Scene {
 
   handleEvents() {
     this.machine.next();
-    // probably a setTimeout bug here
-    // move to update() ?
     if (!this.machine.currentState) {
-      this.machine.add(
+      const results = this.calculateResults();
+      this.machine.add([
         this.stateFactory("SprintReviewScene", {
-          results: this.calculateResults(),
+          results,
           onClose: () => {
             this.emitter.emit("update_customer_priorities");
             this.emitter.emit("create_more_stories");
             this.machine.next();
+          },
+        }),
+        new RetrospectiveState(this.machine, this.scene, {
+          emitter: this.emitter,
+          team: this.team,
+          project: this.project,
+          sprint: this.sprint,
+          onClose: () => {
             this.onClose();
           },
-        })
-      );
+        }),
+      ]);
       this.machine.next();
     }
   }
