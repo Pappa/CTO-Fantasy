@@ -19,7 +19,7 @@ export class ProjectAttributes {
   }
 
   createEvents() {
-    this.emitter.on("team_stats_updated", this.updateAttributes, this);
+    this.emitter.on("stats_updated", this.updateAttributes, this);
   }
 
   updateAttributes() {
