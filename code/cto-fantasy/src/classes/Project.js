@@ -30,6 +30,7 @@ export class Project {
     this.team = team;
     this.attributes = new ProjectAttributes({
       team,
+      customer,
       config: this.config,
       emitter: this.emitter,
     });

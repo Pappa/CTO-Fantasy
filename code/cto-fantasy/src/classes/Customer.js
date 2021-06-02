@@ -9,6 +9,7 @@ export class Customer {
     this.name = randomName();
     this.needForFeatures = randomInt(5, 7) / 10;
     this.acceptanceOfBugs = randomInt(5, 7) / 10;
+    this.agileMindset = randomInt(3, 6) / 10;
     this.satisfaction = {
       features: {},
       bugsInBacklog: {},

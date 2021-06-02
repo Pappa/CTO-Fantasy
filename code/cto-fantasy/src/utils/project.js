@@ -37,6 +37,7 @@ const CATEGORIES = {
       team.discoveries.includes("CONTINUOUS_IMPROVEMENT")
         ? average([team.qualityMindset, team.agileMindset])
         : 0,
+    CUSTOMER_ENGAGEMENT: () => {}, // customer satisfaction & agile mindset?
   },
   QUALITY_ASSURANCE: {
     TEST_DESIGN: (team) =>
@@ -127,16 +128,17 @@ const CATEGORIES = {
   },
 };
 
-export const generateProjectAttributes = (team) => {
+export const generateProjectAttributes = (team, currentAttributes = {}) => {
   return Object.entries(CATEGORIES).reduce(
     (categories, [category, attributes]) => ({
       ...categories,
       [category]: Object.entries(attributes).reduce(
         (attributes, [attribute, generate]) => {
+          const currentStat = currentAttributes?.[category]?.[attribute];
           const stat = generate(team);
           return {
             ...attributes,
-            [attribute]: stat !== undefined ? stat : randomStat(),
+            [attribute]: stat ?? currentStat ?? randomStat(),
           };
         },
         {}
