@@ -109,3 +109,20 @@ To capture the player's own knowledge, introduce mini-games. The results of thes
 ## 7. Introducing best practices by hiring staff
 
 Hiring good staff, with good attributes, will increase the likelihood of improvements being introduced during retrospectives and tech talks.
+
+## 8. Load preset teams
+
+In order to tune the gameplay, or later to teach specific scenarions, it should be possible to
+load preset teams with controlled skill values into the game.
+
+3 presets have been created:
+
+REACT_APP_TEAM=poor npm start
+REACT_APP_TEAM=average npm start
+REACT_APP_TEAM=good npm start
+
+## 9. Debug mode
+
+Enable a debug mode to show more information when developing than will be seen by the player.
+
+REACT_APP_DEBUG=on npm start

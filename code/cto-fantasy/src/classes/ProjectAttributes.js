@@ -27,13 +27,12 @@ export class ProjectAttributes {
     this.attributes = generateProjectAttributes(this.team, this.customer);
     this.attributesList = shuffle(
       Object.entries(this.attributes).reduce((acc, [category, attributes]) => {
-        Object.entries(attributes).forEach(([attribute, value]) => {
-          acc.push({ category, attribute, value });
+        Object.entries(attributes).forEach(([attribute, { name, value }]) => {
+          acc.push({ category, attribute, name, value });
         });
         return acc;
       }, [])
     );
-    this.attributesList.sort((a, b) => a.value - b.value);
   }
 }
 
