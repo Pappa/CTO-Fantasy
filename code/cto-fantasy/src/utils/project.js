@@ -177,7 +177,7 @@ const CATEGORIES = {
           : 0,
     },
     CLOUD_USAGE: {
-      name: "Could Usage",
+      name: "Cloud Usage",
       value: (team) =>
         team.discoveries.includes("CLOUD_USAGE")
           ? average([team.skill, team.experience])

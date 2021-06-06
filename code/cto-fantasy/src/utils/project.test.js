@@ -82,7 +82,7 @@ describe("generateProjectAttributes()", () => {
           value: 0,
         },
         CLOUD_USAGE: {
-          name: "Could Usage",
+          name: "Cloud Usage",
           value: 0,
         },
         CODE_REVIEW: {

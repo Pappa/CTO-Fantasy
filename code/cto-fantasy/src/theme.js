@@ -83,3 +83,13 @@ export const burndownTitle = {
   font: "10px monospace",
   fill: "#333333",
 };
+
+export const attributeText = {
+  font: "12px monospace",
+  fill: "#ffffff",
+};
+
+export const attributeTextDebug = {
+  font: "12px monospace",
+  fill: "#af1504",
+};

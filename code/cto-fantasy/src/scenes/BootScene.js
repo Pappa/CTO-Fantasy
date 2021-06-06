@@ -109,6 +109,10 @@ export class BootScene extends Phaser.Scene {
       "assets/freepik/teamwork/059-conversation.png"
     );
     this.load.image("backlog_icon", "assets/freepik/backlog.png");
+    this.load.image(
+      "attributes_icon",
+      "assets/freepik/teamwork/015-trophy.png"
+    );
     this.load.image("mid_grey", "assets/px/px666666.png");
     this.load.image("down_arrow", "assets/UIpack/PNG/grey_arrowDownWhite.png");
     this.load.image("up_arrow", "assets/UIpack/PNG/grey_arrowUpWhite.png");

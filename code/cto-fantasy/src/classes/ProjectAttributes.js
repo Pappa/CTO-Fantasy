@@ -1,4 +1,3 @@
-import { shuffle } from "../utils/collection";
 import { generateProjectAttributes } from "../utils/project";
 
 const PROJECT_ATTRIBUTE_CATEGORIES = [
@@ -24,14 +23,16 @@ export class ProjectAttributes {
   }
 
   updateAttributes() {
+    console.log("updateAttributes");
     this.attributes = generateProjectAttributes(this.team, this.customer);
-    this.attributesList = shuffle(
-      Object.entries(this.attributes).reduce((acc, [category, attributes]) => {
+    this.attributesList = Object.entries(this.attributes).reduce(
+      (acc, [category, attributes]) => {
         Object.entries(attributes).forEach(([attribute, { name, value }]) => {
           acc.push({ category, attribute, name, value });
         });
         return acc;
-      }, [])
+      },
+      []
     );
   }
 }
