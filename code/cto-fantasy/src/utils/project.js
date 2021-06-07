@@ -88,7 +88,7 @@ const CATEGORIES = {
           : 0,
     },
     SHIFT_LEFT: {
-      name: "Quality First",
+      name: "Quality First Approach",
       value: (team) =>
         team.discoveries.includes("SHIFT_LEFT")
           ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||

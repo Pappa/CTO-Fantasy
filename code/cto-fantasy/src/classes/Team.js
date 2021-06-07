@@ -121,20 +121,22 @@ export class Team {
     );
     const estimationShift = (velocity / 100) * estimationShiftPercentage;
 
-    randomBoolean()
-      ? (commitment += estimationShift)
-      : (commitment -= estimationShift);
+    // randomBoolean()
+    //   ? (commitment += estimationShift)
+    //   : (commitment -= estimationShift);
 
-    // adjust + based on experience
-    const MAX_YEARS_EXPERIENCE = 20;
-    const experienceShiftPercentageMax =
-      ((MAX_YEARS_EXPERIENCE - this.experience) / MAX_YEARS_EXPERIENCE) * 100;
-    const experienceShiftPercentage = randomInt(
-      0,
-      experienceShiftPercentageMax
-    );
-    const experienceShift = (velocity / 100) * experienceShiftPercentage;
-    commitment += experienceShift;
+    commitment += estimationShift;
+
+    // // adjust + based on experience
+    // const MAX_YEARS_EXPERIENCE = 20;
+    // const experienceShiftPercentageMax =
+    //   ((MAX_YEARS_EXPERIENCE - this.experience) / MAX_YEARS_EXPERIENCE) * 100;
+    // const experienceShiftPercentage = randomInt(
+    //   0,
+    //   experienceShiftPercentageMax
+    // );
+    // const experienceShift = (velocity / 100) * experienceShiftPercentage;
+    // commitment += experienceShift;
 
     return Math.round(commitment);
   }

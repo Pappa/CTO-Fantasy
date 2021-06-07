@@ -104,6 +104,7 @@ export class SprintScene extends Phaser.Scene {
           project: this.project,
           sprint: this.sprint,
           onClose: () => {
+            this.machine.next();
             this.onClose();
           },
         }),

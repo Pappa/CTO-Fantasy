@@ -96,8 +96,8 @@ export class SprintReviewScene extends Phaser.Scene {
 
     this.make
       .text({
-        x: 200,
-        y: 260,
+        x: 150,
+        y: 150,
         text: lines.join("\n\n"),
         style: {
           ...theme.mainText,

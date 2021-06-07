@@ -60,7 +60,7 @@ describe("generateProjectAttributes()", () => {
       },
       QUALITY_ASSURANCE: {
         SHIFT_LEFT: {
-          name: "Quality First",
+          name: "Quality First Approach",
           value: 0,
         },
         TEST_AUTOMATION: {

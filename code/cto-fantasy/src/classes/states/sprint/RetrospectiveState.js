@@ -22,17 +22,20 @@ export class RetrospectiveState extends State {
   }
 
   enter() {
-    this.retrospectiveTopics = this.getRetrospectiveTopics();
-    console.log("retrospectiveTopics", this.retrospectiveTopics);
-    console.log(
-      "retrospectiveTopics",
-      this.retrospectiveTopics.map(({ attribute }) => attribute)
-    );
-    this.onClose();
+    this.retrospectiveActions = this.getRetrospectiveActions();
+    this.emitter.emit("retrospective_actions", this.retrospectiveActions);
+    this.scene.launch("RetrospectiveScene", {
+      actions: this.retrospectiveActions,
+      project: this.project,
+      team: this.team,
+      onClose: () => {
+        this.onClose();
+      },
+    });
   }
 
-  getRetrospectiveTopics() {
-    let retrospectiveTopics = this.project.attributes.attributesList.filter(
+  getRetrospectiveActions() {
+    let retrospectiveActions = this.project.attributes.attributesList.filter(
       ({ category, attribute }) => {
         switch (category) {
           case "AGILE":
@@ -51,10 +54,12 @@ export class RetrospectiveState extends State {
         }
       }
     );
-    retrospectiveTopics = shuffle(retrospectiveTopics);
-    retrospectiveTopics.sort((a, b) => a.value - b.value);
-    return retrospectiveTopics.slice(0, 3);
+    retrospectiveActions = shuffle(retrospectiveActions);
+    retrospectiveActions.sort((a, b) => a.value - b.value);
+    return retrospectiveActions.slice(0, 3);
   }
 
-  exit() {}
+  exit() {
+    this.scene.stop("RetrospectiveScene");
+  }
 }

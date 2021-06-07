@@ -34,18 +34,9 @@ export class AttributesScene extends Phaser.Scene {
       .text(400, 15, "Project Attributes", theme.h1)
       .setOrigin(0.5, 0);
 
-    console.log("attrs: ", this.project.attributes.attributesList);
-
     this.attributesText = this.project.attributes.attributesList
       .filter(({ value }) => value > 0 || DEBUG)
       .map(({ category, attribute, name, value }, idx) => {
-        console.log(
-          name,
-          value,
-          DEBUG,
-          value > 0 || DEBUG,
-          50 + 20 * (idx + 1)
-        );
         return this.make
           .text({
             x: 150,
