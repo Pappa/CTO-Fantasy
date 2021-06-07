@@ -51,7 +51,7 @@ export class Hud extends Phaser.GameObjects.Container {
 
   update() {
     const itemsToUpdate = [
-      `Budget: ${this.project.budget}`,
+      `Budget: £${this.project.budget.toLocaleString()}`,
       `Team size: ${this.team.size}`,
       `Number of bugs: ${this.project.backlog.bugs.length}`,
     ];
