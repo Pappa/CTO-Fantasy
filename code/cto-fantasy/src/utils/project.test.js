@@ -59,7 +59,7 @@ describe("generateProjectAttributes()", () => {
         },
       },
       QUALITY_ASSURANCE: {
-        SHIFT_LEFT: {
+        QUALITY_FIRST_APPROACH: {
           name: "Quality First Approach",
           value: 0,
         },

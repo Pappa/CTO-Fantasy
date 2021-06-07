@@ -11,18 +11,21 @@ export class Project {
     budget = randomInt(50000, 100000),
     emitter,
     featueGenerator = generateProductFeatures,
-    config,
+    config = {},
+    settings = {},
   }) {
     this.name = name;
     this.budget = budget;
     this.emitter = emitter;
     this.config = config;
+    this.settings = settings;
     this.backlog = new ProductBacklog({
       storyPointValues,
       newStoriesPerSprint,
       emitter,
       featueGenerator,
     });
+    this.createEvents();
   }
 
   init({ customer, team }) {
@@ -34,5 +37,23 @@ export class Project {
       config: this.config,
       emitter: this.emitter,
     });
+  }
+
+  createEvents() {
+    this.emitter.on(
+      "retrospective_actions",
+      this.updateRetrospectiveActions,
+      this
+    );
+  }
+
+  updateRetrospectiveActions(actions) {
+    this.team.updateRetrospectiveActions(
+      actions,
+      this.settings.STAT_INCREASE_AMMOUNT,
+      () => {
+        this.emitter.emit("stats_updated");
+      }
+    );
   }
 }

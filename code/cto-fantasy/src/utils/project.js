@@ -6,6 +6,7 @@ const CATEGORIES = {
   AGILE: {
     THREE_AMIGOS: {
       name: "Three Amigos",
+      stats: ["qualityMindset", "agileMindset", "collaboration"],
       value: (team) =>
         team.discoveries.includes("THREE_AMIGOS")
           ? average([
@@ -17,14 +18,17 @@ const CATEGORIES = {
     },
     REFINEMENT: {
       name: "Refinement",
+      stats: ["agileMindset", "collaboration"],
       value: (team) => average([team.agileMindset, team.collaboration]),
     },
     DAILY_SCRUM: {
       name: "Daily Scrum",
+      stats: ["agileMindset", "collaboration"],
       value: (team) => average([team.agileMindset, team.collaboration]),
     },
     RETROSPECTIVE: {
       name: "Sprint Retrospective",
+      stats: ["agileMindset", "collaboration", "psychologicalSafety"],
       value: (team) =>
         average([
           team.agileMindset,
@@ -34,6 +38,7 @@ const CATEGORIES = {
     },
     REVIEW: {
       name: "Sprint Review",
+      stats: ["agileMindset"],
       value: (team) => {
         const po =
           team.members.find((member) => member instanceof ProductOwner) || {};
@@ -42,6 +47,7 @@ const CATEGORIES = {
     },
     PSYCHOLOGICAL_SAFETY: {
       name: "Psychological Safety",
+      stats: ["psychologicalSafety"],
       value: (team) =>
         team.discoveries.includes("PSYCHOLOGICAL_SAFETY")
           ? team.psychologicalSafety
@@ -49,6 +55,7 @@ const CATEGORIES = {
     },
     WIP_LIMIT: {
       name: "WIP Limit",
+      stats: ["agileMindset", "collaboration", "flow"],
       value: (team) =>
         team.discoveries.includes("WIP_LIMIT")
           ? average([team.agileMindset, team.collaboration, team.flow])
@@ -56,6 +63,7 @@ const CATEGORIES = {
     },
     SPRINT_GOAL: {
       name: "Sprint Goal",
+      stats: ["agileMindset", "collaboration"],
       value: (team) =>
         team.discoveries.includes("SPRINT_GOAL")
           ? average([team.agileMindset, team.collaboration])
@@ -63,6 +71,7 @@ const CATEGORIES = {
     },
     CONTINUOUS_IMPROVEMENT: {
       name: "Continuous Improvement",
+      stats: ["qualityMindset", "agileMindset"],
       value: (team) =>
         team.discoveries.includes("CONTINUOUS_IMPROVEMENT")
           ? average([team.qualityMindset, team.agileMindset])
@@ -72,6 +81,7 @@ const CATEGORIES = {
   },
   QUALITY_ASSURANCE: {
     TEST_DESIGN: {
+      stats: ["qualityMindset"],
       name: "Test Design",
       value: (team) =>
         team.discoveries.includes("TEST_DESIGN")
@@ -81,16 +91,18 @@ const CATEGORIES = {
     },
     TEST_AUTOMATION: {
       name: "Test Automation",
+      stats: ["qualityMindset"],
       value: (team) =>
         team.discoveries.includes("TEST_AUTOMATION")
           ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
             team.qualityMindset / 2
           : 0,
     },
-    SHIFT_LEFT: {
+    QUALITY_FIRST_APPROACH: {
       name: "Quality First Approach",
+      stats: ["qualityMindset"],
       value: (team) =>
-        team.discoveries.includes("SHIFT_LEFT")
+        team.discoveries.includes("QUALITY_FIRST_APPROACH")
           ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
             team.qualityMindset / 2
           : 0,
@@ -99,6 +111,7 @@ const CATEGORIES = {
     // referring to choosing the right kind of testing for the job
     TEST_SPECIALISATION: {
       name: "Test Specialisation",
+      stats: ["qualityMindset"],
       value: (team) =>
         team.discoveries.includes("TEST_SPECIALISATION")
           ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
@@ -110,6 +123,7 @@ const CATEGORIES = {
   SOFTWARE_ENGINEERING: {
     UNIT_TESTING: {
       name: "Unit Testing",
+      stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("UNIT_TESTING")
           ? average([team.qualityMindset, team.skill, team.experience])
@@ -117,6 +131,7 @@ const CATEGORIES = {
     },
     UNIT_TEST_COVERAGE: {
       name: "Unit Test Coverage",
+      stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("UNIT_TEST_COVERAGE")
           ? average([team.qualityMindset, team.skill, team.experience])
@@ -124,6 +139,7 @@ const CATEGORIES = {
     },
     CODE_REVIEW: {
       name: "Code Review",
+      stats: ["qualityMindset", "psychologicalSafety", "collaboration"],
       value: (team) =>
         team.discoveries.includes("CODE_REVIEW")
           ? average([
@@ -135,6 +151,7 @@ const CATEGORIES = {
     },
     SOFTWARE_DESIGN: {
       name: "Software Design",
+      stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("SOFTWARE_DESIGN")
           ? average([team.qualityMindset, team.skill, team.experience])
@@ -142,6 +159,7 @@ const CATEGORIES = {
     },
     PAIR_PROGRAMMING: {
       name: "Pair Programming",
+      stats: ["psychologicalSafety", "collaboration"],
       value: (team) =>
         team.discoveries.includes("PAIR_PROGRAMMING")
           ? average([
@@ -153,6 +171,7 @@ const CATEGORIES = {
     },
     CI_CD: {
       name: "CI/CD",
+      stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("CI_CD")
           ? average([team.qualityMindset, team.skill])
@@ -160,9 +179,11 @@ const CATEGORIES = {
     },
     TECH_TALKS: {
       name: "Tech Talks",
+      stats: ["skill", "psychologicalSafety", "collaboration"],
       value: (team) =>
         team.discoveries.includes("TECH_TALKS")
           ? average([
+              team.skill,
               team.experience,
               team.psychologicalSafety,
               team.collaboration,
@@ -171,6 +192,7 @@ const CATEGORIES = {
     },
     DEVOPS: {
       name: "Devops",
+      stats: ["qualityMindset", "skill", "agileMindset"],
       value: (team) =>
         team.discoveries.includes("DEVOPS")
           ? average([team.qualityMindset, team.skill, team.agileMindset])
@@ -178,6 +200,7 @@ const CATEGORIES = {
     },
     CLOUD_USAGE: {
       name: "Cloud Usage",
+      stats: ["skill"],
       value: (team) =>
         team.discoveries.includes("CLOUD_USAGE")
           ? average([team.skill, team.experience])
@@ -191,14 +214,15 @@ export const generateProjectAttributes = (team, currentAttributes = {}) => {
     (categories, [category, attributes]) => ({
       ...categories,
       [category]: Object.entries(attributes).reduce(
-        (attributes, [attribute, { name, value }]) => {
+        (attributes, [attribute, { name, stats, value }]) => {
           const currentStat =
             currentAttributes?.[category]?.[attribute]?.["value"];
           const stat = value(team);
           return {
             ...attributes,
             [attribute]: {
-              name: name,
+              name,
+              stats,
               value: stat ?? currentStat ?? randomStat(),
             },
           };

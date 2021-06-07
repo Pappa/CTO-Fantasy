@@ -2,69 +2,69 @@
   {
     "type": "Dev",
     "config": {
-      "skill": 0.5,
-      "experience": 5,
+      "skill": 0.4,
+      "experience": 4,
       "gender": 0,
       "name": "Dave Jones",
       "salary": 35000,
-      "happiness": 0.5,
-      "qualityMindset": 0.5,
-      "collaboration": 0.5,
-      "flow": 0.5,
-      "estimation": 0.5,
-      "psychologicalSafety": 0.5,
-      "agileMindset": 0.5
+      "happiness": 0.4,
+      "qualityMindset": 0.4,
+      "collaboration": 0.4,
+      "flow": 0.4,
+      "estimation": 0.4,
+      "psychologicalSafety": 0.4,
+      "agileMindset": 0.4
     }
   },
   {
     "type": "Dev",
     "config": {
-      "skill": 0.5,
-      "experience": 5,
+      "skill": 0.4,
+      "experience": 4,
       "gender": 0,
       "name": "Mike Davies",
       "salary": 35000,
-      "happiness": 0.5,
-      "qualityMindset": 0.5,
-      "collaboration": 0.5,
-      "flow": 0.5,
-      "estimation": 0.5,
-      "psychologicalSafety": 0.5,
-      "agileMindset": 0.5
+      "happiness": 0.4,
+      "qualityMindset": 0.4,
+      "collaboration": 0.4,
+      "flow": 0.4,
+      "estimation": 0.4,
+      "psychologicalSafety": 0.4,
+      "agileMindset": 0.4
     }
   },
   {
     "type": "Dev",
     "config": {
-      "skill": 0.5,
-      "experience": 5,
+      "skill": 0.4,
+      "experience": 4,
       "gender": 0,
       "name": "Alan Williams",
       "salary": 35000,
-      "happiness": 0.5,
-      "qualityMindset": 0.5,
-      "collaboration": 0.5,
-      "flow": 0.5,
-      "estimation": 0.5,
-      "psychologicalSafety": 0.5,
-      "agileMindset": 0.5
+      "happiness": 0.4,
+      "qualityMindset": 0.4,
+      "collaboration": 0.4,
+      "flow": 0.4,
+      "estimation": 0.4,
+      "psychologicalSafety": 0.4,
+      "agileMindset": 0.4
     }
   },
   {
     "type": "Tester",
     "config": {
-      "skill": 0.5,
-      "experience": 5,
+      "skill": 0.4,
+      "experience": 4,
       "gender": 0,
       "name": "Dai Thomas",
       "salary": 35000,
-      "happiness": 0.5,
-      "qualityMindset": 0.5,
-      "collaboration": 0.5,
-      "flow": 0.5,
-      "estimation": 0.5,
-      "psychologicalSafety": 0.5,
-      "agileMindset": 0.5
+      "happiness": 0.4,
+      "qualityMindset": 0.4,
+      "collaboration": 0.4,
+      "flow": 0.4,
+      "estimation": 0.4,
+      "psychologicalSafety": 0.4,
+      "agileMindset": 0.4
     }
   }
 ]

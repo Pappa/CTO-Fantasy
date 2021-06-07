@@ -140,4 +140,16 @@ export class Team {
 
     return Math.round(commitment);
   }
+
+  updateRetrospectiveActions(actions, updateBy, done) {
+    const statsToUpdate = actions.map(({ stats }) => stats).flat();
+    statsToUpdate.forEach((stat) => {
+      this.members.forEach((member) => {
+        if (randomBoolean()) {
+          member[stat] = Math.min(member[stat] + updateBy, 1);
+        }
+      });
+    });
+    done();
+  }
 }

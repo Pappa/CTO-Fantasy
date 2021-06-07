@@ -32,6 +32,7 @@ export class MainScene extends Phaser.Scene {
       storyPointValues: STORY_POINT_VALUES,
       newStoriesPerSprint: NUMBER_OF_NEW_STORIES_PER_SPRINT,
       emitter: this.emitter,
+      settings: this.registry.get("settings"),
     });
     this.modules = {
       emitter: this.emitter,
