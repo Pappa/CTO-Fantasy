@@ -20,6 +20,9 @@
     color: #000000;
     position: relative;
   }
+  #description {
+    font-size: 11px;
+  }
   button {
     width: 110px;
     height: 35px;
@@ -45,6 +48,14 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
     box-shadow: inset 0px 1px 0px #2ab7ec, 0px 5px 0px 0px #497a78,
+      0px 10px 5px #999;
+  }
+
+  button:disabled {
+    cursor: auto;
+    background-color: #5b6665;
+    background-image: linear-gradient(top, #b0b4b4, #3111);
+    box-shadow: inset 0px 1px 0px #a2a5a7, 0px 5px 0px 0px #4d5353,
       0px 10px 5px #999;
   }
 

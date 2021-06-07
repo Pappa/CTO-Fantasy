@@ -126,3 +126,8 @@ REACT_APP_TEAM=good npm start
 Enable a debug mode to show more information when developing than will be seen by the player.
 
 REACT_APP_DEBUG=on npm start
+
+## 10. Burndown Feedback
+
+Provide feedback to the player about their burndown chart and what it says about the team.
+Check QA slides for examples (Lecture 7. Planning).

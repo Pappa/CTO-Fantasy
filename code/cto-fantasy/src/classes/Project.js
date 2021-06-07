@@ -8,7 +8,7 @@ export class Project {
     name = "Project Genesis",
     storyPointValues = [1, 2, 3, 5, 8, 13, 20],
     newStoriesPerSprint = 4,
-    budget = randomInt(50000, 100000),
+    budget = randomInt(50000, 70000),
     emitter,
     featueGenerator = generateProductFeatures,
     config = {},

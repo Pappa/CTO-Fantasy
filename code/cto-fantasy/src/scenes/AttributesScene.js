@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { SceneBackground } from "../game-objects/SceneBackground";
 import * as theme from "../theme";
 
 const DEBUG = process.env.REACT_APP_DEBUG === "on";
@@ -23,16 +24,13 @@ export class AttributesScene extends Phaser.Scene {
   createComponents() {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
-    this.background = this.add
-      .graphics()
-      .fillStyle(0x222222, 1.0)
-      .lineStyle(1, 0xffffff, 1.0)
-      .fillRoundedRect(10, 10, width - 20, height - 20)
-      .strokeRoundedRect(10, 10, width - 20, height - 20);
-
-    this.header = this.add
-      .text(400, 15, "Project Attributes", theme.h1)
-      .setOrigin(0.5, 0);
+    this.background = new SceneBackground(this, 0, 0, width, height, {
+      title: "Project Attributes",
+      closeIcon: "close_icon",
+      onClose: () => {
+        this.onClose();
+      },
+    });
 
     this.attributesText = this.project.attributes.attributesList
       .filter(({ value }) => value > 0 || DEBUG)
@@ -49,14 +47,6 @@ export class AttributesScene extends Phaser.Scene {
           })
           .setVisible(value > 0 || DEBUG)
           .setOrigin(0);
-      });
-
-    this.close = this.add
-      .image(760, 20, "close_icon")
-      .setOrigin(0.5, 0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerup", () => {
-        this.onClose();
       });
   }
 }

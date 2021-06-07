@@ -84,6 +84,7 @@ describe("Female Employee", () => {
         qualityMindset: 0.4,
         agileMindset: 0.4,
         psychologicalSafety: 0.3,
+        type: "Software Engineer",
       });
     });
 
@@ -102,6 +103,7 @@ describe("Female Employee", () => {
         qualityMindset: 0.4,
         agileMindset: 0.4,
         psychologicalSafety: 0.3,
+        type: "QA Engineer",
       });
     });
 
@@ -120,6 +122,7 @@ describe("Female Employee", () => {
         qualityMindset: 0.4,
         agileMindset: 0.7,
         psychologicalSafety: 0.3,
+        type: "Scrum Master",
       });
     });
 
@@ -138,6 +141,7 @@ describe("Female Employee", () => {
         qualityMindset: 0.4,
         agileMindset: 0.7,
         psychologicalSafety: 0.3,
+        type: "Product Owner",
       });
     });
   });

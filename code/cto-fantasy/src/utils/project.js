@@ -217,7 +217,8 @@ export const generateProjectAttributes = (team, currentAttributes = {}) => {
         (attributes, [attribute, { name, stats, value }]) => {
           const currentStat =
             currentAttributes?.[category]?.[attribute]?.["value"];
-          const stat = value(team);
+          let stat = value(team);
+          stat = stat === undefined ? stat : Math.round(stat * 100) / 100;
           return {
             ...attributes,
             [attribute]: {

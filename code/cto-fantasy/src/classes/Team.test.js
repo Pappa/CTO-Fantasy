@@ -58,45 +58,8 @@ describe("getCommitment()", () => {
     rand.mockRestore();
   });
 
-  it("should have a low variation due to good estimation and experience", () => {
+  it("should have a low variation due to good estimation", () => {
     const dev = new Dev({
-      experience: 18,
-      estimation: 0.9,
-    });
-    const team = new Team([dev]);
-    team.update({ velocity: 50 });
-    const commitment = team.getCommitment();
-
-    expect(commitment).toBe(55);
-  });
-
-  it("should have a high variation due to good estimation and experience", () => {
-    const dev = new Dev({
-      experience: 1,
-      estimation: 0.1,
-    });
-    const team = new Team([dev]);
-    team.update({ velocity: 50 });
-    const commitment = team.getCommitment();
-
-    expect(commitment).toBe(97);
-  });
-
-  it("should calculate a commitment with no history of velocity", () => {
-    const dev = new Dev({
-      experience: 5,
-      estimation: 0.5,
-    });
-    const team = new Team([dev]);
-    const commitment = team.getCommitment();
-
-    expect(commitment).toBe(24);
-  });
-
-  it("should shift high", () => {
-    rand.mockReturnValue(0.1);
-    const dev = new Dev({
-      experience: 10,
       estimation: 0.9,
     });
     const team = new Team([dev]);
@@ -106,16 +69,48 @@ describe("getCommitment()", () => {
     expect(commitment).toBe(53);
   });
 
-  it("should shift low", () => {
-    rand.mockReturnValue(0.9);
+  it("should have a high variation due to good estimation", () => {
     const dev = new Dev({
-      experience: 10,
+      estimation: 0.1,
+    });
+    const team = new Team([dev]);
+    team.update({ velocity: 50 });
+    const commitment = team.getCommitment();
+
+    expect(commitment).toBe(73);
+  });
+
+  it("should calculate a commitment with no history of velocity", () => {
+    const dev = new Dev({
+      estimation: 0.5,
+    });
+    const team = new Team([dev]);
+    const commitment = team.getCommitment();
+
+    expect(commitment).toBe(19);
+  });
+
+  it("should shift high", () => {
+    rand.mockReturnValue(0.1);
+    const dev = new Dev({
       estimation: 0.9,
     });
     const team = new Team([dev]);
     team.update({ velocity: 50 });
     const commitment = team.getCommitment();
 
-    expect(commitment).toBe(68);
+    expect(commitment).toBe(51);
+  });
+
+  it("should shift low", () => {
+    rand.mockReturnValue(0.9);
+    const dev = new Dev({
+      estimation: 0.9,
+    });
+    const team = new Team([dev]);
+    team.update({ velocity: 50 });
+    const commitment = team.getCommitment();
+
+    expect(commitment).toBe(55);
   });
 });

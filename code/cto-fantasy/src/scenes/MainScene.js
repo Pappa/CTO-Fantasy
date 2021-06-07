@@ -83,7 +83,12 @@ export class MainScene extends Phaser.Scene {
   }
 
   createCandidates() {
-    return [new Dev(), new Tester(), new ScrumMaster(), new ProductOwner()];
+    return [
+      new Dev({ boost: 1.5 }),
+      new Tester({ boost: 1.5 }),
+      new ScrumMaster({ boost: 1.5 }),
+      new ProductOwner({ boost: 1.5 }),
+    ];
   }
 
   createLinearStory() {

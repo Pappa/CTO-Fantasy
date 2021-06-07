@@ -15,7 +15,7 @@ describe("Project", () => {
     const project = new Project({ emitter });
     expect(project).toMatchObject({
       name: "Project Genesis",
-      budget: 75000,
+      budget: 60000,
       emitter,
     });
   });
