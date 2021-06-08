@@ -47,6 +47,7 @@ export class Hud extends Phaser.GameObjects.Container {
 
   createEvents() {
     this.emitter.on("sprint_ended", this.update, this);
+    this.emitter.on("project_updated", this.update, this);
   }
 
   update() {

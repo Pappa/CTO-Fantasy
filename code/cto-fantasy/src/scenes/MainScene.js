@@ -12,6 +12,7 @@ import { range } from "../utils/collection";
 import { NavigationMenu } from "../game-objects/NavigationMenu";
 import { RefinementState } from "../classes/states/sprint/RefinementState";
 import { createTeamFromPresets } from "../utils/team";
+import { AgileCoach } from "../classes/Consultant";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -88,6 +89,7 @@ export class MainScene extends Phaser.Scene {
       new Tester({ boost: 1.5 }),
       new ScrumMaster({ boost: 1.5 }),
       new ProductOwner({ boost: 1.5 }),
+      new AgileCoach(),
     ];
   }
 

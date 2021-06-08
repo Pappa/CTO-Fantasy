@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { Consultant } from "../classes/Consultant";
+import { Employee } from "../classes/Employee";
 import { Card } from "../game-objects/Card";
 import { SceneBackground } from "../game-objects/SceneBackground";
 
@@ -12,10 +14,11 @@ export class HiringScene extends Phaser.Scene {
 
   preload() {}
 
-  create({ candidates, team, project, onClose }) {
-    this.candidates = candidates;
+  create({ candidates, team, project, emitter, onClose }) {
+    this.candidates = this.candidates || candidates;
     this.team = team;
     this.project = project;
+    this.emitter = emitter;
     this.onClose = onClose;
     this.createComponents();
     this.updateCandidates();
@@ -49,22 +52,33 @@ export class HiringScene extends Phaser.Scene {
     console.log("candidates", this.candidates);
 
     this.candidatesCards = this.candidates.map((candidate, idx) => {
-      const x = -50 + (idx + 1) * 175;
-      const isBudgetAvailable = candidate.salary <= this.project.budget;
+      const col = idx % 4;
+      const x = 130 + col * 175;
+      const y = idx < 4 ? 100 : 340;
+      const isBudgetAvailable =
+        (candidate.salary || candidate.dailyRate) <= this.project.budget;
       const ratings = Array(5).fill("\u2606");
       const candidateRatings = Array(candidate.rating).fill("\u2605");
       ratings.splice(0, candidate.rating, ...candidateRatings);
       const ratingText = ratings.join(" ");
+      const experienceText =
+        candidate instanceof Employee
+          ? `<br/>${candidate.experience} years exp.`
+          : "";
+      const feeText = candidate.salary
+        ? `<br/>Salary: £${candidate.salary.toLocaleString()}`
+        : `<br/>Daily rate: £${candidate.dailyRate.toLocaleString()}`;
+      const contractTerm = candidate.contractTerm
+        ? `<br/>Contract term: ${candidate.contractTerm} days.`
+        : "";
       return this.add.existing(
         new Card(
           this,
           x,
-          150,
+          y,
           {
             title: candidate.name,
-            text: `${candidate.type}<br/><br/>${
-              candidate.experience
-            } years exp.<br/>Salary: £${candidate.salary.toLocaleString()}<br/><br/>${ratingText}`,
+            text: `${candidate.type}<br/>${experienceText}${feeText}${contractTerm}<br/><br/>${ratingText}`,
             buttonText: isBudgetAvailable ? "Hire" : "Over budget",
             disabled: !isBudgetAvailable,
           },
@@ -75,6 +89,17 @@ export class HiringScene extends Phaser.Scene {
   }
 
   selectCandidate = (candidate) => {
-    console.log("selectCandidate", candidate);
+    if (candidate instanceof Employee) {
+      this.project.spendBudget(candidate.salary);
+      this.team.add(candidate);
+      this.emitter.emit("stats_updated");
+    }
+    if (candidate instanceof Consultant) {
+      // TODO: add consultant and effects of that
+      console.log("Consultant");
+    }
+    // TODO: update this to modify the global candidates (on modules)
+    this.candidates = this.candidates.filter((c) => c !== candidate);
+    this.onClose();
   };
 }

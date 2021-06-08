@@ -41,13 +41,15 @@ export class TeamScene extends Phaser.Scene {
 
   meetTheTeam() {
     this.teamCards = this.team.members.map((member, idx) => {
-      const x = -50 + (idx + 1) * 175;
+      const col = idx % 4;
+      const x = 130 + col * 175;
+      const y = idx < 4 ? 100 : 340;
       const ratings = Array(5).fill("\u2606");
       const memberRatings = Array(member.rating).fill("\u2605");
       ratings.splice(0, member.rating, ...memberRatings);
       const ratingText = ratings.join(" ");
       return this.add.existing(
-        new Card(this, x, 150, {
+        new Card(this, x, y, {
           title: member.name,
           text: `${member.type}<br/><br/>${
             member.experience

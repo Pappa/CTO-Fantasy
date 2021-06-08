@@ -59,4 +59,9 @@ export class Project {
       }
     );
   }
+
+  spendBudget(amount) {
+    this.budget -= amount;
+    this.emitter.emit("project_updated");
+  }
 }
