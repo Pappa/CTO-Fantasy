@@ -1,11 +1,12 @@
 import { average } from "../utils/number";
-import { randomInt, randomBoolean } from "../utils/random";
+import { randomInt } from "../utils/random";
 import { Dev, Tester } from "./Employee";
 
 export class Team {
   members = [];
   velocities = [];
   discoveries = []; // TODO: to represent the ProjectAttributes the team have learned
+  retrospectiveActions = [];
   constructor(members = []) {
     this.members = members;
   }
@@ -142,10 +143,12 @@ export class Team {
   }
 
   updateRetrospectiveActions(actions, updateBy, done) {
+    this.retrospectiveActions = [...actions];
+    this.discoveries.push(...actions.map(({ attribute }) => attribute));
     const statsToUpdate = actions.map(({ stats }) => stats).flat();
     statsToUpdate.forEach((stat) => {
       this.members.forEach((member) => {
-        if (randomBoolean()) {
+        if (Math.random() >= member.agileMindset) {
           member[stat] = Math.min(member[stat] + updateBy, 1);
         }
       });

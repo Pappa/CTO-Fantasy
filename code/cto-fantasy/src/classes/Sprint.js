@@ -40,12 +40,23 @@ export class Sprint {
       this.sprintBacklog,
       this.sprintBugs,
       this.team,
-      [], // TODO: distractions
+      this.getDistractions(),
       this.project.backlog.storyPointValues
     );
 
     this.sprintBacklog = backlog;
     this.sprintBugs = bugs;
+  }
+
+  getDistractions() {
+    return Array(this.team.size)
+      .fill(0)
+      .map(
+        (x) =>
+          x +
+          this.team.retrospectiveActions.length *
+            this.project.settings.RETROSPECTIVE_ACTION_DAILY_EFFORT
+      );
   }
 
   createEvents() {

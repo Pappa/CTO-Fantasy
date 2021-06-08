@@ -39,10 +39,11 @@ export class SprintBoardScene extends Phaser.Scene {
   }
 
   dayPassing() {
-    this.sprint.workOnItems();
-    this.sprintBoard.dayPassing();
-    this.burndown.update();
-    if (this.sprintTimer.repeatCount === 0) {
+    if (this.sprintTimer.repeatCount > 0) {
+      this.sprint.workOnItems();
+      this.sprintBoard.dayPassing();
+      this.burndown.update();
+    } else {
       this.onClose();
     }
   }

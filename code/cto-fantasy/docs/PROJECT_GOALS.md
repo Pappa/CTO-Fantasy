@@ -131,3 +131,11 @@ REACT_APP_DEBUG=on npm start
 
 Provide feedback to the player about their burndown chart and what it says about the team.
 Check QA slides for examples (Lecture 7. Planning).
+
+## 11. Hire Agile Coach
+
+Whereas retrospective actions rely on a check against the team member's `agileMindset`
+to successfully increase an attribute, an Agile coach could bypass this and have a
+higher chance of increasing team members' `agileMindset` directly.
+
+This should be made explicit to the player somehow.
