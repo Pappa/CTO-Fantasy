@@ -42,8 +42,8 @@ export class AttributesScene extends Phaser.Scene {
         return [
           this.make
             .text({
-              x: 200,
-              y: 75 + 18 * (idx + 1),
+              x: 235,
+              y: 75 + 20 * (idx + 1),
               text: `${name}`,
               style:
                 value === 0 && DEBUG
@@ -52,7 +52,7 @@ export class AttributesScene extends Phaser.Scene {
             })
             .setVisible(value > 0 || DEBUG)
             .setOrigin(0),
-          new Progress(this, 500, 75 + 18 * (idx + 1), {
+          new Progress(this, 465, 75 + 20 * (idx + 1), {
             progress: value * 100,
           }),
         ].flat();
