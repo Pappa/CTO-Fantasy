@@ -67,6 +67,14 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
     this.modules.emitter.on("customer_priorities_updated", (priorities) => {
       this.notificationsObj["customer_icon"].setVisible(true);
     });
+
+    this.modules.emitter.on("team_updated", () => {
+      this.notificationsObj["team_icon"].setVisible(true);
+    });
+
+    this.modules.emitter.on("candidates_updated", () => {
+      this.notificationsObj["recruiter_icon"].setVisible(true);
+    });
   }
 
   handleClick(scene, scenes, icon) {

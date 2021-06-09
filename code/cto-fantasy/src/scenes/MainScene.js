@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { Dev, ProductOwner, ScrumMaster, Tester } from "../classes/Employee";
+import { Dev } from "../classes/Employee";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 import { navigationStateFactory } from "../classes/states/NavigationState";
 import { clickToContinueStateFactory } from "../classes/states/ClickToContinueState";
@@ -12,7 +12,6 @@ import { range } from "../utils/collection";
 import { NavigationMenu } from "../game-objects/NavigationMenu";
 import { RefinementState } from "../classes/states/sprint/RefinementState";
 import { createTeamFromPresets } from "../utils/team";
-import { AgileCoach } from "../classes/Consultant";
 
 export class MainScene extends Phaser.Scene {
   constructor() {
@@ -44,7 +43,6 @@ export class MainScene extends Phaser.Scene {
       }),
       company: this.registry.get("company"),
       team: this.createTeam(),
-      candidates: this.createCandidates(),
     };
     this.project.init(this.modules);
     this.createNextButton();
@@ -81,16 +79,6 @@ export class MainScene extends Phaser.Scene {
       return createTeamFromPresets(presets.team);
     }
     return new Team(range(teamSize + 1).map(() => new Dev()));
-  }
-
-  createCandidates() {
-    return [
-      new Dev({ boost: 1.5 }),
-      new Tester({ boost: 1.5 }),
-      new ScrumMaster({ boost: 1.5 }),
-      new ProductOwner({ boost: 1.5 }),
-      new AgileCoach(),
-    ];
   }
 
   createLinearStory() {

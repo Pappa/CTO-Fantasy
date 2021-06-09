@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import { SceneBackground } from "../game-objects/SceneBackground";
+import { Progress } from "../game-objects/Progress";
 import * as theme from "../theme";
 
 const DEBUG = process.env.REACT_APP_DEBUG === "on";
@@ -25,28 +26,36 @@ export class AttributesScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
     this.background = new SceneBackground(this, 0, 0, width, height, {
-      title: "Project Attributes",
+      title: "Software Development Practices",
       closeIcon: "close_icon",
       onClose: () => {
         this.onClose();
       },
     });
 
-    this.attributesText = this.project.attributes.attributesList
-      .filter(({ value }) => value > 0 || DEBUG)
+    this.attributes = this.project.attributes.attributesList
+      .filter(
+        ({ attribute, value }) =>
+          DEBUG || value > 0 || this.project.team.hasDiscovered(attribute)
+      )
       .map(({ category, attribute, name, value }, idx) => {
-        return this.make
-          .text({
-            x: 150,
-            y: 75 + 18 * (idx + 1),
-            text: `${name}: ${value * 100}%`,
-            style:
-              value === 0 && DEBUG
-                ? theme.attributeTextDebug
-                : theme.attributeText,
-          })
-          .setVisible(value > 0 || DEBUG)
-          .setOrigin(0);
+        return [
+          this.make
+            .text({
+              x: 200,
+              y: 75 + 18 * (idx + 1),
+              text: `${name}`,
+              style:
+                value === 0 && DEBUG
+                  ? theme.attributeTextDebug
+                  : theme.attributeText,
+            })
+            .setVisible(value > 0 || DEBUG)
+            .setOrigin(0),
+          new Progress(this, 500, 75 + 18 * (idx + 1), {
+            progress: value * 100,
+          }),
+        ].flat();
       });
   }
 }

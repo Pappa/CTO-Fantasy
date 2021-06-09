@@ -1,11 +1,11 @@
 import { average } from "../utils/number";
 import { randomInt } from "../utils/random";
-import { Dev, Tester } from "./Employee";
+import { Dev, Tester, ScrumMaster, ProductOwner } from "./Employee";
 
 export class Team {
   members = [];
   velocities = [];
-  discoveries = []; // TODO: to represent the ProjectAttributes the team have learned
+  discoveries = [];
   retrospectiveActions = [];
   constructor(members = []) {
     this.members = members;
@@ -36,12 +36,16 @@ export class Team {
     return this.members.reduce((acc, m) => acc + m[property], 0);
   }
 
+  hasDiscovered(attribute) {
+    return this.discoveries.includes(attribute);
+  }
+
   get skill() {
     return this.getAverageStat("skill");
   }
 
   get experience() {
-    return this.getAverageStat("experience");
+    return Math.max(this.getAverageStat("experience"), 20) / 20;
   }
 
   get happiness() {
@@ -105,6 +109,14 @@ export class Team {
 
   get testers() {
     return this.members.filter((member) => member instanceof Tester);
+  }
+
+  get scrumMaster() {
+    return this.members.find((member) => member instanceof ScrumMaster);
+  }
+
+  get productOwner() {
+    return this.members.find((member) => member instanceof ProductOwner);
   }
 
   /**

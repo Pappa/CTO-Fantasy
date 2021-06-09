@@ -14,7 +14,6 @@ export class ProjectAttributes {
   }
 
   updateAttributes() {
-    console.log("updateAttributes");
     this.attributes = generateProjectAttributes(this.team, this.customer);
     this.attributesList = Object.entries(this.attributes).reduce(
       (acc, [category, attributes]) => {

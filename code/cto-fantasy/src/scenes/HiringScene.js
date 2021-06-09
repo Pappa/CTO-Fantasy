@@ -1,27 +1,25 @@
 import Phaser from "phaser";
-import { Consultant } from "../classes/Consultant";
+import { Dev, Tester, ScrumMaster, ProductOwner } from "../classes/Employee";
+import { AgileCoach } from "../classes/Consultant";
 import { Employee } from "../classes/Employee";
 import { Card } from "../game-objects/Card";
 import { SceneBackground } from "../game-objects/SceneBackground";
+import { pick } from "../utils/random";
 
 export class HiringScene extends Phaser.Scene {
-  intro = true;
   constructor() {
     super("HiringScene");
   }
 
-  init() {}
-
-  preload() {}
-
-  create({ candidates, team, project, emitter, onClose }) {
-    this.candidates = this.candidates || candidates;
+  create({ team, project, emitter, onClose }) {
     this.team = team;
     this.project = project;
     this.emitter = emitter;
     this.onClose = onClose;
+    this.candidates = this.candidates || this.createCandidates();
     this.createComponents();
-    this.updateCandidates();
+    this.createEvents();
+    this.updateCandidateCards();
   }
 
   createComponents() {
@@ -34,23 +32,38 @@ export class HiringScene extends Phaser.Scene {
         this.onClose();
       },
     });
-
-    // this.header = this.add
-    //   .text(400, 15, " ", {
-    //     ...theme.h1,
-    //     align: "center",
-    //     wordWrap: { width: 500, useAdvancedWrap: true },
-    //   })
-    //   .setOrigin(0.5, 0);
   }
 
-  updateCandidates() {
-    // this.header.setText(
-    //   `Time to hire some new people.\nThere are ${this.candidates.length} candidates.`
-    // );
+  createEvents() {
+    this.emitter.on("sprint_ended", () => {
+      this.candidates = this.createCandidates();
+      this.emitter.emit("candidates_updated");
+    });
+  }
 
-    console.log("candidates", this.candidates);
+  createCandidates() {
+    const employees = [Dev, Tester, ScrumMaster, ProductOwner].filter(
+      (t) =>
+        !(t === ProductOwner && this.team.productOwner) &&
+        !(t === ScrumMaster && this.team.scrumMaster)
+    );
+    if (!this.candidates) {
+      return employees.map((T) => new T({ boost: 1.5 }));
+    } else {
+      return [
+        ...Array(4)
+          .fill(Dev)
+          .map((T) => new T({ boost: 1.5 })),
+        ...Array(3)
+          .fill(null)
+          .map(() => pick(employees))
+          .map((T) => new T({ boost: 1.5 })),
+        new AgileCoach(),
+      ];
+    }
+  }
 
+  updateCandidateCards() {
     this.candidatesCards = this.candidates.map((candidate, idx) => {
       const col = idx % 4;
       const x = 130 + col * 175;
@@ -88,18 +101,19 @@ export class HiringScene extends Phaser.Scene {
     }, this);
   }
 
-  selectCandidate = (candidate) => {
-    if (candidate instanceof Employee) {
-      this.project.spendBudget(candidate.salary);
-      this.team.add(candidate);
+  selectCandidate = (selection) => {
+    if (selection instanceof Employee) {
+      this.project.spendBudget(selection.salary);
+      this.team.add(selection);
+      this.emitter.emit("team_updated");
       this.emitter.emit("stats_updated");
     }
-    if (candidate instanceof Consultant) {
-      // TODO: add consultant and effects of that
-      console.log("Consultant");
+    if (selection instanceof AgileCoach) {
+      // TODO: coach team
+      // add distractions to next sprint
+      console.log("AgileCoach", selection);
     }
-    // TODO: update this to modify the global candidates (on modules)
-    this.candidates = this.candidates.filter((c) => c !== candidate);
+    this.candidates = this.candidates.filter((c) => c !== selection);
     this.onClose();
   };
 }

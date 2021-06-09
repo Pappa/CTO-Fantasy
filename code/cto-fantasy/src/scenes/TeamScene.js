@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { Card } from "../game-objects/Card";
 import { SceneBackground } from "../game-objects/SceneBackground";
-import * as theme from "../theme";
 
 export class TeamScene extends Phaser.Scene {
   intro = true;
