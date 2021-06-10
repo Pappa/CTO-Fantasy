@@ -98,9 +98,11 @@ export class Team {
   }
 
   get velocity() {
-    return this.velocities.length
-      ? Math.round(average(this.velocities.slice(-3)))
-      : undefined;
+    const pastVelocities = this.velocities.slice(-3);
+    const velocities = Array(3)
+      .fill(null)
+      .map((_, idx) => pastVelocities[idx] || randomInt(25, 40));
+    return Math.round(average(velocities));
   }
 
   get devs() {
@@ -123,16 +125,15 @@ export class Team {
    * Not a pure function
    */
   getCommitment() {
-    const velocity = this.velocity || randomInt(10, 20);
-    let commitment = velocity;
+    let commitment = this.velocity;
 
-    // adjust +/- based on estimation
+    // adjust + based on estimation
     const estimationShiftPercentageMax = (1 - this.estimation) * 100;
     const estimationShiftPercentage = randomInt(
       0,
       estimationShiftPercentageMax
     );
-    const estimationShift = (velocity / 100) * estimationShiftPercentage;
+    const estimationShift = (this.velocity / 100) * estimationShiftPercentage;
 
     // randomBoolean()
     //   ? (commitment += estimationShift)
