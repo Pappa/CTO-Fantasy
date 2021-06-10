@@ -37,6 +37,7 @@ export class SprintScene extends Phaser.Scene {
       registry: this.registry,
       emitter: this.emitter,
     });
+    this.project.setCurrentSprint(this.sprint);
   }
 
   createComponents() {
@@ -74,7 +75,10 @@ export class SprintScene extends Phaser.Scene {
       this.stateFactory("SprintBoardScene", {
         sprint: this.sprint,
         onClose: () => {
-          this.emitter.emit("sprint_ended", this.sprint.sprintBacklog);
+          this.emitter.emit("sprint_ended", {
+            sprintBacklog: this.sprint.sprintBacklog,
+            sprintNumber: this.sprint.number,
+          });
           this.handleEvents();
         },
       }),

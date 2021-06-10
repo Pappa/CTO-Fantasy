@@ -4,6 +4,7 @@ import { sum } from "../utils/number";
 
 export class Sprint {
   SPRINT_LENGTH = 10;
+  day = 0;
   constructor({ number, project, registry, emitter }) {
     this.number = number;
     this.project = project;
@@ -35,12 +36,13 @@ export class Sprint {
     };
   }
 
-  workOnItems() {
+  dayPassing() {
+    this.day++;
     const { backlog, bugs } = workOnSprintBacklogItems(
       this.sprintBacklog,
       this.sprintBugs,
       this.team,
-      this.getDistractions(),
+      this.getDistractions(this.day),
       this.project.backlog.storyPointValues
     );
 
@@ -48,15 +50,37 @@ export class Sprint {
     this.sprintBugs = bugs;
   }
 
-  getDistractions() {
-    return Array(this.team.size)
+  getDistractions(day) {
+    const numberOfDevs = this.team.dailyEffort.length;
+    const retroActionDistractions = this.getRetroActionDistractions(
+      numberOfDevs,
+      day
+    );
+    const consultantDistractions = this.getConsultantDistractions(
+      numberOfDevs,
+      day
+    );
+    const distractions = retroActionDistractions.map(
+      (x, idx) => x + consultantDistractions[idx]
+    );
+    return distractions;
+  }
+
+  getRetroActionDistractions(numberOfDevs, day) {
+    return Array(numberOfDevs)
       .fill(0)
       .map(
-        (x) =>
-          x +
+        () =>
           this.team.retrospectiveActions.length *
-            this.project.settings.RETROSPECTIVE_ACTION_DAILY_EFFORT
+          this.project.settings.RETROSPECTIVE_ACTION_DAILY_EFFORT
       );
+  }
+
+  getConsultantDistractions(numberOfDevs, day) {
+    const distractions = this.project.consultants
+      .filter(({ contractTerm }) => day <= contractTerm)
+      .reduce((acc, { impactOnDailyEffort }) => acc + impactOnDailyEffort, 0);
+    return Array(numberOfDevs).fill(distractions);
   }
 
   createEvents() {
@@ -64,5 +88,9 @@ export class Sprint {
       this.sprintBacklog = items;
       this.sprintBugs = [];
     });
+  }
+
+  end() {
+    this.isComplete = true;
   }
 }

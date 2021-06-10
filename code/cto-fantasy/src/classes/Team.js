@@ -167,4 +167,12 @@ export class Team {
     });
     done();
   }
+
+  coach(consultant) {
+    this.members.forEach((member) => {
+      if (Math.random() <= Math.max(member.agileMindset, consultant.skill)) {
+        member.agileMindset += consultant.skill / 5;
+      }
+    });
+  }
 }

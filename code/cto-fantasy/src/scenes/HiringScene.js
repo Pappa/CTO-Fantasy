@@ -4,7 +4,7 @@ import { AgileCoach } from "../classes/Consultant";
 import { Employee } from "../classes/Employee";
 import { Card } from "../game-objects/Card";
 import { SceneBackground } from "../game-objects/SceneBackground";
-import { pick } from "../utils/random";
+import { pick, randomInt } from "../utils/random";
 
 export class HiringScene extends Phaser.Scene {
   constructor() {
@@ -37,7 +37,6 @@ export class HiringScene extends Phaser.Scene {
   createEvents() {
     this.emitter.on("sprint_ended", () => {
       this.candidates = this.createCandidates();
-      this.emitter.emit("candidates_updated");
     });
   }
 
@@ -47,14 +46,18 @@ export class HiringScene extends Phaser.Scene {
         !(t === ProductOwner && this.team.productOwner) &&
         !(t === ScrumMaster && this.team.scrumMaster)
     );
-    if (!this.candidates) {
+    const currentSprint = this.project.currentSprint;
+    if (
+      !currentSprint ||
+      (currentSprint.number === 1 && !currentSprint.isComplete)
+    ) {
       return employees.map((T) => new T({ boost: 1.5 }));
     } else {
       return [
-        ...Array(4)
+        ...Array(randomInt(1, 4))
           .fill(Dev)
           .map((T) => new T({ boost: 1.5 })),
-        ...Array(3)
+        ...Array(randomInt(1, 3))
           .fill(null)
           .map(() => pick(employees))
           .map((T) => new T({ boost: 1.5 })),
@@ -111,7 +114,7 @@ export class HiringScene extends Phaser.Scene {
     if (selection instanceof AgileCoach) {
       // TODO: coach team
       // add distractions to next sprint
-      console.log("AgileCoach", selection);
+      this.emitter.emit("consultant_hired", selection);
     }
     this.candidates = this.candidates.filter((c) => c !== selection);
     this.onClose();

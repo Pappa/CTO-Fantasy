@@ -49,7 +49,7 @@ export class ProductBacklog {
     this.emitter.emit("backlog_updated");
   };
 
-  updateBacklogOnSprintEnd = (sprintBacklog) => {
+  updateBacklogOnSprintEnd = ({ sprintBacklog }) => {
     sprintBacklog.forEach((item) => {
       if (!this.backlog.includes(item)) {
         this.backlog.push(item);

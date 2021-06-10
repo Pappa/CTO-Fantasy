@@ -2,6 +2,7 @@ import { randomInt } from "../utils/random";
 import { generateProductFeatures } from "../utils/features";
 import { ProductBacklog } from "./ProductBacklog";
 import { ProjectAttributes } from "./ProjectAttributes";
+import { AgileCoach } from "./Consultant";
 
 export class Project {
   constructor({
@@ -25,6 +26,8 @@ export class Project {
       emitter,
       featueGenerator,
     });
+    this.currentSprint = null;
+    this.consultants = [];
     this.createEvents();
   }
 
@@ -45,6 +48,11 @@ export class Project {
       this.updateRetrospectiveActions,
       this
     );
+    this.emitter.on("consultant_hired", this.consultantHired, this);
+  }
+
+  setCurrentSprint(sprint) {
+    this.currentSprint = sprint;
   }
 
   updateRetrospectiveActions(actions) {
@@ -63,5 +71,20 @@ export class Project {
   spendBudget(amount) {
     this.budget -= amount;
     this.emitter.emit("project_updated");
+  }
+
+  consultantHired(consultant) {
+    this.consultants.push(consultant);
+    this.emitter.once("sprint_ended", () => {
+      if (consultant instanceof AgileCoach) {
+        this.team.coach(consultant);
+      }
+      this.emitter.emit("stats_updated");
+      this.removeConsultant(consultant);
+    });
+  }
+
+  removeConsultant(consultant) {
+    this.consultants = this.consultants.filter((c) => c !== consultant);
   }
 }

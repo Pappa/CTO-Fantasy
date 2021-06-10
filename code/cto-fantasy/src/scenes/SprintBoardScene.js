@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import { SprintBoard } from "../game-objects/SprintBoard";
 import { SprintBurndownChart } from "../game-objects/SprintBurndownChart";
 
+const DAY_LENGTH = process.env.REACT_APP_DAY_LENGTH || 1200;
+
 export class SprintBoardScene extends Phaser.Scene {
   constructor() {
     super("SprintBoardScene");
@@ -30,7 +32,7 @@ export class SprintBoardScene extends Phaser.Scene {
 
   createTimer() {
     this.sprintTimer = this.time.addEvent({
-      delay: 1200,
+      delay: DAY_LENGTH,
       callback: this.dayPassing,
       //args: [],
       callbackScope: this,
@@ -40,10 +42,11 @@ export class SprintBoardScene extends Phaser.Scene {
 
   dayPassing() {
     if (this.sprintTimer.repeatCount > 0) {
-      this.sprint.workOnItems();
+      this.sprint.dayPassing();
       this.sprintBoard.dayPassing();
       this.burndown.update();
     } else {
+      this.sprint.end();
       this.onClose();
     }
   }
