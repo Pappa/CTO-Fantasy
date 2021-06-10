@@ -125,7 +125,7 @@ export class Team {
    * Not a pure function
    */
   getCommitment() {
-    let commitment = this.velocity;
+    let commitment = Math.max(this.velocity, 12);
 
     // adjust + based on estimation
     const estimationShiftPercentageMax = (1 - this.estimation) * 100;

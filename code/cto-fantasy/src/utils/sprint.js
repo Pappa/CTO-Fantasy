@@ -23,7 +23,7 @@ export const getBacklogEstimates = (backlog, team, storyPointValues) => {
   // Add functionality later to teach about breaking stories down
   // and teach about stories being too big to do in a sprint
   const points = storyPointValues.filter((x) => x < 13);
-  const itemsToRefine = Math.max(3, team.size + pick(range(-2, 2)));
+  const itemsToRefine = Math.max(5, team.size + pick(range(-2, 2)));
   const estimates = backlog
     .filter(({ estimate }) => !estimate)
     .slice(0, itemsToRefine)
