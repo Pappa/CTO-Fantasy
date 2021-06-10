@@ -56,9 +56,6 @@ export class Project {
   }
 
   updateRetrospectiveActions(actions) {
-    // TODO: add distractions to next sprint
-    // to account for the team spending time
-    // on improvements
     this.team.updateRetrospectiveActions(
       actions,
       this.settings.STAT_INCREASE_AMMOUNT,

@@ -119,7 +119,6 @@ const CATEGORIES = {
           : 0,
     },
   },
-  // TODO: complete these functions
   SOFTWARE_ENGINEERING: {
     UNIT_TESTING: {
       name: "Unit Testing",

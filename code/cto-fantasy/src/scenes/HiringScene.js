@@ -112,8 +112,6 @@ export class HiringScene extends Phaser.Scene {
       this.emitter.emit("stats_updated");
     }
     if (selection instanceof AgileCoach) {
-      // TODO: coach team
-      // add distractions to next sprint
       this.emitter.emit("consultant_hired", selection);
     }
     this.candidates = this.candidates.filter((c) => c !== selection);

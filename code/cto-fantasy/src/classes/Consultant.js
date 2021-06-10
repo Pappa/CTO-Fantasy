@@ -12,7 +12,7 @@ export class Consultant {
     rating,
     impactOnDailyEffort,
   } = {}) {
-    this.skill = skill || randomInt(5, 9) / 10;
+    this.skill = skill || randomInt(4, 9) / 10;
     this.experience = experience || randomInt(5, 20);
     this.dailyRate = dailyRate || randomInt(500, 2000);
     this.contractTerm = contractTerm || randomInt(1, 5); // TODO: this is only really suitable for the Agile Coach
