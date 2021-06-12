@@ -39,11 +39,12 @@ export class AttributesScene extends Phaser.Scene {
           DEBUG || value > 0 || this.project.team.hasDiscovered(attribute)
       )
       .map(({ category, attribute, name, value }, idx) => {
+        const y = 75 + 20 * (idx + 1);
         return [
           this.make
             .text({
               x: 235,
-              y: 75 + 20 * (idx + 1),
+              y,
               text: `${name}`,
               style:
                 value === 0 && DEBUG
@@ -52,10 +53,29 @@ export class AttributesScene extends Phaser.Scene {
             })
             .setVisible(value > 0 || DEBUG)
             .setOrigin(0),
-          new Progress(this, 465, 75 + 20 * (idx + 1), {
+          new Progress(this, 465, y, {
             progress: value * 100,
           }),
+          this.make
+            .image({
+              x: 580,
+              y,
+              key: "information_icon",
+              scale: {
+                x: 0.25,
+                y: 0.25,
+              },
+            })
+            .setOrigin(0)
+            .setInteractive({ useHandCursor: true })
+            .on("pointerdown", () => {
+              this.showInfo({ category, attribute, name, value });
+            }),
         ].flat();
       });
+  }
+
+  showInfo(info) {
+    console.log("info", info);
   }
 }

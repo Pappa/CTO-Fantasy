@@ -139,3 +139,9 @@ to successfully increase an attribute, an Agile coach could bypass this and have
 higher chance of increasing team members' `agileMindset` directly.
 
 This should be made explicit to the player somehow.
+
+## 12. Adjust team commitment
+
+Adjust team commitment based on other commitments??
+
+Allow user to adjust commitment manually.
