@@ -85,7 +85,7 @@ describe("ProductBacklog", () => {
   it("should return the correct values for getters once items have been changed", () => {
     const backlog = new ProductBacklog({ emitter, featureGenerator });
 
-    backlog.updateBacklogOnSprintEnd(bugs);
+    backlog.updateBacklogOnSprintEnd({ sprintBacklog: bugs });
     backlog.backlog.find((item) => item.id === "G1").status =
       WorkItem.STATUS.DONE;
 
