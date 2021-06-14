@@ -1,0 +1,18 @@
+# org: drpappa
+# app: cto-fantasy
+service: cto-fantasy
+
+frameworkVersion: "2"
+
+useDotenv: true
+
+provider:
+  name: aws
+
+plugins:
+  - serverless-finch
+
+custom:
+  client:
+    bucketName: cto-fantasy-game-project-genesis
+    distributionFolder: ./build
