@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import * as theme from "../theme";
 
 export class NavigationMenu extends Phaser.GameObjects.Container {
   constructor(scene, x = 0, y = 0, modules) {
@@ -7,11 +8,15 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
 
     this.menuItems = [
-      { icon: "team_icon", scene: "TeamScene" },
-      { icon: "recruiter_icon", scene: "HiringScene" },
-      { icon: "customer_icon", scene: "CustomerScene" },
-      { icon: "backlog_icon", scene: "ProductBacklogScene" },
-      { icon: "attributes_icon", scene: "AttributesScene" },
+      { icon: "team_icon", text: "Team", scene: "TeamScene" },
+      { icon: "recruiter_icon", text: "Recruiter", scene: "HiringScene" },
+      { icon: "customer_icon", text: "Customer", scene: "CustomerScene" },
+      { icon: "backlog_icon", text: "Backlog", scene: "ProductBacklogScene" },
+      {
+        icon: "attributes_icon",
+        text: "Practices",
+        scene: "AttributesScene",
+      },
     ];
 
     this.createComponents();
@@ -34,6 +39,21 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
       };
     }, {});
     this.add(Object.values(this.iconsObj));
+    this.textLabels = this.menuItems.map(({ text, icon, scene }, idx) => {
+      return this.scene.make
+        .text({
+          x: 0,
+          y: idx * 100 + 65,
+          text,
+          style: theme.mediumText,
+        })
+        .setOrigin(0.5)
+        .setInteractive({ useHandCursor: true })
+        .on("pointerdown", () => {
+          this.handleClick(scene, scenes, icon);
+        });
+    });
+    this.add(this.textLabels);
     this.notificationsObj = this.menuItems.reduce(
       (acc, { icon, scene }, idx) => {
         return {

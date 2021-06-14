@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { SceneBackground } from "../game-objects/SceneBackground";
 import * as theme from "../theme";
+import { PROJECT_ATTRIBUTES_TEXT } from "../utils/project";
 
 export class RetrospectiveScene extends Phaser.Scene {
   constructor() {
@@ -34,7 +35,7 @@ export class RetrospectiveScene extends Phaser.Scene {
 
   displayActions() {
     const actionsString = this.actions
-      .map(({ name }) => name)
+      .map(({ attribute }) => PROJECT_ATTRIBUTES_TEXT[attribute].name)
       .reduce((acc, item, idx, self) => {
         return idx === 0
           ? item

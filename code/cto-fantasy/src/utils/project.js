@@ -5,7 +5,6 @@ import { average } from "./number";
 const CATEGORIES = {
   AGILE: {
     THREE_AMIGOS: {
-      name: "Three Amigos",
       stats: ["qualityMindset", "agileMindset", "collaboration"],
       value: (team) =>
         team.discoveries.includes("THREE_AMIGOS")
@@ -17,17 +16,14 @@ const CATEGORIES = {
           : 0,
     },
     REFINEMENT: {
-      name: "Refinement",
       stats: ["agileMindset", "collaboration"],
       value: (team) => average([team.agileMindset, team.collaboration]),
     },
     DAILY_SCRUM: {
-      name: "Daily Scrum",
       stats: ["agileMindset", "collaboration"],
       value: (team) => average([team.agileMindset, team.collaboration]),
     },
     RETROSPECTIVE: {
-      name: "Sprint Retrospective",
       stats: ["agileMindset", "collaboration", "psychologicalSafety"],
       value: (team) =>
         average([
@@ -37,7 +33,6 @@ const CATEGORIES = {
         ]),
     },
     REVIEW: {
-      name: "Sprint Review",
       stats: ["agileMindset"],
       value: (team) => {
         const po =
@@ -46,7 +41,6 @@ const CATEGORIES = {
       },
     },
     PSYCHOLOGICAL_SAFETY: {
-      name: "Psychological Safety",
       stats: ["psychologicalSafety"],
       value: (team) =>
         team.discoveries.includes("PSYCHOLOGICAL_SAFETY")
@@ -54,7 +48,6 @@ const CATEGORIES = {
           : team.psychologicalSafety / 2,
     },
     WIP_LIMIT: {
-      name: "WIP Limit",
       stats: ["agileMindset", "collaboration", "flow"],
       value: (team) =>
         team.discoveries.includes("WIP_LIMIT")
@@ -62,7 +55,6 @@ const CATEGORIES = {
           : 0,
     },
     SPRINT_GOAL: {
-      name: "Sprint Goal",
       stats: ["agileMindset", "collaboration"],
       value: (team) =>
         team.discoveries.includes("SPRINT_GOAL")
@@ -70,19 +62,19 @@ const CATEGORIES = {
           : 0,
     },
     CONTINUOUS_IMPROVEMENT: {
-      name: "Continuous Improvement",
       stats: ["qualityMindset", "agileMindset"],
       value: (team) =>
         team.discoveries.includes("CONTINUOUS_IMPROVEMENT")
           ? average([team.qualityMindset, team.agileMindset])
           : 0,
     },
-    CUSTOMER_ENGAGEMENT: { name: "Customer Engagement", value: () => {} }, // customer satisfaction & agile mindset?
+    CUSTOMER_ENGAGEMENT: {
+      value: () => {},
+    }, // customer satisfaction & agile mindset?
   },
   QUALITY_ASSURANCE: {
     TEST_DESIGN: {
       stats: ["qualityMindset"],
-      name: "Test Design",
       value: (team) =>
         team.discoveries.includes("TEST_DESIGN")
           ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
@@ -90,7 +82,6 @@ const CATEGORIES = {
           : 0,
     },
     TEST_AUTOMATION: {
-      name: "Test Automation",
       stats: ["qualityMindset"],
       value: (team) =>
         team.discoveries.includes("TEST_AUTOMATION")
@@ -99,7 +90,6 @@ const CATEGORIES = {
           : 0,
     },
     QUALITY_FIRST_APPROACH: {
-      name: "Quality First Approach",
       stats: ["qualityMindset"],
       value: (team) =>
         team.discoveries.includes("QUALITY_FIRST_APPROACH")
@@ -110,7 +100,6 @@ const CATEGORIES = {
     // TEST_SPECIALISATION needs a better name,
     // referring to choosing the right kind of testing for the job
     TEST_SPECIALISATION: {
-      name: "Test Specialisation",
       stats: ["qualityMindset"],
       value: (team) =>
         team.discoveries.includes("TEST_SPECIALISATION")
@@ -121,7 +110,6 @@ const CATEGORIES = {
   },
   SOFTWARE_ENGINEERING: {
     UNIT_TESTING: {
-      name: "Unit Testing",
       stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("UNIT_TESTING")
@@ -129,7 +117,6 @@ const CATEGORIES = {
           : 0,
     },
     UNIT_TEST_COVERAGE: {
-      name: "Unit Test Coverage",
       stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("UNIT_TEST_COVERAGE")
@@ -137,7 +124,6 @@ const CATEGORIES = {
           : 0,
     },
     CODE_REVIEW: {
-      name: "Code Review",
       stats: ["qualityMindset", "psychologicalSafety", "collaboration"],
       value: (team) =>
         team.discoveries.includes("CODE_REVIEW")
@@ -149,7 +135,6 @@ const CATEGORIES = {
           : 0,
     },
     SOFTWARE_DESIGN: {
-      name: "Software Design",
       stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("SOFTWARE_DESIGN")
@@ -157,7 +142,6 @@ const CATEGORIES = {
           : 0,
     },
     PAIR_PROGRAMMING: {
-      name: "Pair Programming",
       stats: ["psychologicalSafety", "collaboration"],
       value: (team) =>
         team.discoveries.includes("PAIR_PROGRAMMING")
@@ -169,7 +153,6 @@ const CATEGORIES = {
           : 0,
     },
     CI_CD: {
-      name: "CI/CD",
       stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("CI_CD")
@@ -177,7 +160,6 @@ const CATEGORIES = {
           : 0,
     },
     TECH_TALKS: {
-      name: "Tech Talks",
       stats: ["skill", "psychologicalSafety", "collaboration"],
       value: (team) =>
         team.discoveries.includes("TECH_TALKS")
@@ -190,21 +172,115 @@ const CATEGORIES = {
           : 0,
     },
     DEVOPS: {
-      name: "Devops",
       stats: ["qualityMindset", "skill", "agileMindset"],
       value: (team) =>
         team.discoveries.includes("DEVOPS")
           ? average([team.qualityMindset, team.skill, team.agileMindset])
           : 0,
     },
-    CLOUD_USAGE: {
-      name: "Cloud Usage",
+    CLOUD_SERVICES: {
       stats: ["skill"],
       value: (team) =>
-        team.discoveries.includes("CLOUD_USAGE")
+        team.discoveries.includes("CLOUD_SERVICES")
           ? average([team.skill, team.experience])
           : 0,
     },
+  },
+};
+
+export const PROJECT_ATTRIBUTES_TEXT = {
+  THREE_AMIGOS: {
+    name: "Three Amigos",
+    description:
+      "The 3 Amigos is an efficient technique used to super-charge the process of refining user stories and bugs. During a 3 Amigos, a handful of the team will drive out and document assumptions, clarify meaning and define acceptance criteria.",
+  },
+  REFINEMENT: {
+    name: "Refinement",
+    description: "Refinement is a.....",
+  },
+  DAILY_SCRUM: {
+    name: "Daily Scrum",
+    description: "Daily Scrum is a.....",
+  },
+  RETROSPECTIVE: {
+    name: "Sprint Retrospective",
+    description: "Sprint Retrospective is a.....",
+  },
+  REVIEW: {
+    name: "Sprint Review",
+    description: "Sprint Review is a.....",
+  },
+  PSYCHOLOGICAL_SAFETY: {
+    name: "Psychological Safety",
+    description: "Psychological Safety is a.....",
+  },
+  WIP_LIMIT: {
+    name: "WIP Limit",
+    description: "WIP Limit is a.....",
+  },
+  SPRINT_GOAL: {
+    name: "Sprint Goal",
+    description: "Sprint Goal is a.....",
+  },
+  CONTINUOUS_IMPROVEMENT: {
+    name: "Continuous Improvement",
+    description: "Continuous Improvement is a.....",
+  },
+  CUSTOMER_ENGAGEMENT: {
+    name: "Customer Engagement",
+    description: "Customer Engagement is a.....",
+  },
+  TEST_DESIGN: {
+    name: "Test Design",
+    description: "Test Design is a.....",
+  },
+  TEST_AUTOMATION: {
+    name: "Test Automation",
+    description: "Test Automation is a.....",
+  },
+  QUALITY_FIRST_APPROACH: {
+    name: "Quality First Approach",
+    description: "Quality First Approach is a.....",
+  },
+  TEST_SPECIALISATION: {
+    name: "Test Specialisation",
+    description: "Test Specialisation is a.....",
+  },
+  UNIT_TESTING: {
+    name: "Unit Testing",
+    description: "Unit Testing is a.....",
+  },
+  UNIT_TEST_COVERAGE: {
+    name: "Unit Test Coverage",
+    description: "Unit Test Coverage is a.....",
+  },
+  CODE_REVIEW: {
+    name: "Code Review",
+    description: "Code Review is a.....",
+  },
+  SOFTWARE_DESIGN: {
+    name: "Software Design",
+    description: "Software Design is a.....",
+  },
+  PAIR_PROGRAMMING: {
+    name: "Pair Programming",
+    description: "Pair Programming is a.....",
+  },
+  CI_CD: {
+    name: "CI/CD",
+    description: "CI/CD is a.....",
+  },
+  TECH_TALKS: {
+    name: "Tech Talks",
+    description: "Tech Talks is a.....",
+  },
+  DEVOPS: {
+    name: "Devops",
+    description: "Devops is a.....",
+  },
+  CLOUD_SERVICES: {
+    name: "Cloud Services",
+    description: "Cloud Services is a.....",
   },
 };
 
@@ -213,7 +289,7 @@ export const generateProjectAttributes = (team, currentAttributes = {}) => {
     (categories, [category, attributes]) => ({
       ...categories,
       [category]: Object.entries(attributes).reduce(
-        (attributes, [attribute, { name, stats, value }]) => {
+        (attributes, [attribute, { stats, value }]) => {
           const currentStat =
             currentAttributes?.[category]?.[attribute]?.["value"];
           let stat = value(team);
@@ -221,7 +297,6 @@ export const generateProjectAttributes = (team, currentAttributes = {}) => {
           return {
             ...attributes,
             [attribute]: {
-              name,
               stats,
               value: stat ?? currentStat ?? randomStat(),
             },

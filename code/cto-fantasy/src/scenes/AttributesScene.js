@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import { SceneBackground } from "../game-objects/SceneBackground";
 import { Progress } from "../game-objects/Progress";
 import * as theme from "../theme";
+import { Dialogue } from "../game-objects/Dialogue";
+import { PROJECT_ATTRIBUTES_TEXT } from "../utils/project";
 
 const DEBUG = process.env.REACT_APP_DEBUG === "on";
 
@@ -38,14 +40,14 @@ export class AttributesScene extends Phaser.Scene {
         ({ attribute, value }) =>
           DEBUG || value > 0 || this.project.team.hasDiscovered(attribute)
       )
-      .map(({ category, attribute, name, value }, idx) => {
+      .map(({ category, attribute, value }, idx) => {
         const y = 75 + 20 * (idx + 1);
         return [
           this.make
             .text({
               x: 235,
               y,
-              text: `${name}`,
+              text: `${PROJECT_ATTRIBUTES_TEXT[attribute].name}`,
               style:
                 value === 0 && DEBUG
                   ? theme.attributeTextDebug
@@ -69,13 +71,28 @@ export class AttributesScene extends Phaser.Scene {
             .setOrigin(0)
             .setInteractive({ useHandCursor: true })
             .on("pointerdown", () => {
-              this.showInfo({ category, attribute, name, value });
+              this.showInfo(attribute);
             }),
         ].flat();
       });
+    this.info = new Dialogue(
+      this,
+      200,
+      200,
+      width - 400,
+      height - 400,
+      {}
+    ).hide();
   }
 
-  showInfo(info) {
-    console.log("info", info);
+  showInfo(attribute) {
+    this.info.updateComponents({
+      title: PROJECT_ATTRIBUTES_TEXT[attribute].name,
+      text: PROJECT_ATTRIBUTES_TEXT[attribute].description,
+      onAccept: () => {
+        this.info.hide();
+      },
+    });
+    this.info.show();
   }
 }

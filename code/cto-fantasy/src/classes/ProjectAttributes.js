@@ -17,11 +17,9 @@ export class ProjectAttributes {
     this.attributes = generateProjectAttributes(this.team, this.customer);
     this.attributesList = Object.entries(this.attributes).reduce(
       (acc, [category, attributes]) => {
-        Object.entries(attributes).forEach(
-          ([attribute, { name, stats, value }]) => {
-            acc.push({ category, attribute, name, stats, value });
-          }
-        );
+        Object.entries(attributes).forEach(([attribute, { stats, value }]) => {
+          acc.push({ category, attribute, stats, value });
+        });
         return acc;
       },
       []

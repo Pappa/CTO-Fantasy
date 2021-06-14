@@ -3,6 +3,11 @@ export const h1 = {
   fill: "#ffffff",
 };
 
+export const h2 = {
+  font: "18px monospace",
+  fill: "#ffffff",
+};
+
 export const cardTitle = {
   font: "14px monospace",
   fill: "#000000",
@@ -31,6 +36,11 @@ export const header = {
 
 export const mainText = {
   font: "18px monospace",
+  fill: "#ffffff",
+};
+
+export const mediumText = {
+  font: "12px monospace",
   fill: "#ffffff",
 };
 
