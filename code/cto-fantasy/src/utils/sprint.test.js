@@ -6,12 +6,15 @@ import {
   isThereEffortRemaining,
   selectNextBacklogItem,
   getTodaysCapability,
+  getNumberOfStoriesToEstimate,
 } from "./sprint";
 import { generateProductFeatures } from "./features";
 import { Bug, UserStory, WorkItem } from "../classes/WorkItem";
 import { Dev } from "../classes/Employee";
 import { Team } from "../classes/Team";
 import { range } from "./collection";
+import { Customer } from "../classes/Customer";
+import { ProjectAttributes } from "../classes/ProjectAttributes";
 
 describe("calculateBacklogCapacityRow()", () => {
   it("should return last position when all estimates are null", () => {
@@ -50,6 +53,75 @@ describe("calculateBacklogCapacityRow()", () => {
   });
 });
 
+describe("getNumberOfStoriesToEstimate()", () => {
+  const emitter = { on: jest.fn(), emit: jest.fn() };
+  let dev1;
+  let dev2;
+  let rand;
+  beforeEach(() => {
+    rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
+    dev1 = new Dev({
+      skill: 0.4,
+      experience: 4,
+      happiness: 0.4,
+      qualityMindset: 0.4,
+      collaboration: 0.4,
+      flow: 0.4,
+      estimation: 0.4,
+      psychologicalSafety: 0.4,
+    });
+    dev2 = new Dev({
+      skill: 0.6,
+      experience: 6,
+      happiness: 0.6,
+      qualityMindset: 0.6,
+      collaboration: 0.6,
+      flow: 0.6,
+      estimation: 0.6,
+      psychologicalSafety: 0.6,
+    });
+  });
+  afterEach(() => {
+    rand.mockRestore();
+  });
+
+  it("few devs low rand", () => {
+    rand.mockReturnValue(0.1);
+    const team = new Team([dev1, dev2]);
+    const customer = new Customer({ emitter, project: {} });
+    const attributes = new ProjectAttributes({ emitter, team, customer });
+    const result = getNumberOfStoriesToEstimate(team, attributes.attributes);
+    expect(result).toEqual(3);
+  });
+
+  it("more devs low rand", () => {
+    rand.mockReturnValue(0.1);
+    const team = new Team([dev1, dev2, dev1, dev2, dev1, dev2]);
+    const customer = new Customer({ emitter, project: {} });
+    const attributes = new ProjectAttributes({ emitter, team, customer });
+    const result = getNumberOfStoriesToEstimate(team, attributes.attributes);
+    expect(result).toEqual(12);
+  });
+
+  it("few devs high rand", () => {
+    rand.mockReturnValue(0.9);
+    const team = new Team([dev1, dev2]);
+    const customer = new Customer({ emitter, project: {} });
+    const attributes = new ProjectAttributes({ emitter, team, customer });
+    const result = getNumberOfStoriesToEstimate(team, attributes.attributes);
+    expect(result).toEqual(6);
+  });
+
+  it("more devs high rand", () => {
+    rand.mockReturnValue(0.9);
+    const team = new Team([dev1, dev2, dev1, dev2, dev1, dev2]);
+    const customer = new Customer({ emitter, project: {} });
+    const attributes = new ProjectAttributes({ emitter, team, customer });
+    const result = getNumberOfStoriesToEstimate(team, attributes.attributes);
+    expect(result).toEqual(15);
+  });
+});
+
 describe("getBacklogEstimates()", () => {
   const storyPointValues = [1, 2, 3, 5, 8, 13, 20];
   let backlog;
@@ -67,7 +139,6 @@ describe("getBacklogEstimates()", () => {
     const team = { size: 10, estimation: 0.5 };
 
     rand
-      .mockReturnValueOnce(0.2)
       .mockReturnValueOnce(0.5)
       .mockReturnValueOnce(0.8)
       .mockReturnValueOnce(0.2)
@@ -76,7 +147,7 @@ describe("getBacklogEstimates()", () => {
       .mockReturnValueOnce(0.2)
       .mockReturnValueOnce(0.5)
       .mockReturnValueOnce(0.8);
-    const estimates = getBacklogEstimates(backlog, team, storyPointValues);
+    const estimates = getBacklogEstimates(backlog, team, storyPointValues, 8);
 
     expect(estimates).toEqual([
       { id: "G0001", estimate: 3 },
@@ -97,7 +168,6 @@ describe("getBacklogEstimates()", () => {
     backlog[4].estimate = 8;
 
     rand
-      .mockReturnValueOnce(0.2)
       .mockReturnValueOnce(0.5)
       .mockReturnValueOnce(0.8)
       .mockReturnValueOnce(0.2)
@@ -106,7 +176,7 @@ describe("getBacklogEstimates()", () => {
       .mockReturnValueOnce(0.2)
       .mockReturnValueOnce(0.5)
       .mockReturnValueOnce(0.8);
-    const estimates = getBacklogEstimates(backlog, team, storyPointValues);
+    const estimates = getBacklogEstimates(backlog, team, storyPointValues, 8);
 
     expect(estimates).toEqual([
       { id: "G0002", estimate: 3 },
@@ -131,7 +201,7 @@ describe("getBacklogEstimates()", () => {
     story.setEstimate(5);
     const backlog = [story];
 
-    const estimates = getBacklogEstimates(backlog, team, storyPointValues);
+    const estimates = getBacklogEstimates(backlog, team, storyPointValues, 8);
 
     expect(estimates).toEqual([]);
   });

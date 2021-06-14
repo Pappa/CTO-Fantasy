@@ -1,4 +1,4 @@
-import { Bug, WorkItem } from "../classes/WorkItem";
+import { Bug, UserStory, WorkItem } from "../classes/WorkItem";
 import { range, shuffle } from "./collection";
 import { generateWorkItemId } from "./features";
 import { pick } from "./random";
@@ -18,13 +18,26 @@ export const calculateBacklogCapacityRow = (estimates, velocity) => {
   return idx + 1;
 };
 
-export const getBacklogEstimates = (backlog, team, storyPointValues) => {
+export const getNumberOfStoriesToEstimate = (team, attributes) => {
+  const MULTIPICLATION_FACTOR = 5;
+  const refinement =
+    team.size * attributes.AGILE.REFINEMENT.value * MULTIPICLATION_FACTOR +
+    pick(range(-2, 2));
+  return Math.round(refinement);
+};
+
+export const getBacklogEstimates = (
+  backlog,
+  team,
+  storyPointValues,
+  itemsToRefine
+) => {
   // TODO: Allow the team to estimate 13 and 20
   // Add functionality later to teach about breaking stories down
   // and teach about stories being too big to do in a sprint
   const points = storyPointValues.filter((x) => x < 13);
-  const itemsToRefine = Math.max(5, team.size + pick(range(-2, 2)));
   const estimates = backlog
+    .filter((item) => item instanceof UserStory)
     .filter(({ estimate }) => !estimate)
     .slice(0, itemsToRefine)
     .map(({ id, effort }) => ({

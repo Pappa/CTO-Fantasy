@@ -1,4 +1,7 @@
-import { getBacklogEstimates } from "../../../utils/sprint";
+import {
+  getBacklogEstimates,
+  getNumberOfStoriesToEstimate,
+} from "../../../utils/sprint";
 import { State } from "../State";
 
 export class RefinementState extends State {
@@ -10,10 +13,15 @@ export class RefinementState extends State {
   }
 
   enter() {
+    const itemsToRefine = getNumberOfStoriesToEstimate(
+      this.team,
+      this.project.attributes.attributes
+    );
     const estimates = getBacklogEstimates(
       this.project.backlog.stories,
       this.team,
-      this.project.backlog.storyPointValues
+      this.project.backlog.storyPointValues,
+      itemsToRefine
     );
     this.emitter.emit("update_estimates", estimates);
     this.machine.next();
