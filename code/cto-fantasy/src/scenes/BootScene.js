@@ -96,7 +96,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image("button_hover", "assets/UIpack/PNG/blue_button01.png");
     this.load.image("button_click", "assets/UIpack/PNG/blue_button02.png");
     this.load.image("card", "assets/card.png");
-    this.load.image("office", "assets/not-free/office.png");
+    this.load.image("office", "assets/vecteezy/3d-floor-plan.png");
     this.load.image("close_icon", "assets/UIpack/PNG/red_boxCross.png");
     this.load.image("complete_icon", "assets/UIpack/PNG/red_boxCheckmark.png");
     this.load.image("team_icon", "assets/freepik/teamwork/005-team-2.png");
