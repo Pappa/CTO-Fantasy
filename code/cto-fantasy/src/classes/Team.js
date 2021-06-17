@@ -45,7 +45,7 @@ export class Team {
   }
 
   get experience() {
-    return Math.max(this.getAverageStat("experience"), 20) / 20;
+    return Math.min(this.getAverageStat("experience"), 18) / 20;
   }
 
   get happiness() {

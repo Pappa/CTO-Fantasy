@@ -36,13 +36,13 @@ export class Sprint {
     };
   }
 
-  dayPassing() {
+  dayPassing(firefighting) {
     this.day++;
     const { backlog, bugs } = workOnSprintBacklogItems(
       this.sprintBacklog,
       this.sprintBugs,
       this.team,
-      this.getDistractions(this.day),
+      this.getDistractions(this.day, firefighting),
       this.project.backlog.storyPointValues
     );
 
@@ -50,23 +50,27 @@ export class Sprint {
     this.sprintBugs = bugs;
   }
 
-  getDistractions(day) {
+  getDistractions(day, firefighting) {
     const numberOfDevs = this.team.dailyEffort.length;
     const retroActionDistractions = this.getRetroActionDistractions(
-      numberOfDevs,
-      day
+      numberOfDevs
     );
     const consultantDistractions = this.getConsultantDistractions(
       numberOfDevs,
       day
     );
+    const firefightingDistractions = this.getFirefightingDistractions(
+      numberOfDevs,
+      firefighting
+    );
     const distractions = retroActionDistractions.map(
-      (x, idx) => x + consultantDistractions[idx]
+      (x, idx) =>
+        x + consultantDistractions[idx] + firefightingDistractions[idx]
     );
     return distractions;
   }
 
-  getRetroActionDistractions(numberOfDevs, day) {
+  getRetroActionDistractions(numberOfDevs) {
     return Array(numberOfDevs)
       .fill(0)
       .map(
@@ -81,6 +85,12 @@ export class Sprint {
       .filter(({ contractTerm }) => day <= contractTerm)
       .reduce((acc, { impactOnDailyEffort }) => acc + impactOnDailyEffort, 0);
     return Array(numberOfDevs).fill(distractions);
+  }
+
+  getFirefightingDistractions(numberOfDevs, firefighting) {
+    return Array(numberOfDevs)
+      .fill(0)
+      .map(() => (firefighting ? Math.random() : 0));
   }
 
   createEvents() {

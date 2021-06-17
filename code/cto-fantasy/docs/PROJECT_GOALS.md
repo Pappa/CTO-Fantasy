@@ -145,3 +145,11 @@ This should be made explicit to the player somehow.
 Adjust team commitment based on other commitments??
 
 Allow user to adjust commitment manually.
+
+## 13. Priorities
+
+TODO:
+
+- Firefighting - introduce distractions (with a dialog popup) based on poor quality. For example: An issue with user data has been found in the production environment. Dave and Alison need to spend the day resolving it.
+- Workshops - From the Project Attributes scene, ask if you want to take some time out of next sprint to do a workshop with the team on a topic.
+- Training - have team members ask to go on training courses next sprint.

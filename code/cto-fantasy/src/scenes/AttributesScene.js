@@ -4,6 +4,7 @@ import { Progress } from "../game-objects/Progress";
 import * as theme from "../theme";
 import { Dialogue } from "../game-objects/Dialogue";
 import { PROJECT_ATTRIBUTES_TEXT } from "../utils/project";
+import { arrayToTextList } from "../utils/strings";
 
 const DEBUG = process.env.REACT_APP_DEBUG === "on";
 
@@ -40,7 +41,7 @@ export class AttributesScene extends Phaser.Scene {
         ({ attribute, value }) =>
           DEBUG || value > 0 || this.project.team.hasDiscovered(attribute)
       )
-      .map(({ category, attribute, value }, idx) => {
+      .map(({ category, attribute, value, stats }, idx) => {
         const y = 75 + 20 * (idx + 1);
         return [
           this.make
@@ -71,8 +72,11 @@ export class AttributesScene extends Phaser.Scene {
             .setOrigin(0)
             .setInteractive({ useHandCursor: true })
             .on("pointerdown", () => {
-              this.showInfo(attribute);
+              this.showInfo(attribute, stats);
             }),
+          // TODO: add an icon to do a workshop here
+          // open a dialog and if the user confirms
+          // add distractions and improvements next sprint
         ].flat();
       });
     this.info = new Dialogue(
@@ -85,14 +89,22 @@ export class AttributesScene extends Phaser.Scene {
     ).hide();
   }
 
-  showInfo(attribute) {
+  showInfo(attribute, stats) {
+    const { name, description } = PROJECT_ATTRIBUTES_TEXT[attribute];
     this.info.updateComponents({
-      title: PROJECT_ATTRIBUTES_TEXT[attribute].name,
-      text: PROJECT_ATTRIBUTES_TEXT[attribute].description,
+      title: name,
+      text: `${description} ${this.getStatsText(name, stats)}`,
       onAccept: () => {
         this.info.hide();
       },
     });
     this.info.show();
+  }
+
+  getStatsText(name, stats) {
+    const statsText = arrayToTextList(
+      stats.map((stat) => stat.replace(/([A-Z])/g, " $1").toLowerCase())
+    );
+    return `The quality of ${name} is affected by the team members' ${statsText}.`;
   }
 }

@@ -23,7 +23,9 @@ export class MainScene extends Phaser.Scene {
     this.height = this.cameras.main.height;
     this.centreX = this.width / 2;
     this.centreY = this.height / 2;
+
     this.emitter = this.events;
+
     const {
       STORY_POINT_VALUES,
       NUMBER_OF_NEW_STORIES_PER_SPRINT,

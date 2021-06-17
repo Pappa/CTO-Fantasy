@@ -1,6 +1,6 @@
 import { Bug, UserStory, WorkItem } from "../classes/WorkItem";
 import { range, shuffle } from "./collection";
-import { generateWorkItemId } from "./features";
+import { generateFirefightingIncident, generateWorkItemId } from "./features";
 import { pick } from "./random";
 
 export const calculateBacklogCapacityRow = (estimates, velocity) => {
@@ -136,7 +136,7 @@ export const isThereWorkToDo = (backlog) =>
 export const isThereEffortRemaining = (todaysCapability) =>
   todaysCapability.some(({ effort }) => effort > 0);
 
-const isCodeBuggy = (qualityMindset) => qualityMindset < Math.random() * 0.5;
+const isCodeBuggy = (qualityMindset) => Math.random() / 2 > qualityMindset;
 
 export const selectNextBacklogItem = (items, flow) =>
   items.find(() => flow >= Math.random()) || items[items.length - 1];
@@ -161,4 +161,20 @@ export const createBugOnStory = (story, effort) => {
     effort,
     story,
   });
+};
+
+const getFirefightingRisk = (attr, sprintNo) => {
+  // Limit the risk of firefighting at the start of the project
+  return sprintNo > 9 ? attr.value : Math.max((10 - sprintNo) / 10, attr.value);
+};
+
+export const getFirefightingEvent = (attributes, sprintNo) => {
+  const attr = pick(
+    attributes.attributesList.filter(
+      ({ stats, category }) =>
+        stats.includes("qualityMindset") && category !== "AGILE"
+    )
+  );
+  const risk = getFirefightingRisk(attr, sprintNo);
+  return Math.random() * 0.66 > risk && generateFirefightingIncident();
 };

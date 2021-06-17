@@ -46,17 +46,17 @@ export class Dialogue extends Phaser.GameObjects.Container {
       })
       .setOrigin(0.5, 0);
 
-    this.onAccept = new Button(this.scene, this.width / 4, this.height - 40, {
+    this.onAccept = new Button(this.scene, this.width / 4, this.height - 30, {
       text: "OK",
-    });
+    }).setScale(0.75);
     this.onCancel = new Button(
       this.scene,
       (this.width / 4) * 3,
-      this.height - 40,
+      this.height - 30,
       {
         text: "Cancel",
       }
-    );
+    ).setScale(0.75);
 
     this.add([
       this.background,

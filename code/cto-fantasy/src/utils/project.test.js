@@ -19,11 +19,11 @@ describe("generateProjectAttributes()", () => {
       AGILE: {
         CONTINUOUS_IMPROVEMENT: {
           value: 0,
-          stats: ["qualityMindset", "agileMindset"],
+          stats: ["agileMindset", "qualityMindset"],
         },
         CUSTOMER_ENGAGEMENT: {
           value: 0.4,
-          stats: undefined,
+          stats: ["agileMindset"],
         },
         DAILY_SCRUM: {
           value: 0.4,
@@ -42,7 +42,7 @@ describe("generateProjectAttributes()", () => {
           stats: ["agileMindset", "collaboration", "psychologicalSafety"],
         },
         REVIEW: {
-          value: 0.4,
+          value: 0.2,
           stats: ["agileMindset"],
         },
         SPRINT_GOAL: {
@@ -123,18 +123,5 @@ describe("generateProjectAttributes()", () => {
     const team = new Team([new ProductOwner({ agileMindset: 0.95 })]);
     const attributes = generateProjectAttributes(team);
     expect(attributes.AGILE.REVIEW.value).toEqual(0.95);
-  });
-
-  it("should use provided values over randomly generated values", () => {
-    const currentAttributes = {
-      AGILE: {
-        REVIEW: { value: 0.1 },
-        CUSTOMER_ENGAGEMENT: { value: 0.1 },
-      },
-    };
-    const team = new Team([new ProductOwner({ agileMindset: 0.95 })]);
-    const attributes = generateProjectAttributes(team, currentAttributes);
-    expect(attributes.AGILE.REVIEW.value).toEqual(0.95);
-    expect(attributes.AGILE.CUSTOMER_ENGAGEMENT.value).toEqual(0.1);
   });
 });

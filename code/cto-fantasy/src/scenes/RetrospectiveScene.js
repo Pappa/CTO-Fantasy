@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { SceneBackground } from "../game-objects/SceneBackground";
 import * as theme from "../theme";
 import { PROJECT_ATTRIBUTES_TEXT } from "../utils/project";
+import { arrayToTextList } from "../utils/strings";
 
 export class RetrospectiveScene extends Phaser.Scene {
   constructor() {
@@ -34,15 +35,11 @@ export class RetrospectiveScene extends Phaser.Scene {
   }
 
   displayActions() {
-    const actionsString = this.actions
-      .map(({ attribute }) => PROJECT_ATTRIBUTES_TEXT[attribute].name)
-      .reduce((acc, item, idx, self) => {
-        return idx === 0
-          ? item
-          : idx < self.length - 1
-          ? (acc += `, ${item}`)
-          : (acc += ` and ${item}`);
-      }, "");
+    const actionsString = arrayToTextList(
+      this.actions.map(
+        ({ attribute }) => PROJECT_ATTRIBUTES_TEXT[attribute].name
+      )
+    );
     this.make
       .text({
         x: 150,

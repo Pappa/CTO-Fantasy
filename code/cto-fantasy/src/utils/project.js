@@ -37,7 +37,7 @@ const CATEGORIES = {
       value: (team) => {
         const po =
           team.members.find((member) => member instanceof ProductOwner) || {};
-        return po.agileMindset;
+        return average([po.agileMindset || 0, team.agileMindset]);
       },
     },
     PSYCHOLOGICAL_SAFETY: {
@@ -62,15 +62,17 @@ const CATEGORIES = {
           : 0,
     },
     CONTINUOUS_IMPROVEMENT: {
-      stats: ["qualityMindset", "agileMindset"],
+      stats: ["agileMindset", "qualityMindset"],
       value: (team) =>
         team.discoveries.includes("CONTINUOUS_IMPROVEMENT")
           ? average([team.qualityMindset, team.agileMindset])
           : 0,
     },
     CUSTOMER_ENGAGEMENT: {
-      value: () => {},
-    }, // customer satisfaction & agile mindset?
+      stats: ["agileMindset"],
+      // TODO: add in customer satisfaction here
+      value: (team) => average([team.agileMindset]),
+    },
   },
   QUALITY_ASSURANCE: {
     TEST_DESIGN: {
@@ -113,7 +115,13 @@ const CATEGORIES = {
       stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("UNIT_TESTING")
-          ? average([team.qualityMindset, team.skill, team.experience])
+          ? (console.log(
+              "UNIT_TESTING",
+              team.qualityMindset,
+              team.skill,
+              team.experience
+            ),
+            average([team.qualityMindset, team.skill, team.experience]))
           : 0,
     },
     UNIT_TEST_COVERAGE: {
@@ -196,15 +204,18 @@ export const PROJECT_ATTRIBUTES_TEXT = {
   },
   REFINEMENT: {
     name: "Refinement",
-    description: "Refinement is a.....",
+    description:
+      "Product Backlog refinement is the act of breaking down and improving Product Backlog items into smaller more precise items. This is an ongoing activity to add details, such as a description, technical information or acceptance criteria.",
   },
   DAILY_SCRUM: {
     name: "Daily Scrum",
-    description: "Daily Scrum is a.....",
+    description:
+      "The Daily Scrum is a planning meeting for the team to inspect their progress toward the Sprint Goal and adapt, producing an actionable plan for the next day of work. It is often, incorrectly, used as a status update.",
   },
   RETROSPECTIVE: {
     name: "Sprint Retrospective",
-    description: "Sprint Retrospective is a.....",
+    description:
+      "The purpose of the Retrospective is to identify and plan ways to increase quality and effectiveness. It happens at the end of every sprint and is one of the ways a Scrum team uses inspection and adaption to improve over time.",
   },
   REVIEW: {
     name: "Sprint Review",

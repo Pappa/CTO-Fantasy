@@ -30,24 +30,37 @@ const BACKGROUND_FEATURES = [
   "compliance",
 ];
 
+const INCIDENT_TEXT = [
+  "There's a major incident caused by a problem with the",
+  "The production environment is down due to an issue with the",
+  "The customer isn't able to access the live environment because of a bug in the",
+  "There's some probem in live cause by the",
+];
+
+const DEVELOP_VERB = ["Implement", "Create", "Build", "Develop"];
+
+const FRONTEND_COMPONENT = ["page", "widget", "feature", "component"];
+const BACKEND_COMPONENT = ["endpoint", "API", "service"];
+
 const generateFrontentBackendTasks = (features) => {
-  const verb = ["Implement", "Create", "Build"];
-  const frontendNoun = ["page", "widget", "feature"];
-  const backendNoun = ["endpoint", "API", "service"];
   return features
     .map((feature) => [
-      { feature, title: `${pick(verb)} ${feature} ${pick(frontendNoun)}` },
-      { feature, title: `${pick(verb)} ${feature} ${pick(backendNoun)}` },
+      {
+        feature,
+        title: `${pick(DEVELOP_VERB)} ${feature} ${pick(FRONTEND_COMPONENT)}`,
+      },
+      {
+        feature,
+        title: `${pick(DEVELOP_VERB)} ${feature} ${pick(BACKEND_COMPONENT)}`,
+      },
     ])
     .flat();
 };
 
 const generateBackgroundTasks = (features) => {
-  const verb = ["Implement", "Create", "Build"];
-  const noun = ["endpoint", "API", "service"];
   return features.map((feature) => ({
     feature,
-    title: `${pick(verb)} ${feature} ${pick(noun)}`,
+    title: `${pick(DEVELOP_VERB)} ${feature} ${pick(BACKEND_COMPONENT)}`,
   }));
 };
 
@@ -83,3 +96,10 @@ export const generateProductFeatures = (storyPointValues) => {
 };
 
 export const generateWorkItemId = (i) => `G${i.toString().padStart(4, "0")}`;
+
+export const generateFirefightingIncident = () =>
+  [
+    pick(INCIDENT_TEXT),
+    pick(BACKGROUND_FEATURES),
+    pick(BACKEND_COMPONENT),
+  ].join(" ") + ". Some of the team are going to need to resolve this today.";
