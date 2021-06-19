@@ -1,7 +1,7 @@
 export class WorkItem {
-  constructor({ id, title, status, feature, effort }) {
+  constructor({ title, status, feature, effort }) {
     WorkItem.COUNT++;
-    this.id = id;
+    this.id = `G${WorkItem.COUNT.toString().padStart(4, "0")}`;
     this.title = title;
     this.status = status || WorkItem.STATUS.NOT_VISIBLE;
     this.feature = feature;
@@ -23,6 +23,7 @@ export class WorkItem {
 
   addEffort(effort) {
     this.effortRemaining += effort;
+    console.log("addEffort", this.effortRemaining);
   }
 
   done() {
@@ -60,8 +61,8 @@ export class UserStory extends WorkItem {
 export class Bug extends WorkItem {
   type = WorkItem.TYPE.BUG;
   story;
-  constructor({ id, title, status, feature, effort, story }) {
-    super({ id, title, status, feature, effort });
+  constructor({ title, status, feature, effort, story }) {
+    super({ title, status, feature, effort });
     this.story = story;
   }
 }

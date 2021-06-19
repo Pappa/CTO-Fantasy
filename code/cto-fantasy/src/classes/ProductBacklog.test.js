@@ -13,12 +13,13 @@ describe("ProductBacklog", () => {
   });
   const emitter = { on: jest.fn(), emit: jest.fn() };
   beforeEach(() => {
+    WorkItem.COUNT = 0;
+
     rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
 
     initial = range(1, 5).map(
       (idx) =>
         new UserStory({
-          id: `G${idx}`,
           title: "title",
           feature: `feature ${idx}`,
           status: WorkItem.STATUS.TODO,
@@ -29,7 +30,6 @@ describe("ProductBacklog", () => {
     rest = range(5, 9).map(
       (idx) =>
         new UserStory({
-          id: `G${idx}`,
           title: "title",
           feature: `feature ${idx}`,
           effort: 5,
@@ -38,13 +38,11 @@ describe("ProductBacklog", () => {
 
     bugs = [
       new Bug({
-        id: `G11`,
         title: "title",
         feature: `feature 1`,
-        effort: 5,
+        effort: 3,
       }),
       new Bug({
-        id: `G12`,
         title: "title",
         feature: `feature 1`,
         effort: 5,
@@ -86,13 +84,14 @@ describe("ProductBacklog", () => {
     const backlog = new ProductBacklog({ emitter, featureGenerator });
 
     backlog.updateBacklogOnSprintEnd({ sprintBacklog: bugs });
-    backlog.backlog.find((item) => item.id === "G1").status =
+    backlog.backlog.find((item) => item.id === bugs[1].id).status =
       WorkItem.STATUS.DONE;
 
     expect(backlog.items.length).toBe(4);
     expect(backlog.completed.length).toBe(1);
-    expect(backlog.stories.length).toBe(3);
-    expect(backlog.bugs.length).toBe(1);
+    expect(backlog.stories.length).toBe(4);
+    expect(backlog.bugs.length).toBe(0);
+    expect(backlog.backlog.length).toBe(6);
   });
 
   it("should add more stories to the backlog", () => {

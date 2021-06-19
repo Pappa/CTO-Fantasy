@@ -1,6 +1,6 @@
 import { Bug, UserStory, WorkItem } from "../classes/WorkItem";
 import { range, shuffle } from "./collection";
-import { generateFirefightingIncident, generateWorkItemId } from "./features";
+import { generateFirefightingIncident } from "./features";
 import { pick } from "./random";
 
 export const calculateBacklogCapacityRow = (estimates, velocity) => {
@@ -101,7 +101,7 @@ export const workOnSprintBacklogItems = (
           if (isCodeBuggy(qualityMindset)) {
             if (item instanceof Bug) {
               // add more effort to existing bug
-              item.addEffort(pick(points));
+              item.addEffort(pick(points.slice(0, 3)));
             } else {
               const bug = createBugOnStory(item, pick(points));
               backlog.push(bug);
@@ -143,10 +143,7 @@ export const selectNextBacklogItem = (items, flow) =>
 
 export const findBugs = (items, qualityMetric) =>
   items
-    .filter(
-      (item) =>
-        item instanceof Bug && item.status === WorkItem.STATUS.NOT_VISIBLE
-    )
+    .filter((item) => item instanceof Bug && !item.visible())
     .forEach((item) => {
       if (qualityMetric >= Math.random()) {
         item.status = WorkItem.STATUS.TODO;
@@ -155,7 +152,6 @@ export const findBugs = (items, qualityMetric) =>
 
 export const createBugOnStory = (story, effort) => {
   return new Bug({
-    id: generateWorkItemId(WorkItem.COUNT + 1),
     title: `Bug: ${story.title}`,
     feature: story.feature,
     effort,

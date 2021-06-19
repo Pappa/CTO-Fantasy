@@ -69,9 +69,8 @@ export const generateProductFeatures = (storyPointValues) => {
   const initial = generateFrontentBackendTasks(
     FRONTEND_BACKEND_FEATURES.slice(0, 5)
   ).map(
-    ({ feature, title }, idx) =>
+    ({ feature, title }) =>
       new UserStory({
-        id: generateWorkItemId(idx + 1),
         title,
         feature,
         status: WorkItem.STATUS.TODO,
@@ -83,19 +82,16 @@ export const generateProductFeatures = (storyPointValues) => {
     generateBackgroundTasks(BACKGROUND_FEATURES),
   ]
     .flat()
-    .map(({ feature, title }, idx) => ({
+    .map(({ feature, title }) => ({
       sort: Math.random(),
       title,
       feature,
-      id: generateWorkItemId(idx + 1),
       effort: pick(points),
     }))
     .sort((a, b) => a.sort - b.sort)
     .map((obj) => new UserStory(obj));
   return { initial, rest };
 };
-
-export const generateWorkItemId = (i) => `G${i.toString().padStart(4, "0")}`;
 
 export const generateFirefightingIncident = () =>
   [

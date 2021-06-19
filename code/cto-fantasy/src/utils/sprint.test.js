@@ -127,6 +127,7 @@ describe("getBacklogEstimates()", () => {
   let backlog;
   let rand;
   beforeEach(() => {
+    WorkItem.COUNT = 0;
     rand = jest.spyOn(global.Math, "random").mockReturnValue(0.5);
     const { initial } = generateProductFeatures(storyPointValues);
     backlog = initial;
@@ -192,7 +193,6 @@ describe("getBacklogEstimates()", () => {
   it("should handle no items to estimate", () => {
     const team = { size: 10, estimation: 0.5 };
     const story = new UserStory({
-      id: "G0001",
       title: "title",
       feature: "user login",
       status: WorkItem.STATUS.TODO,
@@ -232,7 +232,6 @@ describe("workOnSprintBacklogItems()", () => {
   const sprintBacklog = range(1, 5).map(
     (idx) =>
       new UserStory({
-        id: `G${idx}`,
         title: "title",
         feature: `feature ${idx}`,
         status: WorkItem.STATUS.TODO,
@@ -242,7 +241,6 @@ describe("workOnSprintBacklogItems()", () => {
   const sprintBugs = range(6, 10).map(
     (idx) =>
       new Bug({
-        id: `G${idx}`,
         title: "title",
         feature: `feature ${idx}`,
         status: WorkItem.STATUS.TODO,
@@ -273,7 +271,6 @@ describe("isThereWorkToDo()", () => {
   const itemsWithEffort = range(5).map(
     (idx) =>
       new UserStory({
-        id: `G${idx}`,
         title: "title",
         feature: `feature ${idx}`,
         status: WorkItem.STATUS.TODO,
@@ -283,7 +280,6 @@ describe("isThereWorkToDo()", () => {
   const itemsWithAndWithoutEffort = range(5).map(
     (idx) =>
       new UserStory({
-        id: `G${idx}`,
         title: "title",
         feature: `feature ${idx}`,
         status: WorkItem.STATUS.DONE,
@@ -293,7 +289,6 @@ describe("isThereWorkToDo()", () => {
   const itemsWithoutEffort = range(5).map(
     (idx) =>
       new UserStory({
-        id: `G${idx}`,
         title: "title",
         feature: `feature ${idx}`,
         status: WorkItem.STATUS.DONE,
@@ -328,7 +323,6 @@ describe("selectNextBacklogItem()", () => {
   const items = range(3).map(
     (idx) =>
       new UserStory({
-        id: `G${idx}`,
         title: "title",
         feature: `feature ${idx}`,
         status: WorkItem.STATUS.TODO,

@@ -115,13 +115,7 @@ const CATEGORIES = {
       stats: ["qualityMindset", "skill"],
       value: (team) =>
         team.discoveries.includes("UNIT_TESTING")
-          ? (console.log(
-              "UNIT_TESTING",
-              team.qualityMindset,
-              team.skill,
-              team.experience
-            ),
-            average([team.qualityMindset, team.skill, team.experience]))
+          ? average([team.qualityMindset, team.skill, team.experience])
           : 0,
     },
     UNIT_TEST_COVERAGE: {

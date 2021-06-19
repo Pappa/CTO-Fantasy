@@ -66,8 +66,8 @@ export class ProductBacklog {
       item.status = WorkItem.STATUS.TODO;
     });
     this.backlog.push(...storiesToAdd);
-    this.potentialWorkItems = this.potentialWorkItems.filter((item) =>
-      storiesToAdd.includes(item)
+    this.potentialWorkItems = this.potentialWorkItems.filter(
+      (item) => !storiesToAdd.includes(item)
     );
   };
 

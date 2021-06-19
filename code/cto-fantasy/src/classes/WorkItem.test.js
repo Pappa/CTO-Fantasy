@@ -3,7 +3,6 @@ import { WorkItem } from "./WorkItem";
 describe("WorkItem", () => {
   it("should decrement the effortRemaining and return 0 when all effort was used up", () => {
     const workItem = new WorkItem({
-      id: "XXX",
       title: "xxx",
       feature: "xxx",
       effort: 5,
@@ -16,7 +15,6 @@ describe("WorkItem", () => {
 
   it("should decrement the effortRemaining and return the remainder when excess effort was supplied", () => {
     const workItem = new WorkItem({
-      id: "XXX",
       title: "xxx",
       feature: "xxx",
       effort: 5,
@@ -28,7 +26,6 @@ describe("WorkItem", () => {
   });
   it("should handle floating point numbers for effort", () => {
     const workItem = new WorkItem({
-      id: "XXX",
       title: "xxx",
       feature: "xxx",
       effort: 5,
