@@ -117,6 +117,7 @@ export class BootScene extends Phaser.Scene {
       "information_icon",
       "assets/freepik/information-button.png"
     );
+    this.load.image("teach_icon", "assets/teach.png");
     this.load.image("mid_grey", "assets/px/px666666.png");
     this.load.image("down_arrow", "assets/UIpack/PNG/grey_arrowDownWhite.png");
     this.load.image("up_arrow", "assets/UIpack/PNG/grey_arrowUpWhite.png");

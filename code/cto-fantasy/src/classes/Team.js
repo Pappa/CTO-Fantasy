@@ -1,5 +1,5 @@
 import { average } from "../utils/number";
-import { randomInt } from "../utils/random";
+import { pick, randomInt } from "../utils/random";
 import { Dev, Tester, ScrumMaster, ProductOwner } from "./Employee";
 
 export class Team {
@@ -174,6 +174,15 @@ export class Team {
       if (Math.random() <= Math.max(member.agileMindset, consultant.skill)) {
         member.agileMindset += consultant.skill / 5;
       }
+    });
+  }
+
+  workshop(workshop, ammounts) {
+    this.members.forEach((member) => {
+      (workshop.stats || []).forEach((stat) => {
+        const ammount = pick(ammounts);
+        member[stat] = Math.min(member[stat] + ammount, 1);
+      });
     });
   }
 }

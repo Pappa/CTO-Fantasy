@@ -23,7 +23,6 @@ export class WorkItem {
 
   addEffort(effort) {
     this.effortRemaining += effort;
-    console.log("addEffort", this.effortRemaining);
   }
 
   done() {

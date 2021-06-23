@@ -154,3 +154,11 @@ TODO:
 - Workshops - From the Project Attributes scene, ask if you want to take some time out of next sprint to do a workshop with the team on a topic.
 - Training - have team members ask to go on training courses next sprint.
 - The backlog seems to have a bug where items are being duplicated.
+
+# Work remaining to finish game
+
+1. Complete "game end" screen.
+2. Introduce workshops to directly teach the team topics.
+3. Provide more feedback to the user about what's going on behind the scenes (probably at the end of a sprint)
+4. Fix the backlog screen to allow scrolling.
+5. Allow preset or weighted teams to be used to lessen the impact of randomness.

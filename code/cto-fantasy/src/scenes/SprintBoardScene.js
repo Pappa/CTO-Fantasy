@@ -2,7 +2,9 @@ import Phaser from "phaser";
 import { Dialogue } from "../game-objects/Dialogue";
 import { SprintBoard } from "../game-objects/SprintBoard";
 import { SprintBurndownChart } from "../game-objects/SprintBurndownChart";
+import { noop } from "../utils/function";
 import { getFirefightingEvent } from "../utils/sprint";
+import { arrayToTextList } from "../utils/strings";
 
 const DAY_LENGTH = process.env.REACT_APP_DAY_LENGTH || 1200;
 
@@ -17,6 +19,7 @@ export class SprintBoardScene extends Phaser.Scene {
     this.emitter = emitter;
     this.onClose = onClose;
     this.daysRemaining = this.sprint.SPRINT_LENGTH;
+    this.dialogueQueue = [];
     this.createSprintBoard();
     this.createBurndown();
     this.createDialogue();
@@ -57,17 +60,30 @@ export class SprintBoardScene extends Phaser.Scene {
   }
 
   dayPassing() {
-    // TODO: add firefighting distractions
-    // pause the sprintTimer and open a dialog explaining the distraction
     const firefighting = getFirefightingEvent(
       this.project.attributes,
       this.sprint.number
     );
     if (firefighting) {
-      this.showDialogue(firefighting);
+      this.queueDialogue({ title: "Firefighting!", text: firefighting });
     }
+    // cache current day for onClose
+    const currentDay = this.sprint.day;
+    const workshop = this.getWorkshop(currentDay);
+    if (workshop) {
+      this.queueDialogue({
+        title: "Workshop",
+        text: `Today's ${
+          workshop.name
+        } workshop has helped improve the team's ${this.getStatsText(
+          workshop.stats
+        )}.`,
+        onClose: () => this.emitter.emit("workshop_done", workshop, currentDay),
+      });
+    }
+    this.showDialogues();
     if (this.sprintTimer.repeatCount > 0) {
-      this.sprint.dayPassing(firefighting);
+      this.sprint.dayPassing(firefighting, workshop);
       this.sprintBoard.dayPassing();
       this.burndown.update();
     } else {
@@ -76,16 +92,39 @@ export class SprintBoardScene extends Phaser.Scene {
     }
   }
 
-  showDialogue(firefighting) {
+  queueDialogue(dialogue) {
+    this.dialogueQueue.push(dialogue);
+  }
+
+  showDialogues() {
+    if (this.dialogueQueue.length) {
+      const dialogue = this.dialogueQueue.shift();
+      this.showDialogue(dialogue, () => this.showDialogues());
+    }
+  }
+
+  showDialogue({ title, text, onClose = noop }, next) {
     this.sprintTimer.paused = true;
     this.info.updateComponents({
-      title: "Firefighting!",
-      text: firefighting,
+      title,
+      text,
       onAccept: () => {
         this.info.hide();
         this.sprintTimer.paused = false;
+        onClose();
+        next();
       },
     });
     this.info.show();
+  }
+
+  getWorkshop(day) {
+    return this.project.workshops[day];
+  }
+
+  getStatsText(stats) {
+    return arrayToTextList(
+      stats.map((stat) => stat.replace(/([A-Z])/g, " $1").toLowerCase())
+    );
   }
 }

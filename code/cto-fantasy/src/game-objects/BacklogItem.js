@@ -16,7 +16,7 @@ export class BacklogItem extends Phaser.GameObjects.Container {
     //this.scene.add.existing(this);
 
     this.createComponents();
-    this.updateArrows();
+    //this.updateArrows();
 
     this.setSize(this.width, this.height);
     this.setInteractive({
@@ -75,51 +75,51 @@ export class BacklogItem extends Phaser.GameObjects.Container {
       .setOrigin(0)
       .setVisible(this.item.type === WorkItem.TYPE.STORY);
 
-    this.upArrow = this.scene.make
-      .image({
-        x: 545,
-        y: 4,
-        key: "up_arrow",
-        scale: 0.5,
-      })
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", this.updateEstimate.bind(null, 1));
-    this.downArrow = this.scene.make
-      .image({
-        x: 545,
-        y: 16,
-        key: "down_arrow",
-        scale: 0.5,
-      })
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", this.updateEstimate.bind(null, -1));
+    // this.upArrow = this.scene.make
+    //   .image({
+    //     x: 545,
+    //     y: 4,
+    //     key: "up_arrow",
+    //     scale: 0.5,
+    //   })
+    //   .setOrigin(0)
+    //   .setInteractive({ useHandCursor: true })
+    //   .on("pointerdown", this.updateEstimate.bind(null, 1));
+    // this.downArrow = this.scene.make
+    //   .image({
+    //     x: 545,
+    //     y: 16,
+    //     key: "down_arrow",
+    //     scale: 0.5,
+    //   })
+    //   .setOrigin(0)
+    //   .setInteractive({ useHandCursor: true })
+    //   .on("pointerdown", this.updateEstimate.bind(null, -1));
     this.add([
       this.background,
       this.workItemId,
       this.title,
       this.estimate,
-      this.upArrow,
-      this.downArrow,
+      // this.upArrow,
+      // this.downArrow,
     ]);
   }
 
-  updateArrows() {
-    if (this.item.estimate === this.storyPointValues[this.lastIndex]) {
-      this.upArrow.setTint(0x999999).disableInteractive();
-    } else {
-      this.upArrow.clearTint().setInteractive();
-    }
-    if (
-      !this.item.estimate ||
-      this.item.estimate === this.storyPointValues[0]
-    ) {
-      this.downArrow.setTint(0x999999).disableInteractive();
-    } else {
-      this.downArrow.clearTint().setInteractive();
-    }
-  }
+  // updateArrows() {
+  //   if (this.item.estimate === this.storyPointValues[this.lastIndex]) {
+  //     this.upArrow.setTint(0x999999).disableInteractive();
+  //   } else {
+  //     this.upArrow.clearTint().setInteractive();
+  //   }
+  //   if (
+  //     !this.item.estimate ||
+  //     this.item.estimate === this.storyPointValues[0]
+  //   ) {
+  //     this.downArrow.setTint(0x999999).disableInteractive();
+  //   } else {
+  //     this.downArrow.clearTint().setInteractive();
+  //   }
+  // }
 
   updateEstimate = (direction) => {
     const idx = this.storyPointValues.indexOf(this.item.estimate);
@@ -133,7 +133,7 @@ export class BacklogItem extends Phaser.GameObjects.Container {
     if (estimate) {
       this.estimate.setText(estimate);
       this.emitter.emit("update_estimate", this.item, estimate);
-      this.updateArrows();
+      //this.updateArrows();
     }
   };
 }

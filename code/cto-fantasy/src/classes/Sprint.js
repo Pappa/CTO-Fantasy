@@ -2,8 +2,10 @@ import { UserStory } from "./WorkItem";
 import { workOnSprintBacklogItems } from "../utils/sprint";
 import { sum } from "../utils/number";
 
+export const SPRINT_LENGTH = 10;
+
 export class Sprint {
-  SPRINT_LENGTH = 10;
+  SPRINT_LENGTH = SPRINT_LENGTH;
   day = 0;
   constructor({ number, project, registry, emitter }) {
     this.number = number;
@@ -36,13 +38,13 @@ export class Sprint {
     };
   }
 
-  dayPassing(firefighting) {
+  dayPassing(firefighting, workshop) {
     this.day++;
     const { backlog, bugs } = workOnSprintBacklogItems(
       this.sprintBacklog,
       this.sprintBugs,
       this.team,
-      this.getDistractions(this.day, firefighting),
+      this.getDistractions(this.day, firefighting, workshop),
       this.project.backlog.storyPointValues
     );
 
@@ -50,7 +52,7 @@ export class Sprint {
     this.sprintBugs = bugs;
   }
 
-  getDistractions(day, firefighting) {
+  getDistractions(day, firefighting, workshop) {
     const numberOfDevs = this.team.dailyEffort.length;
     const retroActionDistractions = this.getRetroActionDistractions(
       numberOfDevs
@@ -63,10 +65,23 @@ export class Sprint {
       numberOfDevs,
       firefighting
     );
-    const distractions = retroActionDistractions.map(
-      (x, idx) =>
-        x + consultantDistractions[idx] + firefightingDistractions[idx]
+    // TODO: there is an issue here.
+    // The player is able to run workshops on the same day
+    // that an Agile Coach is present
+    const workshopDistractions = this.getWorkshopDistractions(
+      numberOfDevs,
+      workshop
     );
+    const distractions = Array(numberOfDevs)
+      .fill(0)
+      .map(
+        (x, idx) =>
+          x +
+          retroActionDistractions[idx] +
+          consultantDistractions[idx] +
+          firefightingDistractions[idx] +
+          workshopDistractions[idx]
+      );
     return distractions;
   }
 
@@ -91,6 +106,10 @@ export class Sprint {
     return Array(numberOfDevs)
       .fill(0)
       .map(() => (firefighting ? Math.random() : 0));
+  }
+
+  getWorkshopDistractions(numberOfDevs, workshop) {
+    return Array(numberOfDevs).fill(!!workshop ? 1 : 0);
   }
 
   createEvents() {

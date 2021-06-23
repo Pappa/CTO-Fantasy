@@ -64,15 +64,22 @@ export class AttributesScene extends Phaser.Scene {
               x: 580,
               y,
               key: "information_icon",
-              scale: {
-                x: 0.25,
-                y: 0.25,
-              },
             })
             .setOrigin(0)
             .setInteractive({ useHandCursor: true })
             .on("pointerdown", () => {
-              this.showInfo(attribute, stats);
+              this.showInfoDialogue(attribute, stats);
+            }),
+          this.make
+            .image({
+              x: 600,
+              y,
+              key: "teach_icon",
+            })
+            .setOrigin(0)
+            .setInteractive({ useHandCursor: true })
+            .on("pointerdown", () => {
+              this.showWorkshopDialogue(attribute, stats);
             }),
           // TODO: add an icon to do a workshop here
           // open a dialog and if the user confirms
@@ -89,11 +96,11 @@ export class AttributesScene extends Phaser.Scene {
     ).hide();
   }
 
-  showInfo(attribute, stats) {
+  showInfoDialogue(attribute, stats) {
     const { name, description } = PROJECT_ATTRIBUTES_TEXT[attribute];
     this.info.updateComponents({
       title: name,
-      text: `${description} ${this.getStatsText(name, stats)}`,
+      text: `${description}\n\n${this.getAttributeExplanation(name, stats)}`,
       onAccept: () => {
         this.info.hide();
       },
@@ -101,10 +108,60 @@ export class AttributesScene extends Phaser.Scene {
     this.info.show();
   }
 
-  getStatsText(name, stats) {
-    const statsText = arrayToTextList(
+  showWorkshopDialogue(attribute, stats) {
+    const { name } = PROJECT_ATTRIBUTES_TEXT[attribute];
+    this.info.updateComponents({
+      title: `${name} workshop`,
+      text: this.getWorkshopExplanation(name, stats),
+      onAccept: () => {
+        this.info.hide();
+        const day = this.project.getFreeWorkshopDay();
+        if (day === undefined) {
+          this.showNoFreeDaysDialogue();
+        } else {
+          this.emitter.emit(
+            "workshop_organised",
+            {
+              name,
+              stats,
+            },
+            day
+          );
+        }
+      },
+      onCancel: () => {
+        this.info.hide();
+      },
+    });
+    this.info.show();
+  }
+
+  showNoFreeDaysDialogue() {
+    this.info.updateComponents({
+      title: `Workshop`,
+      text: `Sorry, you cannot arrange any more workshops next sprint.`,
+      onAccept: () => {
+        this.info.hide();
+      },
+    });
+    this.info.show();
+  }
+
+  getAttributeExplanation(name, stats) {
+    return `The quality of ${name} is affected by the team's ${this.getStatsText(
+      stats
+    )}.`;
+  }
+
+  getWorkshopExplanation(name, stats) {
+    return `Run a ${name} workshop with the team next sprint.\n\nThis will help improve the team's ${this.getStatsText(
+      stats
+    )}.`;
+  }
+
+  getStatsText(stats) {
+    return arrayToTextList(
       stats.map((stat) => stat.replace(/([A-Z])/g, " $1").toLowerCase())
     );
-    return `The quality of ${name} is affected by the team members' ${statsText}.`;
   }
 }

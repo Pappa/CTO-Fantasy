@@ -32,6 +32,10 @@ export class SprintReviewScene extends Phaser.Scene {
         this.onClose();
       },
     });
+    this.customerIcon = this.add
+      .image(70, 200, "customer_icon")
+      .setScale(0.25)
+      .setOrigin(0);
   }
 
   displayResults() {
@@ -87,13 +91,13 @@ export class SprintReviewScene extends Phaser.Scene {
 
     this.make
       .text({
-        x: 150,
-        y: 150,
+        x: 250,
+        y: 200,
         text: lines.join("\n\n"),
         style: {
           ...theme.mainText,
           align: "left",
-          wordWrap: { width: 500, useAdvancedWrap: true },
+          wordWrap: { width: 500, useAdvancedWrap: false },
         },
       })
       .setOrigin(0);

@@ -18,6 +18,9 @@ describe("pick()", () => {
   it("should return 3", () => {
     expect(pick([1, 2, 3, 4, 5])).toBe(3);
   });
+  it("should return undefined", () => {
+    expect(pick([])).toBe(undefined);
+  });
 });
 
 describe("randomName()", () => {
