@@ -153,7 +153,7 @@ TODO:
 - ~~Firefighting - introduce distractions (with a dialog popup) based on poor quality. For example: An issue with user data has been found in the production environment. Dave and Alison need to spend the day resolving it.~~
 - ~~Workshops - From the Project Attributes scene, ask if you want to take some time out of next sprint to do a workshop with the team on a topic.~~
 - Training - have team members ask to go on training courses next sprint.
-- The backlog seems to have a bug where items are being duplicated.
+- ~~The backlog seems to have a bug where items are being duplicated.~~
 
 # Work remaining to finish game
 
