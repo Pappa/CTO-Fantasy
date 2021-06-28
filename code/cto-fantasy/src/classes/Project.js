@@ -118,4 +118,8 @@ export class Project {
     this.budget += budgetIncrease;
     this.emitter.emit("project_updated");
   }
+
+  isComplete() {
+    return this.backlog.items.length === 0;
+  }
 }

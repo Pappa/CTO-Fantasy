@@ -13,6 +13,7 @@ import { CustomerScene } from "./scenes/CustomerScene";
 import { SprintBoardScene } from "./scenes/SprintBoardScene";
 import { AttributesScene } from "./scenes/AttributesScene";
 import { RetrospectiveScene } from "./scenes/RetrospectiveScene";
+import { EndScene } from "./scenes/EndScene";
 
 export class CtoFantasy {
   constructor(presets = {}) {
@@ -36,6 +37,7 @@ export class CtoFantasy {
         CustomerScene,
         AttributesScene,
         RetrospectiveScene,
+        EndScene,
       ],
       title: "CTO Fantasy",
       dom: {

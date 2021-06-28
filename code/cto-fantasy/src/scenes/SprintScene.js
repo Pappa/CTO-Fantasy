@@ -7,6 +7,7 @@ import { navigationStateFactory } from "../classes/states/NavigationState";
 import { Sprint } from "../classes/Sprint";
 import { RefinementState } from "../classes/states/sprint/RefinementState";
 import { RetrospectiveState } from "../classes/states/sprint/RetrospectiveState";
+import { CheckProjectStatusState } from "../classes/states/sprint/CheckProjectStatusState";
 
 export class SprintScene extends Phaser.Scene {
   constructor() {
@@ -61,6 +62,12 @@ export class SprintScene extends Phaser.Scene {
       emitter: this.emitter,
     });
     this.events = [
+      new CheckProjectStatusState(this.machine, this.scene, {
+        team: this.team,
+        customer: this.customer,
+        project: this.project,
+        emitter: this.emitter,
+      }),
       new RefinementState(this.machine, this.scene, {
         emitter: this.emitter,
         team: this.team,

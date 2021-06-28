@@ -162,3 +162,4 @@ TODO:
 3. Provide more feedback to the user about what's going on behind the scenes (probably at the end of a sprint)
 4. ~~Fix the backlog screen to allow scrolling.~~
 5. Allow preset or weighted teams to be used to lessen the impact of randomness.
+6. Is there a bug in the Sprint Review scene? It seems the customer priorities may have been broken by changes to the Refinement State.

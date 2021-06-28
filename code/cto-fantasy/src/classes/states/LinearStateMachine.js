@@ -35,6 +35,10 @@ export class LinearStateMachine {
     }
   }
 
+  clearQueue() {
+    this.queue = [];
+  }
+
   hasNext() {
     return !!this.currentState;
   }

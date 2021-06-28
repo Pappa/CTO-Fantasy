@@ -5,6 +5,7 @@ import {
 import { State } from "../State";
 
 export class RefinementState extends State {
+  delay = 0;
   constructor(machine, scene, { project, team, emitter }) {
     super(machine, scene);
     this.project = project;

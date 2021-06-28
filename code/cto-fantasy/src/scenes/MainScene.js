@@ -116,6 +116,7 @@ export class MainScene extends Phaser.Scene {
       })
       .flat();
     this.machine.add(states);
+    this.machine.add(this.stateFactory("EndScene"));
   }
 
   createMenu() {
