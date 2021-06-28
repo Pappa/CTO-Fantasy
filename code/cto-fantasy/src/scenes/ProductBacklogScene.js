@@ -69,9 +69,9 @@ export class ProductBacklogScene extends Phaser.Scene {
     this.add
       .text(
         400,
-        560,
-        `* Use the arrow keys to scroll the backlog.`,
-        theme.mediumText
+        540,
+        `* Use the arrow keys to scroll the backlog.\nDrag and drop to reorder items.`,
+        { ...theme.mediumText, align: "center" }
       )
       .setOrigin(0.5, 0);
   }

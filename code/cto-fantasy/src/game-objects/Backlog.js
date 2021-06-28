@@ -55,9 +55,15 @@ export class Backlog extends Phaser.GameObjects.Container {
       .on("pointerdown", () => this.scrollBacklog(-5));
 
     this.backlogMask = this.scene.add
-      .rectangle(this.x + 20, this.y + this.Y_START, 560, 330, 0x6666ff)
+      .rectangle(this.x + 10, this.y + this.Y_START, 580, 335, 0x6666ff)
       .setOrigin(0)
       .setVisible(false);
+
+    this.estimateLine.mask = new Phaser.Display.Masks.GeometryMask(
+      this.scene,
+      this.backlogMask
+    );
+
     this.add([
       this.background,
       this.header,
@@ -76,7 +82,7 @@ export class Backlog extends Phaser.GameObjects.Container {
       return new BacklogItem(
         this.scene,
         20,
-        this.Y_START + this.ITEM_SPACING * idx,
+        this.Y_START + this.backlogItemYOffset + this.ITEM_SPACING * idx,
         {
           item,
           project: this.project,
@@ -139,7 +145,7 @@ export class Backlog extends Phaser.GameObjects.Container {
     });
 
     this.emitter.on("backlog_updated", () => {
-      this.backlogItemYOffset = 0;
+      //this.backlogItemYOffset = 0;
       if (this.scene) {
         this.destroyBacklog();
         this.displayBacklog();
