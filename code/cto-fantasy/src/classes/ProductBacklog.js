@@ -71,6 +71,25 @@ export class ProductBacklog {
     );
   };
 
+  prioritise(priorities) {
+    const features = [...priorities];
+    if (features.length) {
+      const priorityFeature = features[0];
+      const ordered = this.backlog.filter(
+        ({ feature }) => feature === priorityFeature
+      );
+      ordered.push(
+        ...this.backlog.filter(({ feature }) =>
+          features.slice(1).includes(feature)
+        )
+      );
+      ordered.push(
+        ...this.backlog.filter(({ feature }) => !features.includes(feature))
+      );
+      this.updateBacklogOrder(ordered);
+    }
+  }
+
   get items() {
     return this.backlog.filter((item) => !item.done() && item.visible());
   }

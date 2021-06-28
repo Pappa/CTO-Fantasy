@@ -13,6 +13,10 @@ export class RefinementState extends State {
   }
 
   enter() {
+    if (!!this.team.productOwner) {
+      // automatically prioritise customer priorities if the team has a PO
+      this.project.backlog.prioritise(this.project.customer.priorities);
+    }
     const itemsToRefine = getNumberOfStoriesToEstimate(
       this.team,
       this.project.attributes.attributes

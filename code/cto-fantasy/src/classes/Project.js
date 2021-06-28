@@ -54,6 +54,7 @@ export class Project {
     this.emitter.on("consultant_hired", this.consultantHired, this);
     this.emitter.on("workshop_organised", this.workshopOrganised, this);
     this.emitter.on("workshop_done", this.doWorkshop, this);
+    this.emitter.on("sprint_ended", this.updateBudget, this);
   }
 
   setCurrentSprint(sprint) {
@@ -110,5 +111,11 @@ export class Project {
 
   getFreeWorkshopDay() {
     return pick(range(1, SPRINT_LENGTH + 1).filter((x) => !this.workshops[x]));
+  }
+
+  updateBudget() {
+    const budgetIncrease = randomInt(...this.settings.BUDGET_INCREASE_MIN_MAX);
+    this.budget += budgetIncrease;
+    this.emitter.emit("project_updated");
   }
 }

@@ -160,5 +160,5 @@ TODO:
 1. Complete "game end" screen.
 2. ~~Introduce workshops to directly teach the team topics.~~
 3. Provide more feedback to the user about what's going on behind the scenes (probably at the end of a sprint)
-4. Fix the backlog screen to allow scrolling.
+4. ~~Fix the backlog screen to allow scrolling.~~
 5. Allow preset or weighted teams to be used to lessen the impact of randomness.
