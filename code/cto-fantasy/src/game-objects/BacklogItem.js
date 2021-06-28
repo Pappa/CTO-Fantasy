@@ -6,7 +6,7 @@ import { truncate } from "../utils/strings";
 export class BacklogItem extends Phaser.GameObjects.Container {
   width = 560;
   height = 25;
-  constructor(scene, x = 0, y = 0, { item, project, emitter }) {
+  constructor(scene, x = 0, y = 0, { item, project, emitter, mask }) {
     super(scene, x, y);
     this.item = item;
     this.project = project;
@@ -30,6 +30,8 @@ export class BacklogItem extends Phaser.GameObjects.Container {
       useHandCursor: true,
       draggable: true,
     });
+
+    this.mask = new Phaser.Display.Masks.GeometryMask(scene, mask);
   }
 
   createComponents() {
@@ -121,19 +123,19 @@ export class BacklogItem extends Phaser.GameObjects.Container {
   //   }
   // }
 
-  updateEstimate = (direction) => {
-    const idx = this.storyPointValues.indexOf(this.item.estimate);
-    let estimate;
-    if (direction > 0 && idx < this.lastIndex) {
-      estimate = this.storyPointValues[idx + 1];
-    }
-    if (direction < 0 && idx > 0) {
-      estimate = this.storyPointValues[idx - 1];
-    }
-    if (estimate) {
-      this.estimate.setText(estimate);
-      this.emitter.emit("update_estimate", this.item, estimate);
-      //this.updateArrows();
-    }
-  };
+  // updateEstimate = (direction) => {
+  //   const idx = this.storyPointValues.indexOf(this.item.estimate);
+  //   let estimate;
+  //   if (direction > 0 && idx < this.lastIndex) {
+  //     estimate = this.storyPointValues[idx + 1];
+  //   }
+  //   if (direction < 0 && idx > 0) {
+  //     estimate = this.storyPointValues[idx - 1];
+  //   }
+  //   if (estimate) {
+  //     this.estimate.setText(estimate);
+  //     this.emitter.emit("update_estimate", this.item, estimate);
+  //     //this.updateArrows();
+  //   }
+  // };
 }

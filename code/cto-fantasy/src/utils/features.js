@@ -67,7 +67,7 @@ const generateBackgroundTasks = (features) => {
 export const generateProductFeatures = (storyPointValues) => {
   const points = storyPointValues.filter((x) => x < 13);
   const initial = generateFrontentBackendTasks(
-    FRONTEND_BACKEND_FEATURES.slice(0, 5)
+    FRONTEND_BACKEND_FEATURES.slice(0, 7)
   ).map(
     ({ feature, title }) =>
       new UserStory({
@@ -78,7 +78,7 @@ export const generateProductFeatures = (storyPointValues) => {
       })
   );
   const rest = [
-    generateFrontentBackendTasks(FRONTEND_BACKEND_FEATURES.slice(5)),
+    generateFrontentBackendTasks(FRONTEND_BACKEND_FEATURES.slice(7)),
     generateBackgroundTasks(BACKGROUND_FEATURES),
   ]
     .flat()

@@ -187,6 +187,7 @@ describe("getBacklogEstimates()", () => {
       { id: "G0008", estimate: 5 },
       { id: "G0009", estimate: 1 },
       { id: "G0010", estimate: 3 },
+      { id: "G0011", estimate: 5 },
     ]);
   });
 

@@ -24,21 +24,17 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
   }
 
   createComponents() {
-    const scenes = this.menuItems.map(({ scene }) => scene);
-    this.iconsObj = this.menuItems.reduce((acc, { icon, scene }, idx) => {
-      return {
-        ...acc,
-        [icon]: this.scene.add
-          .image(0, idx * 100, icon)
-          .setScale(0.1)
-          .setOrigin(0.5, 0)
-          .setInteractive({ useHandCursor: true })
-          .on("pointerdown", () => {
-            this.handleClick(scene, scenes, icon);
-          }),
-      };
-    }, {});
-    this.add(Object.values(this.iconsObj));
+    this.icons = this.menuItems.map(({ icon, scene }, idx) => {
+      return this.scene.add
+        .image(0, idx * 100, icon)
+        .setScale(0.1)
+        .setOrigin(0.5, 0)
+        .setInteractive({ useHandCursor: true })
+        .on("pointerdown", () => {
+          this.handleClick(scene, icon);
+        });
+    });
+    this.add(this.icons);
     this.textLabels = this.menuItems.map(({ text, icon, scene }, idx) => {
       return this.scene.make
         .text({
@@ -50,7 +46,7 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
         .setOrigin(0.5)
         .setInteractive({ useHandCursor: true })
         .on("pointerdown", () => {
-          this.handleClick(scene, scenes, icon);
+          this.handleClick(scene, icon);
         });
     });
     this.add(this.textLabels);
@@ -101,23 +97,26 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
     });
   }
 
-  handleClick(scene, scenes, icon) {
+  handleClick(scene, icon) {
     this.notificationsObj[icon].setVisible(false);
-    if (this.scene.scene.isActive(scene)) {
-      this.scene.scene.stop(scene);
-    } else {
-      scenes.forEach((s) => {
-        if (this.scene.scene.isActive(s)) {
-          this.scene.scene.stop(s);
-        }
-      });
+    this.disable();
 
-      this.scene.scene.launch(scene, {
-        ...this.modules,
-        onClose: () => {
-          this.scene.scene.stop(scene);
-        },
-      });
-    }
+    this.scene.scene.launch(scene, {
+      ...this.modules,
+      onClose: () => {
+        this.scene.scene.stop(scene);
+        this.enable();
+      },
+    });
+  }
+
+  enable() {
+    this.icons.forEach((icon) => icon.setInteractive());
+    this.textLabels.forEach((icon) => icon.setInteractive());
+  }
+
+  disable() {
+    this.icons.forEach((icon) => icon.disableInteractive());
+    this.textLabels.forEach((icon) => icon.disableInteractive());
   }
 }

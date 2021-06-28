@@ -12,6 +12,7 @@ export class Backlog extends Phaser.GameObjects.Container {
     this.team = team;
     this.commitment = commitment;
     this.emitter = emitter;
+    this.backlogItemYOffset = 0;
     this.scene.add.existing(this);
 
     this.createComponents();
@@ -32,9 +33,42 @@ export class Backlog extends Phaser.GameObjects.Container {
     this.header = this.scene.add
       .text(300, 20, "Product Backlog", theme.mainText)
       .setOrigin(0.5);
-    this.add([this.background, this.header, this.estimateLine]);
+    this.upArrow = this.scene.make
+      .image({
+        x: 620,
+        y: 20,
+        key: "up_arrow",
+        scale: 1,
+      })
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => this.scrollBacklog(5));
+    this.downArrow = this.scene.make
+      .image({
+        x: 620,
+        y: 370,
+        key: "down_arrow",
+        scale: 1,
+      })
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", () => this.scrollBacklog(-5));
+
+    this.backlogMask = this.scene.add
+      .rectangle(this.x + 20, this.y + this.Y_START, 560, 330, 0x6666ff)
+      .setOrigin(0)
+      .setVisible(false);
+    this.add([
+      this.background,
+      this.header,
+      this.estimateLine,
+      this.upArrow,
+      this.downArrow,
+      this.backlogMask,
+    ]);
     this.createEvents();
     this.displayBacklog();
+    this.updateEstimateLine();
   }
 
   displayBacklog() {
@@ -47,15 +81,27 @@ export class Backlog extends Phaser.GameObjects.Container {
           item,
           project: this.project,
           emitter: this.emitter,
+          mask: this.backlogMask,
         }
       );
     });
     this.add(this.rows);
-    this.emitter.emit("backlog_updated");
   }
 
   destroyBacklog() {
     this.rows.forEach((row) => row.destroy());
+  }
+
+  scrollBacklog(by) {
+    if (by > 0 && this.rows[0].y === 50) {
+      return;
+    }
+    if (by < 0 && this.rows[this.rows.length - 1].y === 355) {
+      return;
+    }
+    this.backlogItemYOffset += by;
+    this.estimateLine.y += by;
+    this.rows.forEach((row) => (row.y += by));
   }
 
   getCommittedItems() {
@@ -71,20 +117,15 @@ export class Backlog extends Phaser.GameObjects.Container {
   updateEstimateLine() {
     if (this.commitment) {
       const row = this.getLastCommittedBacklogItemIndex();
+      this.estimateLine.y = 0;
       this.estimateLine
         .clear()
         .fillStyle(0xff0000, 1.0)
-        .fillRect(0, this.Y_START - 4 + row * this.ITEM_SPACING, 600, 3);
+        .fillRect(0, this.rows[row - 1].y + 26, 600, 3);
     }
   }
 
   createEvents() {
-    // this.scene.input.on("gameobjectover", (pointer, obj) => {
-    // });
-
-    // this.scene.input.on("gameobjectout", (pointer, obj) => {
-    // });
-
     this.scene.input.on("dragstart", (pointer, obj) => {
       this.bringToTop(obj);
     });
@@ -97,7 +138,30 @@ export class Backlog extends Phaser.GameObjects.Container {
       this.updatePositions();
     });
 
-    this.emitter.on("backlog_updated", this.updateEstimateLine, this);
+    this.emitter.on("backlog_updated", () => {
+      this.backlogItemYOffset = 0;
+      if (this.scene) {
+        this.destroyBacklog();
+        this.displayBacklog();
+        this.updateEstimateLine();
+      }
+    });
+
+    this.downKey = this.scene.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.DOWN
+    );
+    this.upKey = this.scene.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.UP
+    );
+  }
+
+  update() {
+    if (this.downKey.isDown) {
+      this.scrollBacklog(-5);
+    }
+    if (this.upKey.isDown) {
+      this.scrollBacklog(5);
+    }
   }
 
   updatePositions() {
@@ -105,8 +169,6 @@ export class Backlog extends Phaser.GameObjects.Container {
       .map(({ item: { id }, y }) => ({ id, y }))
       .sort((a, b) => a.y - b.y);
     this.emitter.emit("update_backlog_order", positions);
-    this.destroyBacklog();
-    this.displayBacklog();
   }
 
   getEstimateText(item) {

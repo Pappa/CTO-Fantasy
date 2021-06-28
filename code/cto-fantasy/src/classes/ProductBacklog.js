@@ -20,18 +20,18 @@ export class ProductBacklog {
   }
 
   createEvents() {
-    this.emitter.on("update_estimate", this.updateEstimate);
+    //this.emitter.on("update_estimate", this.updateEstimate);
     this.emitter.on("update_estimates", this.updateEstimates);
     this.emitter.on("update_backlog_order", this.updateBacklogOrder);
     this.emitter.on("sprint_ended", this.updateBacklogOnSprintEnd);
     this.emitter.on("create_more_stories", this.addMoreStoriesToBacklog);
   }
 
-  updateEstimate = (item, estimate) => {
-    const workItem = this.backlog.find(({ id }) => item.id === id) || {};
-    workItem.estimate = estimate;
-    this.emitter.emit("backlog_updated");
-  };
+  // updateEstimate = (item, estimate) => {
+  //   const workItem = this.backlog.find(({ id }) => item.id === id) || {};
+  //   workItem.estimate = estimate;
+  //   this.emitter.emit("backlog_updated");
+  // };
 
   updateEstimates = (items) => {
     items.forEach((item) => {

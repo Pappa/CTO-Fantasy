@@ -20,6 +20,11 @@ export class ProductBacklogScene extends Phaser.Scene {
     this.createComponents();
     this.displayCommitment();
     this.displayBacklog();
+    this.displayHelpText();
+  }
+
+  update() {
+    this.backlog.update();
   }
 
   createComponents() {
@@ -58,6 +63,17 @@ export class ProductBacklogScene extends Phaser.Scene {
       commitment: this.sprint && this.sprint.commitment,
       emitter: this.emitter,
     });
+  }
+
+  displayHelpText() {
+    this.add
+      .text(
+        400,
+        560,
+        `* Use the arrow keys to scroll the backlog.`,
+        theme.mediumText
+      )
+      .setOrigin(0.5, 0);
   }
 
   getEstimateText(item) {
