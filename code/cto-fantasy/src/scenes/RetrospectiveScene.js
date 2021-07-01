@@ -26,7 +26,7 @@ export class RetrospectiveScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
     this.background = new SceneBackground(this, 0, 0, width, height, {
-      title: "Sprint Restrospective",
+      title: "Sprint Retrospective",
       closeIcon: "close_icon",
       onClose: () => {
         this.onClose();

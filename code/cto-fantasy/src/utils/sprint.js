@@ -1,5 +1,5 @@
 import { Bug, UserStory, WorkItem } from "../classes/WorkItem";
-import { range, shuffle } from "./collection";
+import { partition, range, shuffle, unique } from "./collection";
 import { generateFirefightingIncident } from "./features";
 import { pick } from "./random";
 
@@ -173,4 +173,20 @@ export const getFirefightingEvent = (attributes, sprintNo) => {
   );
   const risk = getFirefightingRisk(attr, sprintNo);
   return Math.random() * 0.66 > risk && generateFirefightingIncident();
+};
+
+export const partitionFeaturesByStoryCompletion = (stories, features) => {
+  const [completed, notCompleted] = partition((item) => item.done(), stories);
+
+  const featuresNotCompleted = unique(
+    notCompleted.map(({ feature }) => feature)
+  ).filter((feature) => features.includes(feature));
+  const featuresCompleted = unique(completed.map(({ feature }) => feature))
+    .filter((feature) => features.includes(feature))
+    .filter((feature) => !featuresNotCompleted.includes(feature));
+
+  return {
+    featuresCompleted,
+    featuresNotCompleted,
+  };
 };

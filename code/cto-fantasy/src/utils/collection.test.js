@@ -1,4 +1,4 @@
-import { unique, range, intersperse } from "./collection";
+import { unique, range, intersperse, partition } from "./collection";
 
 describe("unique", () => {
   it("should remove duplicated from an array", () => {
@@ -22,5 +22,15 @@ describe("intersperse", () => {
   it("should intersperse an array with values", () => {
     const actual = intersperse([1, 2, 3, 4, 5], "a");
     expect([1, "a", 2, "a", 3, "a", 4, "a", 5]).toEqual(actual);
+  });
+});
+
+describe("partition", () => {
+  it("should partition an array based on a predicate", () => {
+    const actual = partition((x) => x > 3, [1, 2, 3, 4, 5]);
+    expect([
+      [4, 5],
+      [1, 2, 3],
+    ]).toEqual(actual);
   });
 });

@@ -21,7 +21,7 @@ export class EndScene extends Phaser.Scene {
     const height = this.cameras.main.height;
     const name = this.registry.get("name");
     const company = this.registry.get("company");
-    const title = "Plorg";
+    const title = "Game Over";
 
     this.intro = false;
     this.background = new SceneBackground(this, 0, 0, width, height, {

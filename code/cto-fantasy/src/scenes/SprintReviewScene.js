@@ -20,6 +20,7 @@ export class SprintReviewScene extends Phaser.Scene {
     this.createComponents();
     this.displayResults();
     this.displayCustomerFeedback();
+    this.displayCustomerImage();
   }
 
   createComponents() {
@@ -33,8 +34,8 @@ export class SprintReviewScene extends Phaser.Scene {
       },
     });
     this.customerIcon = this.add
-      .image(70, 200, "customer_icon")
-      .setScale(0.25)
+      .image(100, 200, "customer_neutral")
+      .setScale(0.2)
       .setOrigin(0);
   }
 
@@ -73,13 +74,13 @@ export class SprintReviewScene extends Phaser.Scene {
       lines.push(
         `The team didin't complete any work on ${this.customer.priorities.join(
           " and "
-        )} this sprint.\n\nWhat happened?`
+        )} this sprint. What happened?`
       );
     }
-    if (features.bugs.length) {
+    if (features.buggy.length) {
       lines.push(
-        `The ${features.bugs.join(" and ")} ${
-          features.bugs.length === 1 ? "feature is" : "features are"
+        `The ${features.buggy.join(" and ")} ${
+          features.buggy.length === 1 ? "feature is" : "features are"
         } a bit buggy.`
       );
     }
@@ -93,7 +94,7 @@ export class SprintReviewScene extends Phaser.Scene {
       .text({
         x: 250,
         y: 200,
-        text: lines.join("\n\n"),
+        text: lines.join(" "),
         style: {
           ...theme.mainText,
           align: "left",
@@ -101,6 +102,12 @@ export class SprintReviewScene extends Phaser.Scene {
         },
       })
       .setOrigin(0);
+  }
+
+  displayCustomerImage() {
+    this.customerIcon.setTexture(
+      `customer_${this.customer.satisfaction.overall}`
+    );
   }
 
   //update(time, delta) {}

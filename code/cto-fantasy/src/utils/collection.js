@@ -17,3 +17,12 @@ export const range = (start /* optional */, end) => {
 
 export const intersperse = (arr, val) =>
   arr.flatMap((v, idx, self) => (idx < self.length - 1 ? [v, val] : [v]));
+
+export const partition = (predicate, array) =>
+  array.reduce(
+    ([pass, fail], elem) => {
+      predicate(elem) ? pass.push(elem) : fail.push(elem);
+      return [pass, fail];
+    },
+    [[], []]
+  );

@@ -1,7 +1,7 @@
 import { randomInt, randomName } from "../utils/random";
 import { shuffle, unique } from "../utils/collection";
-import { findBugs } from "../utils/sprint";
-import { Bug, UserStory } from "./WorkItem";
+import { findBugs, partitionFeaturesByStoryCompletion } from "../utils/sprint";
+import { UserStory } from "./WorkItem";
 
 export class Customer {
   currentNumberOfPriorities = 2;
@@ -12,7 +12,7 @@ export class Customer {
     this.agileMindset = randomInt(3, 6) / 10;
     this.satisfaction = {
       features: {},
-      bugsInBacklog: {},
+      bugs: {},
     };
     this.priorities = [];
     this.emitter = emitter;
@@ -24,41 +24,45 @@ export class Customer {
   update({ commitment, velocity, success, sprintBugs, sprintBacklog }) {
     findBugs(sprintBugs, this.acceptanceOfBugs);
 
-    const featuresCompleted = unique(
-      sprintBacklog
-        .filter((item) => item instanceof UserStory && item.done())
-        .map(({ feature }) => feature)
-        .filter((feature) => this.priorities.includes(feature))
-    );
-    const featuresNotCompleted = unique(
-      sprintBacklog
-        .filter((item) => item instanceof UserStory && !item.done())
-        .map(({ feature }) => feature)
-        .filter((feature) => this.priorities.includes(feature))
-    );
-    const newBugs = sprintBugs.filter(
-      (item) => item instanceof Bug && item.visible()
-    );
+    const stories = sprintBacklog.filter((item) => item instanceof UserStory);
+
+    const {
+      featuresCompleted,
+      featuresNotCompleted,
+    } = partitionFeaturesByStoryCompletion(stories, this.priorities);
+
+    const newBugs = sprintBugs.filter((item) => item.visible());
+
     const featuresWithNewBugs = unique(
-      newBugs
-        .map(({ feature }) => feature)
-        .filter((feature) => this.priorities.includes(feature))
-    );
+      newBugs.map(({ feature }) => feature)
+    ).filter((feature) => this.priorities.includes(feature));
 
     const storiesNotDone = this.project.backlog.stories.length;
     const bugsNotDone = this.project.backlog.bugs.length;
-    const bugsToStoriesRatio = bugsNotDone / storiesNotDone;
+    const bugsToStoriesRatio = bugsNotDone / (storiesNotDone || 1);
     const featuresScore = featuresCompleted.length / this.priorities.length;
+
+    const satisfiedWithBugs =
+      !bugsNotDone || this.acceptanceOfBugs > bugsToStoriesRatio;
+
+    const maxScore = this.priorities.length + 1;
+    const overallScore = featuresCompleted.length + (satisfiedWithBugs ? 1 : 0);
+    const overallSatisfaction = overallScore / maxScore;
 
     this.satisfaction.features = {
       complete: featuresCompleted,
       incomplete: featuresNotCompleted,
-      bugs: featuresWithNewBugs,
+      buggy: featuresWithNewBugs,
       score: featuresScore,
     };
 
-    this.satisfaction.bugs =
-      !bugsNotDone || this.acceptanceOfBugs > bugsToStoriesRatio;
+    this.satisfaction.bugs = satisfiedWithBugs;
+    this.satisfaction.overall =
+      overallSatisfaction < 0.34
+        ? "dissatisfied"
+        : overallSatisfaction > 0.65
+        ? "satisfied"
+        : "neutral";
   }
 
   updatePriorities() {

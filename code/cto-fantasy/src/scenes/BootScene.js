@@ -122,6 +122,19 @@ export class BootScene extends Phaser.Scene {
     this.load.image("down_arrow", "assets/UIpack/PNG/grey_arrowDownWhite.png");
     this.load.image("up_arrow", "assets/UIpack/PNG/grey_arrowUpWhite.png");
     this.load.image("notification", "assets/UIpack/PNG/red_circle.png");
+
+    this.load.image(
+      "customer_satisfied",
+      "assets/freepik/customer/042-smile.png"
+    );
+    this.load.image(
+      "customer_neutral",
+      "assets/freepik/customer/010-contempt.png"
+    );
+    this.load.image(
+      "customer_dissatisfied",
+      "assets/freepik/customer/037-suspicious.png"
+    );
   }
 
   // executed once, after assets were loaded

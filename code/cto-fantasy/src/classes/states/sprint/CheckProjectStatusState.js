@@ -12,7 +12,6 @@ export class CheckProjectStatusState extends State {
 
   enter() {
     if (this.project.isComplete()) {
-      console.log("Done, navigate to end screen");
       this.machine.clearQueue();
       this.scene.launch("EndScene", {
         team: this.team,
@@ -21,7 +20,6 @@ export class CheckProjectStatusState extends State {
         emitter: this.emitter,
       });
     } else {
-      console.log("Project not cocmplete");
       this.machine.next();
     }
   }
