@@ -161,7 +161,7 @@ export class Team {
     const statsToUpdate = actions.map(({ stats }) => stats).flat();
     statsToUpdate.forEach((stat) => {
       this.members.forEach((member) => {
-        if (Math.random() >= member.agileMindset) {
+        if (Math.random() <= member.agileMindset) {
           member[stat] = Math.min(member[stat] + updateBy, 1);
         }
       });

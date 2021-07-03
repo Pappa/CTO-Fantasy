@@ -43,7 +43,7 @@ export class RetrospectiveState extends State {
               (member) => member instanceof ScrumMaster
             );
           case "QUALITY_ASSURANCE":
-            return this.team.testers.length;
+            return !!this.team.testers.length;
           case "SOFTWARE_ENGINEERING":
             if (this.sprint.number < 4) {
               return EARLY_TOPICS.includes(attribute);
