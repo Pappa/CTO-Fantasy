@@ -30,7 +30,12 @@ export class Hud extends Phaser.GameObjects.Container {
       .setOrigin(0);
     this.add([this.background, this.header, this.subheader]);
 
-    const itemsToDisplay = [`Budget: `, `Team size: `, `Number of bugs: `];
+    const itemsToDisplay = [
+      `Budget: `,
+      `Team size: `,
+      `Number of bugs: `,
+      `Sprints remaining: `,
+    ];
 
     this.stats = itemsToDisplay.map((item, idx) => {
       return this.scene.make
@@ -55,6 +60,9 @@ export class Hud extends Phaser.GameObjects.Container {
       `Budget: £${this.project.budget.toLocaleString()}`,
       `Team size: ${this.team.size}`,
       `Number of bugs: ${this.project.backlog.bugs.length}`,
+      `Sprints remaining: ${
+        this.project.settings.NUMBER_OF_SPRINTS - this.project.completedSprints
+      }`,
     ];
 
     itemsToUpdate.forEach((item, idx) => {

@@ -101,7 +101,7 @@ export class Team {
     const pastVelocities = this.velocities.slice(-3);
     const velocities = Array(3)
       .fill(null)
-      .map((_, idx) => pastVelocities[idx] || randomInt(25, 40));
+      .map((_, idx) => pastVelocities[idx] || randomInt(25, 35));
     return Math.round(average(velocities));
   }
 
@@ -125,7 +125,7 @@ export class Team {
    * Not a pure function
    */
   getCommitment() {
-    let commitment = Math.max(this.velocity, 12);
+    let commitment = Math.max(this.velocity, 12) * 1.5;
 
     // adjust + based on estimation
     const estimationShiftPercentageMax = (1 - this.estimation) * 100;
@@ -135,24 +135,9 @@ export class Team {
     );
     const estimationShift = (this.velocity / 100) * estimationShiftPercentage;
 
-    // randomBoolean()
-    //   ? (commitment += estimationShift)
-    //   : (commitment -= estimationShift);
-
     commitment += estimationShift;
 
-    // // adjust + based on experience
-    // const MAX_YEARS_EXPERIENCE = 20;
-    // const experienceShiftPercentageMax =
-    //   ((MAX_YEARS_EXPERIENCE - this.experience) / MAX_YEARS_EXPERIENCE) * 100;
-    // const experienceShiftPercentage = randomInt(
-    //   0,
-    //   experienceShiftPercentageMax
-    // );
-    // const experienceShift = (velocity / 100) * experienceShiftPercentage;
-    // commitment += experienceShift;
-
-    return Math.round(commitment);
+    return Math.ceil(commitment);
   }
 
   updateRetrospectiveActions(actions, updateBy, done) {

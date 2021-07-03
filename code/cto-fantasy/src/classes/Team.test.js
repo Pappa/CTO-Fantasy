@@ -46,9 +46,9 @@ describe("Average stats", () => {
   });
 
   it("should have expected velocity", () => {
-    expect(team.velocity).toBe(33);
+    expect(team.velocity).toBe(30);
     team.update({ velocity: 5 });
-    expect(team.velocity).toBe(24);
+    expect(team.velocity).toBe(22);
     team.update({ velocity: 4 });
     team.update({ velocity: 6 });
     expect(team.velocity).toBe(5);
@@ -75,7 +75,7 @@ describe("getCommitment()", () => {
     team.update({ velocity: 50 });
     const commitment = team.getCommitment();
 
-    expect(commitment).toBe(41);
+    expect(commitment).toBe(58);
   });
 
   it("should have a high variation due to good estimation", () => {
@@ -86,7 +86,7 @@ describe("getCommitment()", () => {
     team.update({ velocity: 50 });
     const commitment = team.getCommitment();
 
-    expect(commitment).toBe(57);
+    expect(commitment).toBe(73);
   });
 
   it("should calculate a commitment with no history of velocity", () => {
@@ -96,7 +96,7 @@ describe("getCommitment()", () => {
     const team = new Team([dev]);
     const commitment = team.getCommitment();
 
-    expect(commitment).toBe(41);
+    expect(commitment).toBe(53);
   });
 
   it("should shift high", () => {
@@ -108,7 +108,7 @@ describe("getCommitment()", () => {
     team.update({ velocity: 50 });
     const commitment = team.getCommitment();
 
-    expect(commitment).toBe(34);
+    expect(commitment).toBe(52);
   });
 
   it("should shift low", () => {
@@ -120,6 +120,6 @@ describe("getCommitment()", () => {
     team.update({ velocity: 50 });
     const commitment = team.getCommitment();
 
-    expect(commitment).toBe(47);
+    expect(commitment).toBe(63);
   });
 });

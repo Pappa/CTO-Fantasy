@@ -31,7 +31,7 @@ export class LinearStateMachine {
         } else {
           console.warn("currentState is not set");
         }
-      }, this.currentState.delay || this.delay);
+      }, this.currentState.delay ?? this.delay);
     }
   }
 

@@ -1,6 +1,7 @@
 import { State } from "./State";
 
 export class ClickToContinueState extends State {
+  delay = 0;
   constructor(machine, scene, button, data) {
     super(machine, scene);
     this.button = button;

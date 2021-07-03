@@ -1,10 +1,11 @@
 import { State } from "./State";
 
 export class NavigationState extends State {
-  constructor(machine, scene, navigationScene, data) {
+  constructor(machine, scene, navigationScene, data, delay = 1000) {
     super(machine, scene);
     this.data = data;
     this.navigationScene = navigationScene;
+    this.delay = delay;
   }
 
   enter() {
@@ -18,9 +19,16 @@ export class NavigationState extends State {
 
 export const navigationStateFactory = (machine, scene, initialData = {}) => (
   navigationScene,
-  data = {}
+  data = {},
+  delay
 ) =>
-  new NavigationState(machine, scene, navigationScene, {
-    ...initialData,
-    ...data,
-  });
+  new NavigationState(
+    machine,
+    scene,
+    navigationScene,
+    {
+      ...initialData,
+      ...data,
+    },
+    delay
+  );

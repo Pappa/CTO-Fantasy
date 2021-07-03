@@ -29,6 +29,7 @@ export class Project {
       featueGenerator,
     });
     this.currentSprint = null;
+    this.completedSprints = 0;
     this.consultants = [];
     this.workshops = {};
     this.createEvents();
@@ -54,7 +55,7 @@ export class Project {
     this.emitter.on("consultant_hired", this.consultantHired, this);
     this.emitter.on("workshop_organised", this.workshopOrganised, this);
     this.emitter.on("workshop_done", this.doWorkshop, this);
-    this.emitter.on("sprint_ended", this.updateBudget, this);
+    this.emitter.on("retrospective_ended", this.updateProjectOnSprintEnd, this);
   }
 
   setCurrentSprint(sprint) {
@@ -113,9 +114,10 @@ export class Project {
     return pick(range(1, SPRINT_LENGTH + 1).filter((x) => !this.workshops[x]));
   }
 
-  updateBudget() {
+  updateProjectOnSprintEnd({ sprintNumber }) {
     const budgetIncrease = randomInt(...this.settings.BUDGET_INCREASE_MIN_MAX);
     this.budget += budgetIncrease;
+    this.completedSprints = sprintNumber;
     this.emitter.emit("project_updated");
   }
 

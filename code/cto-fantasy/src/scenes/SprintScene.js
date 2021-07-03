@@ -73,12 +73,16 @@ export class SprintScene extends Phaser.Scene {
         team: this.team,
         project: this.project,
       }),
-      this.stateFactory("ProductBacklogScene", {
-        sprint: this.sprint,
-        onClose: () => {
-          this.handleEvents();
+      this.stateFactory(
+        "ProductBacklogScene",
+        {
+          sprint: this.sprint,
+          onClose: () => {
+            this.handleEvents();
+          },
         },
-      }),
+        0
+      ),
       this.stateFactory("SprintBoardScene", {
         sprint: this.sprint,
         onClose: () => {
@@ -115,6 +119,9 @@ export class SprintScene extends Phaser.Scene {
           project: this.project,
           sprint: this.sprint,
           onClose: () => {
+            this.emitter.emit("retrospective_ended", {
+              sprintNumber: this.sprint.number,
+            });
             this.machine.next();
             this.onClose();
           },

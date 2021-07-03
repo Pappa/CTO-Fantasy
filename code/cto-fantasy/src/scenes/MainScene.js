@@ -107,11 +107,15 @@ export class MainScene extends Phaser.Scene {
           this.clickStateFactory({
             text: `Start the ${sprintNo === 1 ? "first" : "next"} sprint.`,
           }),
-          this.stateFactory("SprintScene", {
-            onClose: () => {
-              this.machine.next();
+          this.stateFactory(
+            "SprintScene",
+            {
+              onClose: () => {
+                this.machine.next();
+              },
             },
-          }),
+            0
+          ),
         ];
       })
       .flat();
