@@ -60,9 +60,7 @@ export class Hud extends Phaser.GameObjects.Container {
       `Budget: £${this.project.budget.toLocaleString()}`,
       `Team size: ${this.team.size}`,
       `Number of bugs: ${this.project.backlog.bugs.length}`,
-      `Sprints remaining: ${
-        this.project.settings.NUMBER_OF_SPRINTS - this.project.completedSprints
-      }`,
+      `Sprints remaining: ${this.project.sprintsRemaining}`,
     ];
 
     itemsToUpdate.forEach((item, idx) => {

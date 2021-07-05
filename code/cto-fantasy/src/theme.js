@@ -37,6 +37,7 @@ export const header = {
 export const mainText = {
   font: "18px monospace",
   fill: "#ffffff",
+  lineSpacing: 5,
 };
 
 export const mediumText = {

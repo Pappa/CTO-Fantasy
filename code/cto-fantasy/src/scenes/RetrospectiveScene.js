@@ -48,7 +48,7 @@ export class RetrospectiveScene extends Phaser.Scene {
         style: {
           ...theme.mainText,
           align: "left",
-          wordWrap: { width: 500, useAdvancedWrap: true },
+          wordWrap: { width: 500, useAdvancedWrap: false },
         },
       })
       .setOrigin(0);

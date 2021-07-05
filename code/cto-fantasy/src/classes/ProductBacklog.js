@@ -98,11 +98,27 @@ export class ProductBacklog {
     return this.backlog.filter((item) => item.done());
   }
 
+  get hidden() {
+    return this.backlog.filter((item) => !item.visible());
+  }
+
   get bugs() {
     return this.items.filter((item) => item instanceof Bug);
   }
 
+  get completedBugs() {
+    return this.completed.filter((item) => item instanceof Bug);
+  }
+
+  get unknownBugs() {
+    return this.hidden.filter((item) => item instanceof Bug);
+  }
+
   get stories() {
     return this.items.filter((item) => item instanceof UserStory);
+  }
+
+  get completedStories() {
+    return this.completed.filter((item) => item instanceof UserStory);
   }
 }

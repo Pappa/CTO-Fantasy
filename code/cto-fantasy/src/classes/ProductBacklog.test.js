@@ -75,7 +75,6 @@ describe("ProductBacklog", () => {
     const backlog = new ProductBacklog({ emitter, featureGenerator });
 
     expect(backlog.items.length).toBe(4);
-    expect(backlog.completed.length).toBe(0);
     expect(backlog.stories.length).toBe(4);
     expect(backlog.bugs.length).toBe(0);
   });
@@ -88,7 +87,6 @@ describe("ProductBacklog", () => {
       WorkItem.STATUS.DONE;
 
     expect(backlog.items.length).toBe(4);
-    expect(backlog.completed.length).toBe(1);
     expect(backlog.stories.length).toBe(4);
     expect(backlog.bugs.length).toBe(0);
     expect(backlog.backlog.length).toBe(6);
@@ -104,7 +102,6 @@ describe("ProductBacklog", () => {
     backlog.addMoreStoriesToBacklog();
 
     expect(backlog.items.length).toBe(6);
-    expect(backlog.completed.length).toBe(0);
     expect(backlog.stories.length).toBe(6);
     expect(backlog.bugs.length).toBe(0);
   });

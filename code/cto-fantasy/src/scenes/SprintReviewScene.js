@@ -2,6 +2,8 @@ import Phaser from "phaser";
 import { SceneBackground } from "../game-objects/SceneBackground";
 import * as theme from "../theme";
 
+const DEBUG = process.env.REACT_APP_DEBUG === "on";
+
 export class SprintReviewScene extends Phaser.Scene {
   constructor() {
     super("SprintReviewScene");
@@ -40,18 +42,20 @@ export class SprintReviewScene extends Phaser.Scene {
   }
 
   displayResults() {
-    Object.entries(this.results)
-      .filter(([k, v]) => ["commitment", "velocity", "success"].includes(k))
-      .forEach(([k, v], idx) => {
-        this.make
-          .text({
-            x: 100,
-            y: 50 + 20 * (idx + 1),
-            text: `${k}: ${JSON.stringify(v)}`,
-            style: theme.mainText,
-          })
-          .setOrigin(0);
-      }, this);
+    if (DEBUG) {
+      Object.entries(this.results)
+        .filter(([k, v]) => ["commitment", "velocity", "success"].includes(k))
+        .forEach(([k, v], idx) => {
+          this.make
+            .text({
+              x: 100,
+              y: 50 + 20 * (idx + 1),
+              text: `${k}: ${JSON.stringify(v)}`,
+              style: theme.mainText,
+            })
+            .setOrigin(0);
+        }, this);
+    }
   }
 
   displayCustomerFeedback() {

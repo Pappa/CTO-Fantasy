@@ -30,6 +30,7 @@ export class Project {
     });
     this.currentSprint = null;
     this.completedSprints = 0;
+    this.sprintsRemaining = this.settings.NUMBER_OF_SPRINTS;
     this.consultants = [];
     this.workshops = {};
     this.createEvents();
@@ -118,6 +119,8 @@ export class Project {
     const budgetIncrease = randomInt(...this.settings.BUDGET_INCREASE_MIN_MAX);
     this.budget += budgetIncrease;
     this.completedSprints = sprintNumber;
+    this.sprintsRemaining =
+      this.settings.NUMBER_OF_SPRINTS - this.completedSprints;
     this.emitter.emit("project_updated");
   }
 
