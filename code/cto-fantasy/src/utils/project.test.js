@@ -35,7 +35,7 @@ describe("generateProjectAttributes()", () => {
         },
         REFINEMENT: {
           value: 0.4,
-          stats: ["agileMindset", "collaboration"],
+          stats: ["agileMindset", "estimation"],
         },
         RETROSPECTIVE: {
           value: 0.4,

@@ -16,7 +16,7 @@ const CATEGORIES = {
           : 0,
     },
     REFINEMENT: {
-      stats: ["agileMindset", "collaboration"],
+      stats: ["agileMindset", "estimation"],
       value: (team) => average([team.agileMindset, team.collaboration]),
     },
     DAILY_SCRUM: {
