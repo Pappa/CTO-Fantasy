@@ -1,3 +1,4 @@
+import { UserStory } from "../classes/WorkItem";
 import { partition } from "./collection";
 import { average } from "./number";
 
@@ -17,8 +18,7 @@ export const getSoftwareDevelopmentPracticeResults = (team, attributes) => {
 
 export const getProjectSuccessResults = (backlog) => {
   const allStories = [
-    ...backlog.stories,
-    ...backlog.completedStories,
+    ...backlog.backlog.filter((item) => item instanceof UserStory),
     ...backlog.potentialWorkItems,
   ];
 
