@@ -95,6 +95,6 @@ export const randomName = (gender = randomBit()) => {
 
 export const randomStat = () => {
   const min = 1;
-  const max = 4;
+  const max = 3;
   return (randomInt(min, max) + randomInt(min, max)) / 10;
 };

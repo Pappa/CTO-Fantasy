@@ -16,6 +16,7 @@ export class TeamScene extends Phaser.Scene {
     this.team = team;
     this.onClose = onClose;
     this.createComponents();
+    this.createEvents();
     this.meetTheTeam();
   }
 
@@ -35,6 +36,14 @@ export class TeamScene extends Phaser.Scene {
       onClose: () => {
         this.onClose();
       },
+    });
+  }
+
+  createEvents() {
+    this.input.keyboard.on("keydown", (event) => {
+      if (event.key === "Enter") {
+        this.onClose();
+      }
     });
   }
 

@@ -104,18 +104,25 @@ export class SprintBoardScene extends Phaser.Scene {
   }
 
   showDialogue({ title, text, onClose = noop }, next) {
+    const closeDialogue = this.closeDialogue.bind(this, onClose, next);
     this.sprintTimer.paused = true;
     this.info.updateComponents({
       title,
       text,
       onAccept: () => {
-        this.info.hide();
-        this.sprintTimer.paused = false;
-        onClose();
-        next();
+        this.input.keyboard.off("keydown", closeDialogue);
+        closeDialogue();
       },
     });
     this.info.show();
+    this.input.keyboard.once("keydown", closeDialogue);
+  }
+
+  closeDialogue(onClose, next) {
+    this.info.hide();
+    this.sprintTimer.paused = false;
+    onClose();
+    next();
   }
 
   getWorkshop(day) {

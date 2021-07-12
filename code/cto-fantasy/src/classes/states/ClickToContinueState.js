@@ -17,10 +17,18 @@ export class ClickToContinueState extends State {
     });
     this.button.activate();
     this.button.show();
+    this.scene.scene.input.keyboard.on("keydown", this.handleKey, this);
   }
 
   exit() {
     this.button.hide();
+    this.scene.scene.input.keyboard.off("keydown", this.handleKey, this);
+  }
+
+  handleKey(event) {
+    if (event.key === "Enter") {
+      this.machine.next();
+    }
   }
 }
 

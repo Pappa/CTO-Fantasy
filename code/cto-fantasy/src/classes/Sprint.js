@@ -109,7 +109,7 @@ export class Sprint {
   }
 
   getWorkshopDistractions(numberOfDevs, workshop) {
-    return Array(numberOfDevs).fill(!!workshop ? 1 : 0);
+    return Array(numberOfDevs).fill(!!workshop ? 0.5 : 0);
   }
 
   createEvents() {

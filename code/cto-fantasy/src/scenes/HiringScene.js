@@ -38,6 +38,12 @@ export class HiringScene extends Phaser.Scene {
     this.emitter.on("sprint_ended", () => {
       this.candidates = this.createCandidates();
     });
+
+    this.input.keyboard.on("keydown", (event) => {
+      if (event.key === "Enter") {
+        this.onClose();
+      }
+    });
   }
 
   createCandidates() {

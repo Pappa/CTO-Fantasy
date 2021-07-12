@@ -18,6 +18,7 @@ export class ProductBacklogScene extends Phaser.Scene {
     this.emitter = emitter;
     this.onClose = onClose;
     this.createComponents();
+    this.createEvents();
     this.displayCommitment();
     this.displayBacklog();
     this.displayHelpText();
@@ -34,13 +35,26 @@ export class ProductBacklogScene extends Phaser.Scene {
       title: !!this.sprint && "Sprint Planning",
       closeIcon: "complete_icon",
       onClose: () => {
-        if (this.sprint) {
-          const items = this.backlog.getCommittedItems();
-          this.emitter.emit("sprint_backlog_selected", items);
-        }
+        this.selectCommitment();
         this.onClose();
       },
     });
+  }
+
+  createEvents() {
+    this.input.keyboard.on("keydown", (event) => {
+      if (event.key === "Enter") {
+        this.selectCommitment();
+        this.onClose();
+      }
+    });
+  }
+
+  selectCommitment() {
+    if (this.sprint) {
+      const items = this.backlog.getCommittedItems();
+      this.emitter.emit("sprint_backlog_selected", items);
+    }
   }
 
   displayCommitment() {

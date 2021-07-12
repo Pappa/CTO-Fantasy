@@ -14,6 +14,9 @@ const FRONTEND_BACKEND_FEATURES = [
   "alternative payment options",
   "social login",
   "share",
+  "discount code",
+  "subscriptions",
+  "3rd party seller",
 ];
 
 const BACKGROUND_FEATURES = [

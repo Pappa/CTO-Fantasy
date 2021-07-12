@@ -19,6 +19,7 @@ export class CustomerScene extends Phaser.Scene {
     this.emitter = emitter;
     this.onClose = onClose;
     this.createComponents();
+    this.createEvents();
     this.displayCustomerPriorities();
   }
 
@@ -39,6 +40,14 @@ export class CustomerScene extends Phaser.Scene {
         wordWrap: { width: 450, useAdvancedWrap: true },
       })
       .setOrigin(0.5, 0);
+  }
+
+  createEvents() {
+    this.input.keyboard.on("keydown", (event) => {
+      if (event.key === "Enter") {
+        this.onClose();
+      }
+    });
   }
 
   displayCustomerPriorities() {

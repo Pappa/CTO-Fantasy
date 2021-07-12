@@ -19,6 +19,7 @@ export class RetrospectiveScene extends Phaser.Scene {
     this.actions = actions;
     this.onClose = onClose;
     this.createComponents();
+    this.createEvents();
     this.displayActions();
   }
 
@@ -31,6 +32,14 @@ export class RetrospectiveScene extends Phaser.Scene {
       onClose: () => {
         this.onClose();
       },
+    });
+  }
+
+  createEvents() {
+    this.input.keyboard.on("keydown", (event) => {
+      if (event.key === "Enter") {
+        this.onClose();
+      }
     });
   }
 

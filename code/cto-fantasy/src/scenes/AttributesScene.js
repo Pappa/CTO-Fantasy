@@ -23,6 +23,7 @@ export class AttributesScene extends Phaser.Scene {
     this.emitter = emitter;
     this.onClose = onClose;
     this.createComponents();
+    this.createEvents();
   }
 
   createComponents() {
@@ -94,6 +95,14 @@ export class AttributesScene extends Phaser.Scene {
       height - 400,
       {}
     ).hide();
+  }
+
+  createEvents() {
+    this.input.keyboard.on("keydown", (event) => {
+      if (event.key === "Enter") {
+        this.onClose();
+      }
+    });
   }
 
   showInfoDialogue(attribute, stats) {

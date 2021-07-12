@@ -20,6 +20,7 @@ export class SprintReviewScene extends Phaser.Scene {
     this.results = results;
     this.onClose = onClose;
     this.createComponents();
+    this.createEvents();
     this.displayResults();
     this.displayCustomerFeedback();
     this.displayCustomerImage();
@@ -39,6 +40,14 @@ export class SprintReviewScene extends Phaser.Scene {
       .image(100, 200, "customer_neutral")
       .setScale(0.2)
       .setOrigin(0);
+  }
+
+  createEvents() {
+    this.input.keyboard.on("keydown", (event) => {
+      if (event.key === "Enter") {
+        this.onClose();
+      }
+    });
   }
 
   displayResults() {
