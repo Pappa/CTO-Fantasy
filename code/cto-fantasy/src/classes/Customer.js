@@ -8,7 +8,7 @@ export class Customer {
   constructor({ emitter, project }) {
     this.name = randomName();
     this.needForFeatures = randomInt(5, 7) / 10;
-    this.acceptanceOfBugs = randomInt(5, 7) / 10;
+    this.qualityMindset = randomInt(5, 7) / 10;
     this.agileMindset = randomInt(3, 6) / 10;
     this.satisfaction = {
       features: {},
@@ -22,7 +22,7 @@ export class Customer {
   }
 
   update({ commitment, velocity, success, sprintBugs, sprintBacklog }) {
-    findBugs(sprintBugs, this.acceptanceOfBugs);
+    findBugs(sprintBugs, this.qualityMindset);
 
     const stories = sprintBacklog.filter((item) => item instanceof UserStory);
 
@@ -43,7 +43,7 @@ export class Customer {
     const featuresScore = featuresCompleted.length / this.priorities.length;
 
     const satisfiedWithBugs =
-      !bugsNotDone || this.acceptanceOfBugs > bugsToStoriesRatio;
+      !bugsNotDone || this.qualityMindset > bugsToStoriesRatio;
 
     const maxScore = this.priorities.length + 1;
     const overallScore = featuresCompleted.length + (satisfiedWithBugs ? 1 : 0);

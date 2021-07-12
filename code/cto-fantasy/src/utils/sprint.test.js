@@ -91,7 +91,7 @@ describe("getNumberOfStoriesToEstimate()", () => {
     const customer = new Customer({ emitter, project: {} });
     const attributes = new ProjectAttributes({ emitter, team, customer });
     const result = getNumberOfStoriesToEstimate(team, attributes.attributes);
-    expect(result).toEqual(3);
+    expect(result).toEqual(4);
   });
 
   it("more devs low rand", () => {
@@ -100,7 +100,7 @@ describe("getNumberOfStoriesToEstimate()", () => {
     const customer = new Customer({ emitter, project: {} });
     const attributes = new ProjectAttributes({ emitter, team, customer });
     const result = getNumberOfStoriesToEstimate(team, attributes.attributes);
-    expect(result).toEqual(12);
+    expect(result).toEqual(15);
   });
 
   it("few devs high rand", () => {
@@ -109,7 +109,7 @@ describe("getNumberOfStoriesToEstimate()", () => {
     const customer = new Customer({ emitter, project: {} });
     const attributes = new ProjectAttributes({ emitter, team, customer });
     const result = getNumberOfStoriesToEstimate(team, attributes.attributes);
-    expect(result).toEqual(6);
+    expect(result).toEqual(7);
   });
 
   it("more devs high rand", () => {
@@ -118,7 +118,7 @@ describe("getNumberOfStoriesToEstimate()", () => {
     const customer = new Customer({ emitter, project: {} });
     const attributes = new ProjectAttributes({ emitter, team, customer });
     const result = getNumberOfStoriesToEstimate(team, attributes.attributes);
-    expect(result).toEqual(15);
+    expect(result).toEqual(18);
   });
 });
 

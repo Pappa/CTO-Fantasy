@@ -34,6 +34,6 @@ describe("randomName()", () => {
 
 describe("randomStat()", () => {
   it("should select weighted value between 0 and 1", () => {
-    expect(randomStat()).toBe(0.4);
+    expect(randomStat()).toBe(0.6);
   });
 });
