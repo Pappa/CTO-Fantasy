@@ -51,12 +51,11 @@ export class RetrospectiveScene extends Phaser.Scene {
     );
     this.make
       .text({
-        x: 150,
-        y: 150,
+        x: 200,
+        y: 100,
         text: `The team discussed ${actionsString}, and have decided to try to make improvements in these areas next sprint.`,
         style: {
           ...theme.mainText,
-          align: "left",
           wordWrap: { width: 500, useAdvancedWrap: false },
         },
       })
