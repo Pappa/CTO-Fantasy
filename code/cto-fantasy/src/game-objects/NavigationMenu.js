@@ -95,6 +95,14 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
     this.modules.emitter.on("stats_updated", () => {
       this.notificationsObj["attributes_icon"].setVisible(true);
     });
+
+    this.modules.emitter.on("SprintScene_enter", () => {
+      this.disable();
+    });
+
+    this.modules.emitter.on("SprintScene_exit", () => {
+      this.enable();
+    });
   }
 
   handleClick(scene, icon) {

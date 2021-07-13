@@ -9,10 +9,12 @@ export class NavigationState extends State {
   }
 
   enter() {
+    this.data.emitter.emit(`${this.navigationScene}_enter`);
     this.scene.launch(this.navigationScene, this.data);
   }
 
   exit() {
+    this.data.emitter.emit(`${this.navigationScene}_exit`);
     this.scene.stop(this.navigationScene);
   }
 }
