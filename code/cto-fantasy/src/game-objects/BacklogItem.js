@@ -6,17 +6,22 @@ import { truncate } from "../utils/strings";
 export class BacklogItem extends Phaser.GameObjects.Container {
   width = 560;
   height = 25;
-  constructor(scene, x = 0, y = 0, { item, project, emitter, mask }) {
+  constructor(
+    scene,
+    x = 0,
+    y = 0,
+    { item, project, emitter, mask, move, parent }
+  ) {
     super(scene, x, y);
     this.item = item;
     this.project = project;
     this.emitter = emitter;
+    this.move = move;
+    this.parent = parent;
     this.storyPointValues = this.project.backlog.storyPointValues;
     this.lastIndex = this.storyPointValues.length - 1;
-    //this.scene.add.existing(this);
 
     this.createComponents();
-    //this.updateArrows();
 
     this.setSize(this.width, this.height);
     this.setInteractive({
@@ -77,65 +82,44 @@ export class BacklogItem extends Phaser.GameObjects.Container {
       .setOrigin(0)
       .setVisible(this.item.type === WorkItem.TYPE.STORY);
 
-    // this.upArrow = this.scene.make
-    //   .image({
-    //     x: 545,
-    //     y: 4,
-    //     key: "up_arrow",
-    //     scale: 0.5,
-    //   })
-    //   .setOrigin(0)
-    //   .setInteractive({ useHandCursor: true })
-    //   .on("pointerdown", this.updateEstimate.bind(null, 1));
-    // this.downArrow = this.scene.make
-    //   .image({
-    //     x: 545,
-    //     y: 16,
-    //     key: "down_arrow",
-    //     scale: 0.5,
-    //   })
-    //   .setOrigin(0)
-    //   .setInteractive({ useHandCursor: true })
-    //   .on("pointerdown", this.updateEstimate.bind(null, -1));
+    this.upArrow = this.scene.make
+      .image({
+        x: 530,
+        y: 4,
+        key: "up_arrow",
+        scale: 0.5,
+      })
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", this.move.bind(this.parent, this, 1));
+    this.downArrow = this.scene.make
+      .image({
+        x: 530,
+        y: 16,
+        key: "down_arrow",
+        scale: 0.5,
+      })
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", this.move.bind(this.parent, this, -1));
+    this.topArrow = this.scene.make
+      .image({
+        x: 545,
+        y: 2,
+        key: "top_arrow",
+        scale: 0.6,
+      })
+      .setOrigin(0)
+      .setInteractive({ useHandCursor: true })
+      .on("pointerdown", this.move.bind(this.parent, this, 0));
     this.add([
       this.background,
       this.workItemId,
       this.title,
       this.estimate,
-      // this.upArrow,
-      // this.downArrow,
+      this.upArrow,
+      this.downArrow,
+      this.topArrow,
     ]);
   }
-
-  // updateArrows() {
-  //   if (this.item.estimate === this.storyPointValues[this.lastIndex]) {
-  //     this.upArrow.setTint(0x999999).disableInteractive();
-  //   } else {
-  //     this.upArrow.clearTint().setInteractive();
-  //   }
-  //   if (
-  //     !this.item.estimate ||
-  //     this.item.estimate === this.storyPointValues[0]
-  //   ) {
-  //     this.downArrow.setTint(0x999999).disableInteractive();
-  //   } else {
-  //     this.downArrow.clearTint().setInteractive();
-  //   }
-  // }
-
-  // updateEstimate = (direction) => {
-  //   const idx = this.storyPointValues.indexOf(this.item.estimate);
-  //   let estimate;
-  //   if (direction > 0 && idx < this.lastIndex) {
-  //     estimate = this.storyPointValues[idx + 1];
-  //   }
-  //   if (direction < 0 && idx > 0) {
-  //     estimate = this.storyPointValues[idx - 1];
-  //   }
-  //   if (estimate) {
-  //     this.estimate.setText(estimate);
-  //     this.emitter.emit("update_estimate", this.item, estimate);
-  //     //this.updateArrows();
-  //   }
-  // };
 }

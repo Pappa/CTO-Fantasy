@@ -84,7 +84,7 @@ export class ProductBacklogScene extends Phaser.Scene {
       .text(
         400,
         540,
-        `* Use the arrow keys to scroll the backlog.\nDrag and drop to reorder items.`,
+        `* Use the arrow keys on your keyboard to scroll the backlog.\nUse the arrow icons to move an item one space or move it to the top of the backlog.\nDrag and drop an item to move it to any position.`,
         { ...theme.mediumText, align: "center" }
       )
       .setOrigin(0.5, 0);

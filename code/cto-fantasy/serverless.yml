@@ -1,6 +1,6 @@
 # org: drpappa
-# app: cto-fantasy
-service: cto-fantasy
+# app: project-genesis
+service: project-genesis
 
 frameworkVersion: "2"
 
@@ -14,5 +14,6 @@ plugins:
 
 custom:
   client:
-    bucketName: cto-fantasy-game-project-genesis
+    bucketName: project-genesis-a-software-development-fantasy
     distributionFolder: ./build
+    region: eu-west-1

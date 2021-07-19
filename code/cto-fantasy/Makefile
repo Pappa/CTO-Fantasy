@@ -7,4 +7,4 @@ clean:
 	rm -rf ./build
 
 deploy: clean build
-	sls client deploy --aws-profile serverless-agent --no-confirm
+	sls client deploy --aws-profile serverless-agent --no-confirm --region eu-west-1

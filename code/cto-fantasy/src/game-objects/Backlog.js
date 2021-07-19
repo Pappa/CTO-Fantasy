@@ -33,26 +33,6 @@ export class Backlog extends Phaser.GameObjects.Container {
     this.header = this.scene.add
       .text(300, 20, "Product Backlog", theme.mainText)
       .setOrigin(0.5);
-    this.upArrow = this.scene.make
-      .image({
-        x: 620,
-        y: 20,
-        key: "up_arrow",
-        scale: 1,
-      })
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => this.scrollBacklog(5));
-    this.downArrow = this.scene.make
-      .image({
-        x: 620,
-        y: 370,
-        key: "down_arrow",
-        scale: 1,
-      })
-      .setOrigin(0)
-      .setInteractive({ useHandCursor: true })
-      .on("pointerdown", () => this.scrollBacklog(-5));
 
     this.backlogMask = this.scene.add
       .rectangle(this.x + 10, this.y + this.Y_START, 580, 335, 0x6666ff)
@@ -68,8 +48,6 @@ export class Backlog extends Phaser.GameObjects.Container {
       this.background,
       this.header,
       this.estimateLine,
-      this.upArrow,
-      this.downArrow,
       this.backlogMask,
     ]);
     this.createEvents();
@@ -88,10 +66,23 @@ export class Backlog extends Phaser.GameObjects.Container {
           project: this.project,
           emitter: this.emitter,
           mask: this.backlogMask,
+          move: this.moveBacklogItem,
+          parent: this,
         }
       );
     });
     this.add(this.rows);
+  }
+
+  moveBacklogItem(obj, direction) {
+    obj.y =
+      direction < 0
+        ? obj.y + this.ITEM_SPACING + 1
+        : direction > 0
+        ? obj.y - this.ITEM_SPACING - 1
+        : this.Y_START + this.backlogItemYOffset - 1;
+
+    this.updatePositions();
   }
 
   destroyBacklog() {
