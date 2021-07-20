@@ -99,12 +99,10 @@ const CATEGORIES = {
             team.qualityMindset / 2
           : 0,
     },
-    // TEST_SPECIALISATION needs a better name,
-    // referring to choosing the right kind of testing for the job
-    TEST_SPECIALISATION: {
+    TEST_STRATEGY: {
       stats: ["qualityMindset"],
       value: (team) =>
-        team.discoveries.includes("TEST_SPECIALISATION")
+        team.discoveries.includes("TEST_STRATEGY")
           ? average(team.testers.map(({ qualityMindset }) => qualityMindset)) ||
             team.qualityMindset / 2
           : 0,
@@ -213,79 +211,98 @@ export const PROJECT_ATTRIBUTES_TEXT = {
   },
   REVIEW: {
     name: "Sprint Review",
-    description: "Sprint Review is a.....",
+    description:
+      "The purpose of the Sprint Review is to inspect the outcome of the Sprint and determine future adaptations. The Scrum Team presents the results of their work to key stakeholders and progress toward the Product Goal is discussed.",
   },
   PSYCHOLOGICAL_SAFETY: {
     name: "Psychological Safety",
-    description: "Psychological Safety is a.....",
+    description:
+      "Psychological safety is the freedom to speak up with ideas, questions, concerns, or mistakes, without fear of negative consequences of self-image, status or career. It's a vital component of high-performance teams.",
   },
   WIP_LIMIT: {
     name: "WIP Limit",
-    description: "WIP Limit is a.....",
+    description:
+      "Work in Progress Limit is a contraint teams use to limit the total amount of work in play at any given time. WIP limits reduce context switching and complexity, encourage collaboration and help the team focus on their priorities.",
   },
   SPRINT_GOAL: {
     name: "Sprint Goal",
-    description: "Sprint Goal is a.....",
+    description:
+      "In Scrum, the Sprint Goal is the objective for the Sprint. The Sprint Goal encourages the team to work together rather than on separate initiatives.",
   },
   CONTINUOUS_IMPROVEMENT: {
     name: "Continuous Improvement",
-    description: "Continuous Improvement is a.....",
+    description:
+      "Continuous Improvement is an idea that's been present in manufacturing for 100 years. It's an apprach to improve every process and practice by focusing on enhancing activities that generate value while removing activities that generate waste.",
   },
   CUSTOMER_ENGAGEMENT: {
     name: "Customer Engagement",
-    description: "Customer Engagement is a.....",
+    description:
+      "Agile relies on good Customer Engagement. To know whether a team are meeting the customer's needs, they need to foster close collaboration with and engaged and responsive customer.",
   },
   TEST_DESIGN: {
     name: "Test Design",
-    description: "Test Design is a.....",
+    description:
+      "There are an infinite number of test scenarios, but only a small subset of these will provide real value. Test design aims to identify valuable test and the conditions under which they should be run.",
   },
   TEST_AUTOMATION: {
     name: "Test Automation",
-    description: "Test Automation is a.....",
+    description:
+      "Test Automation is the practice of running tests against software automatically, with expected, reproducible outcomes. It is typically used with CI/CD build pipelines to verify all changes made to software.",
   },
   QUALITY_FIRST_APPROACH: {
     name: "Quality First Approach",
-    description: "Quality First Approach is a.....",
+    description:
+      "Also known as 'Shift Left` testing, this approach moves quality assurancy further back in the  or feature lifecycle, to address quality at every stage from requirements to end product.",
   },
-  TEST_SPECIALISATION: {
-    name: "Test Specialisation",
-    description: "Test Specialisation is a.....",
+  TEST_STRATEGY: {
+    name: "Test Strategy",
+    description:
+      "A Test Strategy should identify at a high level which forms of testing are required for a software product, and what amount of coverage and granularity are required for each kind of testing.",
   },
   UNIT_TESTING: {
     name: "Unit Testing",
-    description: "Unit Testing is a.....",
+    description:
+      "Unit Tests validate that individual functions or modules function correctly in isolation. In Test Driven Development, they are be written before the application code. Unit tests are usually run automatically in build/deploy pipelines.",
   },
   UNIT_TEST_COVERAGE: {
-    name: "Unit Test Coverage",
-    description: "Unit Test Coverage is a.....",
+    name: "Test Coverage",
+    description:
+      "Test Coverage is a measure of the ammount of application code that is executed when a test suite runs. It can help indicate the probability that application code contains undetected bugs.",
   },
   CODE_REVIEW: {
     name: "Code Review",
-    description: "Code Review is a.....",
+    description:
+      "Code Review is a quality assurance practice where other programmers check an application change by reading and commenting on the changes to its source code, typically viewing a source code 'diff' or delta.",
   },
   SOFTWARE_DESIGN: {
     name: "Software Design",
-    description: "Software Design is a.....",
+    description:
+      "Software Design the process of creating a model or abstraction of a (proposed or existing) software system to aid understanding of problems and solutions.",
   },
   PAIR_PROGRAMMING: {
     name: "Pair Programming",
-    description: "Pair Programming is a.....",
+    description:
+      "Pair Programming involves 2 programmers working closely together on a problem. Studies have shown that pairing produces higher quality code and is usually more efficient.",
   },
   CI_CD: {
     name: "CI/CD",
-    description: "CI/CD is a.....",
+    description:
+      "Continuous integration is the process of merging from a shared code repository frequently. Continuous deployment is the process of safely deploying software frequently by the use of automated build, test and deployment pipelines.",
   },
   TECH_TALKS: {
     name: "Tech Talks",
-    description: "Tech Talks is a.....",
+    description:
+      "Tech Talks are a common learning apprach within software development teams, enabling the sharing of knowledge and spread of good practice and new ideas.",
   },
   DEVOPS: {
-    name: "Devops",
-    description: "Devops is a.....",
+    name: "DevOps",
+    description:
+      "DevOps is a set of practices that combines software development (Dev) and IT operations (Ops). It typically includes  the creation and management of CI/CD pipelines, and the use of infrastructure as code.",
   },
   CLOUD_SERVICES: {
     name: "Cloud Services",
-    description: "Cloud Services is a.....",
+    description:
+      "Cloud Services such as AWS, Google Cloud and Azure offer immediately available on-demand compute and storage services. Using Cloud Services minimises IT infrastructure costs by removing the need to buy, provision and maintain hardware and software.",
   },
 };
 

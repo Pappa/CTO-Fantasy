@@ -71,7 +71,7 @@ describe("generateProjectAttributes()", () => {
           value: 0,
           stats: ["qualityMindset"],
         },
-        TEST_SPECIALISATION: {
+        TEST_STRATEGY: {
           value: 0,
           stats: ["qualityMindset"],
         },
