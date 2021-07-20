@@ -2,19 +2,19 @@
   "companies": [
     {
       "name": "DinoTech",
-      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+      "description": "Our story begain in 1971. We specialise in Java systems."
     },
     {
       "name": "ZumoFin",
-      "description": "Aliquam dapibus magna nec leo ultrices, et porta ipsum ullamcorper."
+      "description": "We're an up-and-coming FinTech disruptor!"
     },
     {
       "name": "Softify",
-      "description": "Nulla luctus, massa non egestas pulvinar."
+      "description": "The AirBnB for Software!"
     },
     {
       "name": "UltraSoft",
-      "description": "Sed lacus risus, aliquam in nunc sed, rhoncus rutrum tortor."
+      "description": "UltraSoft are a one-stop solution for your online presence."
     }
   ],
   "COMPANY_LIMIT": 3,
