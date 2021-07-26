@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" href="/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+      user"s mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="/manifest.json" />
     <title>Project Genesis</title>
@@ -33,24 +33,64 @@
       a {
         color: rgb(192, 192, 2);
       }
+      .wrapper {
+        margin: 15px;
+      }
+
+      .row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .text-container {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        flex: 1;
+        text-align: left;
+      }
+
+      .video-container {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        flex: 2;
+        text-align: right;
+      }
+      video {
+        border: 2px solid white;
+        margin: 0 auto;
+      }
     </style>
   </head>
   <body>
     <h1>Project Genesis</h1>
 
-    <p>Hi! Thanks for volunteering to play Project Genesis.</p>
-    <p>Please take a few minutes to watch the intro video.</p>
-    <video controls width="800">
-      <source
-        src="https://project-genesis-a-software-development-fantasy.s3.eu-west-1.amazonaws.com/videos/game-intro.mp4"
-        type="video/mp4"
-      />
+    <div class="wrapper">
+      <div class="row">
+        <div class="text-container">
+          <p>Hi! Thanks for volunteering to play Project Genesis.</p>
+          <p>Please take a few minutes to watch the intro video.</p>
 
-      Sorry, your browser doesn't support embedded videos.
-    </video>
-    <p>
-      Once you're ready, please <a href="/" target="_blank">play Project Genesis</a>,
-    </br>and take a screenshot of the Game Over screen once you're done.
-    </p>
+          <p>
+            Once you're ready, please
+            <a href="/" target="_blank">play Project Genesis</a>, and take a
+            screenshot of the Game Over screen once you're done.
+          </p>
+        </div>
+        <div class="video-container">
+          <video controls width="600">
+            <source
+              src="https://project-genesis-a-software-development-fantasy.s3.eu-west-1.amazonaws.com/videos/game-intro.mp4"
+              type="video/mp4"
+            />
+
+            Sorry, your browser doesn't support embedded videos.
+          </video>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
