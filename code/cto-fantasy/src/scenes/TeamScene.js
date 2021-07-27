@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { Card } from "../game-objects/Card";
 import { SceneBackground } from "../game-objects/SceneBackground";
+import { Dev, Tester, ScrumMaster, ProductOwner } from "../classes/Employee";
 
 export class TeamScene extends Phaser.Scene {
   intro = true;
@@ -55,15 +56,28 @@ export class TeamScene extends Phaser.Scene {
       const ratings = Array(5).fill("\u2606");
       const memberRatings = Array(member.rating).fill("\u2605");
       ratings.splice(0, member.rating, ...memberRatings);
+      const skillsText = `<br/>${this.getSkillsText(member)}<br/>`;
       const ratingText = ratings.join(" ");
       return this.add.existing(
         new Card(this, x, y, {
           title: member.name,
-          text: `${member.type}<br/><br/>${
+          text: `${member.type}<br/>${skillsText}<br/>${
             member.experience
           } years exp.<br/>Salary: £${member.salary.toLocaleString()}<br/><br/>${ratingText}`,
         })
       );
     }, this);
   }
+
+  getSkillsText = (member) => {
+    return member instanceof Dev
+      ? "Builds your app."
+      : member instanceof Tester
+      ? "Improves quality."
+      : member instanceof ScrumMaster
+      ? "Improves Agile practices."
+      : member instanceof ProductOwner
+      ? "Prioritises the customer's needs."
+      : "";
+  };
 }

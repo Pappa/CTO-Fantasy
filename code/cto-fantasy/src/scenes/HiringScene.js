@@ -82,6 +82,7 @@ export class HiringScene extends Phaser.Scene {
       const ratings = Array(5).fill("\u2606");
       const candidateRatings = Array(candidate.rating).fill("\u2605");
       ratings.splice(0, candidate.rating, ...candidateRatings);
+      const skillsText = `<br/>${this.getSkillsText(candidate)}<br/>`;
       const ratingText = ratings.join(" ");
       const experienceText =
         candidate instanceof Employee
@@ -100,7 +101,7 @@ export class HiringScene extends Phaser.Scene {
           y,
           {
             title: candidate.name,
-            text: `${candidate.type}<br/>${experienceText}${feeText}${contractTerm}<br/><br/>${ratingText}`,
+            text: `${candidate.type}<br/>${skillsText}${experienceText}${feeText}${contractTerm}<br/><br/>${ratingText}`,
             buttonText: isBudgetAvailable ? "Hire" : "Over budget",
             disabled: !isBudgetAvailable,
           },
@@ -122,5 +123,17 @@ export class HiringScene extends Phaser.Scene {
     }
     this.candidates = this.candidates.filter((c) => c !== selection);
     this.onClose();
+  };
+
+  getSkillsText = (candidate) => {
+    return candidate instanceof Dev
+      ? "Builds your app."
+      : candidate instanceof Tester
+      ? "Improves quality."
+      : candidate instanceof ScrumMaster
+      ? "Improves Agile practices."
+      : candidate instanceof ProductOwner
+      ? "Prioritises the customer's needs."
+      : "";
   };
 }

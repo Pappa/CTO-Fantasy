@@ -80,7 +80,7 @@ export class MainScene extends Phaser.Scene {
     if (presets.team && presets.team.length) {
       return createTeamFromPresets(presets.team);
     }
-    return new Team(range(teamSize + 1).map(() => new Dev()));
+    return new Team(range(teamSize).map(() => new Dev()));
   }
 
   createLinearStory() {
