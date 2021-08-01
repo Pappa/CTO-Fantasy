@@ -22,10 +22,6 @@ export const getProjectSuccessResults = (backlog) => {
     ...backlog.potentialWorkItems,
   ];
 
-  console.log(allStories.length, allStories);
-
-  console.log(backlog);
-
   return {
     allStories,
     completedStories: backlog.completedStories,
