@@ -26,7 +26,10 @@ export class ClickToContinueState extends State {
   }
 
   handleKey(event) {
-    if (event.key === "Enter") {
+    if (
+      event.key === "Enter" &&
+      this.scene.manager.getScenes(true).length === 1
+    ) {
       this.machine.next();
     }
   }
