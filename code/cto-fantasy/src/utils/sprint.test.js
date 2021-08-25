@@ -2,8 +2,8 @@ import {
   calculateBacklogCapacityRow,
   getBacklogEstimates,
   workOnSprintBacklogItems,
-  isThereWorkToDo,
-  isThereEffortRemaining,
+  isWorkToDo,
+  isCapabilityRemaining,
   selectNextBacklogItem,
   getTodaysCapability,
   getNumberOfStoriesToEstimate,
@@ -268,7 +268,7 @@ describe("workOnSprintBacklogItems()", () => {
   });
 });
 
-describe("isThereWorkToDo()", () => {
+describe("isWorkToDo()", () => {
   const itemsWithEffort = range(5).map(
     (idx) =>
       new UserStory({
@@ -298,25 +298,25 @@ describe("isThereWorkToDo()", () => {
   );
 
   it("should return true if all items have remaining effort", () => {
-    expect(isThereWorkToDo(itemsWithEffort)).toBeTruthy();
+    expect(isWorkToDo(itemsWithEffort)).toBeTruthy();
   });
   it("should return true if some items do not have remaining effort", () => {
-    expect(isThereWorkToDo(itemsWithAndWithoutEffort)).toBeTruthy();
+    expect(isWorkToDo(itemsWithAndWithoutEffort)).toBeTruthy();
   });
   it("should return false if all items do not have remaining effort", () => {
-    expect(isThereWorkToDo(itemsWithoutEffort)).toBeFalsy();
+    expect(isWorkToDo(itemsWithoutEffort)).toBeFalsy();
   });
 });
 
-describe("isThereEffortRemaining()", () => {
+describe("isCapabilityRemaining()", () => {
   const teamWithCapability = range(5).map((idx) => ({ effort: 5 }));
   const teamWithoutCapability = range(5).map((idx) => ({ effort: 0 }));
 
   it("should return true if items have remaining effort", () => {
-    expect(isThereEffortRemaining(teamWithCapability)).toBeTruthy();
+    expect(isCapabilityRemaining(teamWithCapability)).toBeTruthy();
   });
   it("should return false if items do not have remaining effort", () => {
-    expect(isThereEffortRemaining(teamWithoutCapability)).toBeFalsy();
+    expect(isCapabilityRemaining(teamWithoutCapability)).toBeFalsy();
   });
 });
 

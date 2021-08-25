@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { Card } from "../game-objects/Card";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
-//import { SprintEventState } from "../classes/states/sprint/SprintEventState";
 import * as theme from "../theme";
 import { navigationStateFactory } from "../classes/states/NavigationState";
 import { Sprint } from "../classes/Sprint";
@@ -130,21 +129,6 @@ export class SprintScene extends Phaser.Scene {
       this.machine.next();
     }
   }
-
-  // getRandomSprintEvents() {
-  //   return Array(randomInt(1, 3))
-  //     .fill(null)
-  //     .map(() => ({
-  //       text: "Do you want to do A or B?",
-  //       A: () => {
-  //         this.handleEvents();
-  //       },
-  //       B: () => {
-  //         this.handleEvents();
-  //       },
-  //     }))
-  //     .map((ev) => new SprintEventState(this.machine, this.eventDialog, ev));
-  // }
 
   calculateResults() {
     const results = this.sprint.getResults();

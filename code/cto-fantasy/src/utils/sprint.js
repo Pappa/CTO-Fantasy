@@ -75,8 +75,8 @@ export const workOnSprintBacklogItems = (
   let i = 0;
   while (
     i < 100 &&
-    isThereEffortRemaining(todaysCapability) &&
-    isThereWorkToDo(backlog)
+    isCapabilityRemaining(todaysCapability) &&
+    isWorkToDo(backlog)
   ) {
     const items = backlog.filter((item) => !item.done() && item.visible());
     // select item, based on team.fow
@@ -130,10 +130,10 @@ export const getTodaysCapability = (dailyEffort, distractions) =>
     }))
     .filter(({ effort }) => effort > 0);
 
-export const isThereWorkToDo = (backlog) =>
+export const isWorkToDo = (backlog) =>
   backlog.some(({ effortRemaining }) => effortRemaining > 0);
 
-export const isThereEffortRemaining = (todaysCapability) =>
+export const isCapabilityRemaining = (todaysCapability) =>
   todaysCapability.some(({ effort }) => effort > 0);
 
 const isCodeBuggy = (qualityMindset) => Math.random() / 2 > qualityMindset;

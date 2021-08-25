@@ -2,7 +2,6 @@ import Phaser from "phaser";
 import { BootScene } from "./scenes/BootScene";
 import { VacanciesScene } from "./scenes/VacanciesScene";
 import { MainScene } from "./scenes/MainScene";
-import { CreditsScene } from "./scenes/CreditsScene";
 import settings from "./config.json";
 import { TeamScene } from "./scenes/TeamScene";
 import { HiringScene } from "./scenes/HiringScene";
@@ -27,7 +26,6 @@ export class CtoFantasy {
         BootScene,
         VacanciesScene,
         MainScene,
-        CreditsScene,
         SprintBoardScene,
         TeamScene,
         HiringScene,
