@@ -82,7 +82,6 @@ export const workOnSprintBacklogItems = (
     // select item, based on team.fow
     const item = selectNextBacklogItem(items, team.flow);
 
-    let hasFirstDevWorked = false;
     todaysCapability = todaysCapability.filter(({ effort }) => effort > 0);
 
     todaysCapability.forEach(
@@ -92,7 +91,7 @@ export const workOnSprintBacklogItems = (
         if (
           item &&
           !item.done() &&
-          (!hasFirstDevWorked || collaboration >= Math.random())
+          (idx === 0 || collaboration >= Math.random())
         ) {
           item.status = WorkItem.STATUS.IN_PROGRESS;
           const remaining = item.doWork(effort);
@@ -108,7 +107,6 @@ export const workOnSprintBacklogItems = (
               bugs.push(bug);
             }
           }
-          hasFirstDevWorked = true;
         }
       }
     );
