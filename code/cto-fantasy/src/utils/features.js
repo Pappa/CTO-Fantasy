@@ -1,37 +1,6 @@
 import { UserStory, WorkItem } from "../classes/WorkItem";
 import { pick } from "./random";
-
-const FRONTEND_BACKEND_FEATURES = [
-  "user login",
-  "search",
-  "product details",
-  "add to basket",
-  "checkout",
-  "preferences",
-  "recommendations",
-  "guest checkout",
-  "credit card payment",
-  "alternative payment options",
-  "social login",
-  "share",
-  "discount code",
-  "subscriptions",
-  "3rd party seller",
-];
-
-const BACKGROUND_FEATURES = [
-  "recommendations engine",
-  "product aggregation",
-  "user aggregation",
-  "data precalculation",
-  "cacheing",
-  "product mapping",
-  "logging",
-  "user tracking",
-  "reporting",
-  "onboarding",
-  "compliance",
-];
+import { FRONTEND_BACKEND_FEATURES, BACKGROUND_FEATURES } from "../features";
 
 const INCIDENT_TEXT = [
   "There's a major incident caused by a problem with the",
