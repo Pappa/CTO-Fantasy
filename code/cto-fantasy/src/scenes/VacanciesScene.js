@@ -7,15 +7,24 @@ export class VacanciesScene extends Phaser.Scene {
     super("VacanciesScene");
   }
 
-  init() {}
+  init() {
+    this.centreX = this.cameras.main.width / 2;
+    this.centreY = this.cameras.main.height / 2;
+    const settings = this.registry.get("settings");
+    this.companies = settings.companies;
+    this.limit = settings.COMPANY_LIMIT;
+  }
 
   preload() {}
 
   // executed once, after assets were loaded
   create() {
     const name = this.registry.get("name");
-    this.welcomeMessage = this.add
-      .text(400, 30, `${name}, you have 3 job offers!`, theme.h1)
+    this.add
+      .text(this.centreX, 30, `Welcome ${name}!`, theme.h1)
+      .setOrigin(0.5, 0);
+    this.add
+      .text(this.centreX, 65, `You have ${this.limit} job offers.`, theme.h2)
       .setOrigin(0.5, 0);
     this.createCompanyVacancies();
   }
@@ -25,24 +34,24 @@ export class VacanciesScene extends Phaser.Scene {
   createCompanyVacancies() {
     const companies = Phaser.Math.RND.shuffle(
       this.registry.get("settings").companies
-    ).slice(0, 3);
+    ).slice(0, this.limit);
     this.companies = companies.map((company, idx) => {
-      const x = 50 + (idx + 1) * 175;
+      const x = idx % 2 === 0 ? this.centreX + 80 : this.centreX - 80;
+      const y = Math.floor(idx / 2) * 190 + 100;
       return this.add.existing(
         new Card(
           this,
           x,
-          150,
+          y,
           {
             title: company.name,
             text: company.description,
-            buttonText: "Accept Job Offer",
+            buttonText: "Accept Offer",
           },
           this.startGame.bind(this, company)
         )
       );
     }, this);
-    //this.example = new Example(this);
   }
 
   startGame(company) {

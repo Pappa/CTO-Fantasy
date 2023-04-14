@@ -18,8 +18,8 @@ export class CtoFantasy {
   constructor(presets = {}) {
     const gameConfig = {
       type: Phaser.AUTO,
-      width: 800,
-      height: 600,
+      width: 360,
+      height: 780,
       parent: "game-container",
       pixelArt: true,
       scene: [
@@ -37,11 +37,12 @@ export class CtoFantasy {
         RetrospectiveScene,
         EndScene,
       ],
-      title: "CTO Fantasy",
+      title: "Software Dev Sim",
       dom: {
         createContainer: true,
       },
       scale: {
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       },
       callbacks: {

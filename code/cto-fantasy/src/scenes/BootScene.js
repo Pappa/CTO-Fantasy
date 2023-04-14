@@ -30,19 +30,26 @@ export class BootScene extends Phaser.Scene {
     var subtitle = this.make.text({
       x: this.centreX,
       y: this.centreY - 180,
-      text: "A software development fantasy",
+      text: "A software development sim",
       style: theme.mainText,
     });
     subtitle.setOrigin(0.5, 0.5);
   }
 
   createProgressBar() {
+    const width = 320;
+    const height = 50;
     const progressBar = this.add.graphics();
     const progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect(240, 270, 320, 50);
+    progressBox.fillRect(
+      this.centreX - width / 2,
+      this.centreY - 140,
+      width,
+      height
+    );
 
-    const loadingText = this.add.text({
+    const loadingText = this.make.text({
       x: this.centreX,
       y: this.centreY - 50,
       text: "Loading...",
@@ -50,7 +57,7 @@ export class BootScene extends Phaser.Scene {
     });
     loadingText.setOrigin(0.5, 0.5);
 
-    const percentText = this.add.text({
+    const percentText = this.make.text({
       x: this.centreX,
       y: this.centreY - 5,
       text: "0%",
@@ -58,11 +65,11 @@ export class BootScene extends Phaser.Scene {
     });
     percentText.setOrigin(0.5, 0.5);
 
-    const assetText = this.add.text({
+    const assetText = this.make.text({
       x: this.centreX,
       y: this.centreY + 50,
       text: "",
-      style: theme.mainText,
+      style: theme.mediumText,
     });
 
     assetText.setOrigin(0.5, 0.5);
@@ -71,11 +78,16 @@ export class BootScene extends Phaser.Scene {
       percentText.setText(parseInt(value * 100) + "%");
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
-      progressBar.fillRect(250, 280, 300 * value, 30);
+      progressBar.fillRect(
+        this.centreX - width / 2 + 10,
+        this.centreY - 130,
+        300 * value,
+        30
+      );
     });
 
     this.load.on("fileprogress", (file) => {
-      assetText.setText("Loading asset: " + file.key);
+      assetText.setText("Loading: " + file.key);
     });
 
     this.load.on("complete", () => {
@@ -90,7 +102,7 @@ export class BootScene extends Phaser.Scene {
   loadAssets() {
     this.load.html("card", "assets/forms/card.html");
     this.load.html("button", "assets/forms/button.html");
-    this.load.html("estimate_input", "assets/forms/estimate_input.html");
+    this.load.html("login", "assets/forms/login.html");
     this.load.html("event", "assets/forms/event.html");
     this.load.image("button", "assets/UIpack/PNG/blue_button00.png");
     this.load.image("button_hover", "assets/UIpack/PNG/blue_button01.png");
@@ -144,35 +156,20 @@ export class BootScene extends Phaser.Scene {
   }
 
   createNameEntry() {
-    const LOWER = "abcdefghijklmnopqrstuvwxyz";
-    const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    this.make
-      .text({
-        x: this.centreX,
-        y: this.centreY,
-        text: "Enter your name:",
-        style: theme.mainText,
-      })
+    this.form = this.add
+      .dom(this.centreX, this.centreY + 200)
+      .createFromCache("login")
       .setOrigin(0.5, 0.5);
 
-    const textEntry = this.make
-      .text({
-        x: this.centreX,
-        y: this.centreY + 30,
-        text: "",
-        style: {
-          ...theme.mainText,
-          fill: "#ffff00",
-        },
-      })
-      .setOrigin(0.5, 0.5);
+    this.form.addListener("click");
 
-    this.input.keyboard.on("keydown", (event) => {
-      if (UPPER.includes(event.key) || LOWER.includes(event.key)) {
-        textEntry.text += event.key;
-      }
-      if (event.key === "Enter") {
-        this.handleSubmit(textEntry.text);
+    this.form.on("click", (event) => {
+      if (event.target.name === "submit") {
+        const name = this.form.getChildByName("name");
+        if (name.value !== "") {
+          this.form.removeListener("click");
+          this.handleSubmit(name.value);
+        }
       }
     });
   }

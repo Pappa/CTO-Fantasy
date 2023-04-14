@@ -15,9 +15,17 @@
     {
       "name": "UltraSoft",
       "description": "UltraSoft are a one-stop solution for your online presence."
+    },
+    {
+      "name": "Xoop",
+      "description": "Everything We Do Is Driven By Tech."
+    },
+    {
+      "name": "Cumulo",
+      "description": "The future of cloud."
     }
   ],
-  "COMPANY_LIMIT": 3,
+  "COMPANY_LIMIT": 6,
   "STARTING_TEAM_SIZE": 4,
   "BUGINESS_RATIO": 10,
   "STORY_POINT_VALUES": [1, 2, 3, 5, 8, 13, 20],
