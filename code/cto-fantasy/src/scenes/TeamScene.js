@@ -9,7 +9,12 @@ export class TeamScene extends Phaser.Scene {
     super("TeamScene");
   }
 
-  init() {}
+  init() {
+    this.width = this.cameras.main.width;
+    this.height = this.cameras.main.height;
+    this.centreX = this.width / 2;
+    this.centreY = this.height / 2;
+  }
 
   preload() {}
 
@@ -22,8 +27,6 @@ export class TeamScene extends Phaser.Scene {
   }
 
   createComponents() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
     const name = this.registry.get("name");
     const company = this.registry.get("company");
     const title = this.intro
@@ -31,7 +34,7 @@ export class TeamScene extends Phaser.Scene {
       : `The ${company.name} team.`;
 
     this.intro = false;
-    this.background = new SceneBackground(this, 0, 0, width, height, {
+    this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
       title,
       closeIcon: "complete_icon",
       onClose: () => {

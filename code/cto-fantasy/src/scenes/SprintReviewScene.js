@@ -9,7 +9,12 @@ export class SprintReviewScene extends Phaser.Scene {
     super("SprintReviewScene");
   }
 
-  init() {}
+  init() {
+    this.width = this.cameras.main.width;
+    this.height = this.cameras.main.height;
+    this.centreX = this.width / 2;
+    this.centreY = this.height / 2;
+  }
 
   preload() {}
 
@@ -27,9 +32,7 @@ export class SprintReviewScene extends Phaser.Scene {
   }
 
   createComponents() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
-    this.background = new SceneBackground(this, 0, 0, width, height, {
+    this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
       title: "Sprint Review",
       closeIcon: "close_icon",
       onClose: () => {

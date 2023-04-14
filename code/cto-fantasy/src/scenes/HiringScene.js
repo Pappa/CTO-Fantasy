@@ -11,6 +11,13 @@ export class HiringScene extends Phaser.Scene {
     super("HiringScene");
   }
 
+  init() {
+    this.width = this.cameras.main.width;
+    this.height = this.cameras.main.height;
+    this.centreX = this.width / 2;
+    this.centreY = this.height / 2;
+  }
+
   create({ team, project, emitter, onClose }) {
     this.team = team;
     this.project = project;
@@ -23,9 +30,7 @@ export class HiringScene extends Phaser.Scene {
   }
 
   createComponents() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
-    this.background = new SceneBackground(this, 0, 0, width, height, {
+    this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
       title: `Time to hire some new people.\nThere are ${this.candidates.length} candidates available.`,
       closeIcon: "complete_icon",
       onClose: () => {

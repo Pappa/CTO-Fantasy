@@ -14,7 +14,12 @@ export class EndScene extends Phaser.Scene {
     super("EndScene");
   }
 
-  init() {}
+  init() {
+    this.width = this.cameras.main.width;
+    this.height = this.cameras.main.height;
+    this.centreX = this.width / 2;
+    this.centreY = this.height / 2;
+  }
 
   preload() {}
 
@@ -27,11 +32,9 @@ export class EndScene extends Phaser.Scene {
   }
 
   createComponents() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
     const title = "Game Over";
 
-    this.background = new SceneBackground(this, 0, 0, width, height, {
+    this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
       title,
     });
 

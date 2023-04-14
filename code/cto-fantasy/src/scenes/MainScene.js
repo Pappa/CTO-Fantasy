@@ -11,7 +11,6 @@ import { Button } from "../game-objects/Button";
 import { range } from "../utils/collection";
 import {
   NavigationMenu,
-  ORIENTATION_VERITCAL,
   ORIENTATION_HORIZONTAL,
 } from "../game-objects/NavigationMenu";
 import { RefinementState } from "../classes/states/sprint/RefinementState";

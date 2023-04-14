@@ -13,6 +13,7 @@ export class SceneBackground extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.width = width;
     this.height = height;
+    this.margin = 20;
     this.title = title;
     this.closeIcon = closeIcon;
     this.onClose = onClose;
@@ -26,8 +27,18 @@ export class SceneBackground extends Phaser.GameObjects.Container {
       .graphics()
       .fillStyle(0x222222, 1.0)
       .lineStyle(1, 0xffffff, 1.0)
-      .fillRoundedRect(10, 10, this.width - 20, this.height - 20)
-      .strokeRoundedRect(10, 10, this.width - 20, this.height - 20);
+      .fillRoundedRect(
+        10,
+        10,
+        this.width - this.margin,
+        this.height - this.margin
+      )
+      .strokeRoundedRect(
+        10,
+        10,
+        this.width - this.margin,
+        this.height - this.margin
+      );
 
     this.header = this.scene.add
       .text(400, 15, this.title || " ", theme.h1)
