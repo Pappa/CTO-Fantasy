@@ -8,6 +8,11 @@ export const h2 = {
   fill: "#ffffff",
 };
 
+export const h3 = {
+  font: "14px monospace",
+  fill: "#ffffff",
+};
+
 export const cardTitle = {
   font: "14px monospace",
   fill: "#000000",

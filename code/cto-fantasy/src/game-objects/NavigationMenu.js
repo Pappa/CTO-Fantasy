@@ -1,10 +1,20 @@
 import Phaser from "phaser";
 import * as theme from "../theme";
 
+export const ORIENTATION_VERITCAL = 1;
+export const ORIENTATION_HORIZONTAL = 2;
+
 export class NavigationMenu extends Phaser.GameObjects.Container {
-  constructor(scene, x = 0, y = 0, modules) {
+  constructor(
+    scene,
+    x = 0,
+    y = 0,
+    modules,
+    orientation = ORIENTATION_VERITCAL
+  ) {
     super(scene, x, y);
     this.modules = modules;
+    this.orientation = orientation;
     this.scene.add.existing(this);
 
     this.menuItems = [
@@ -23,10 +33,29 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
     this.createEvents();
   }
 
+  getCoords(idx, type = "icon") {
+    let x = this.orientation === ORIENTATION_VERITCAL ? 0 : idx * 73;
+    let y = this.orientation === ORIENTATION_VERITCAL ? idx * 100 : 0;
+    if (type === "label") {
+      y += 65;
+    }
+    if (type === "notification") {
+      if (this.orientation === ORIENTATION_VERITCAL) {
+        x = 25;
+        y += 5;
+      } else {
+        x += 25;
+        y = 5;
+      }
+    }
+    return { x, y };
+  }
+
   createComponents() {
     this.icons = this.menuItems.map(({ icon, scene }, idx) => {
+      const { x, y } = this.getCoords(idx);
       return this.scene.add
-        .image(0, idx * 100, icon)
+        .image(x, y, icon)
         .setScale(0.1)
         .setOrigin(0.5, 0)
         .setInteractive({ useHandCursor: true })
@@ -36,10 +65,11 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
     });
     this.add(this.icons);
     this.textLabels = this.menuItems.map(({ text, icon, scene }, idx) => {
+      const { x, y } = this.getCoords(idx, "label");
       return this.scene.make
         .text({
-          x: 0,
-          y: idx * 100 + 65,
+          x,
+          y,
           text,
           style: theme.mediumText,
         })
@@ -52,10 +82,11 @@ export class NavigationMenu extends Phaser.GameObjects.Container {
     this.add(this.textLabels);
     this.notificationsObj = this.menuItems.reduce(
       (acc, { icon, scene }, idx) => {
+        const { x, y } = this.getCoords(idx, "notification");
         return {
           ...acc,
           [icon]: this.scene.add
-            .image(25, idx * 100 - 10, "notification")
+            .image(x, y, "notification")
             .setScale(0.5)
             .setOrigin(0.5)
             .setAlpha(0.8)

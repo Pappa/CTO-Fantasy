@@ -18,15 +18,15 @@ export class Hud extends Phaser.GameObjects.Container {
   createComponents() {
     this.background = this.scene.add
       .graphics()
-      .fillStyle(0x222222, 1.0)
-      .lineStyle(1, 0xffffff, 1.0)
-      .fillRoundedRect(0, 0, 200, 300)
-      .strokeRoundedRect(0, 0, 200, 300);
+      .fillStyle(0x222222, 0.7)
+      .lineStyle(1, 0xffffff, 0.7)
+      .fillRoundedRect(0, 0, 200, 170)
+      .strokeRoundedRect(0, 0, 200, 170);
     this.header = this.scene.add
       .text(15, 5, this.company.name, theme.mainText)
       .setOrigin(0);
     this.subheader = this.scene.add
-      .text(15, 30, this.project.name, theme.mainText)
+      .text(15, 30, this.project.name, theme.h3)
       .setOrigin(0);
     this.add([this.background, this.header, this.subheader]);
 

@@ -9,7 +9,11 @@ import { Customer } from "../classes/Customer";
 import { Hud } from "../game-objects/Hud";
 import { Button } from "../game-objects/Button";
 import { range } from "../utils/collection";
-import { NavigationMenu } from "../game-objects/NavigationMenu";
+import {
+  NavigationMenu,
+  ORIENTATION_VERITCAL,
+  ORIENTATION_HORIZONTAL,
+} from "../game-objects/NavigationMenu";
 import { RefinementState } from "../classes/states/sprint/RefinementState";
 import { createTeamFromPresets } from "../utils/team";
 
@@ -53,7 +57,7 @@ export class MainScene extends Phaser.Scene {
 
   // executed once, after assets were loaded
   create() {
-    this.office = this.add.image(400, 300, "office").setOrigin(0.5);
+    this.office = this.add.image(this.centreX, 300, "office").setOrigin(0.5);
 
     this.createHud();
     this.createMenu();
@@ -69,7 +73,7 @@ export class MainScene extends Phaser.Scene {
 
   createNextButton() {
     this.nextButton = this.add.existing(
-      new Button(this, this.centreX, this.height - 50)
+      new Button(this, this.centreX, this.height - 200)
     );
     this.nextButton.hide();
   }
@@ -124,6 +128,12 @@ export class MainScene extends Phaser.Scene {
   }
 
   createMenu() {
-    this.menu = new NavigationMenu(this, 740, 60, this.modules);
+    this.menu = new NavigationMenu(
+      this,
+      this.centreX - 150,
+      this.height - 120,
+      this.modules,
+      ORIENTATION_HORIZONTAL
+    );
   }
 }
