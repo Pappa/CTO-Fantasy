@@ -55,14 +55,12 @@ export class SprintBoardScene extends Phaser.Scene {
   }
 
   createDialogue() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
     this.info = new Dialogue(
       this,
-      200,
-      200,
-      width - 400,
-      height - 400,
+      50,
+      150,
+      this.width - 100,
+      this.height - 200,
       {}
     ).hide();
   }

@@ -25,5 +25,6 @@ export class Consultant {
 
 export class AgileCoach extends Consultant {
   type = "Agile Coach";
+  function = "Helps teams adopt agile practices.";
   stats = ["agileMindset"];
 }

@@ -16,6 +16,7 @@ export class AttributesScene extends Phaser.Scene {
   init() {
     this.width = this.cameras.main.width;
     this.height = this.cameras.main.height;
+    this.margin = 20;
     this.centreX = this.width / 2;
     this.centreY = this.height / 2;
   }
@@ -32,10 +33,8 @@ export class AttributesScene extends Phaser.Scene {
   }
 
   createComponents() {
-    const width = this.cameras.main.width;
-    const height = this.cameras.main.height;
     this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
-      title: "Software Development Practices",
+      title: "Development Practices",
       closeIcon: "close_icon",
       onClose: () => {
         this.onClose();
@@ -48,11 +47,11 @@ export class AttributesScene extends Phaser.Scene {
           DEBUG || value > 0 || this.project.team.hasDiscovered(attribute)
       )
       .map(({ category, attribute, value, stats }, idx) => {
-        const y = 75 + 20 * (idx + 1);
+        const y = 100 + 25 * idx;
         return [
           this.make
             .text({
-              x: 235,
+              x: this.margin,
               y,
               text: `${PROJECT_ATTRIBUTES_TEXT[attribute].name}`,
               style:
@@ -62,14 +61,15 @@ export class AttributesScene extends Phaser.Scene {
             })
             .setVisible(value > 0 || DEBUG)
             .setOrigin(0),
-          new Progress(this, 465, y, {
-            progress: value * 100,
+          new Progress(this, 225, y, 54, 14, {
+            progress: value,
           }),
           this.make
             .image({
-              x: 580,
+              x: this.width - this.margin - 45,
               y,
               key: "information_icon",
+              scale: 1.2,
             })
             .setOrigin(0)
             .setInteractive({ useHandCursor: true })
@@ -78,11 +78,12 @@ export class AttributesScene extends Phaser.Scene {
             }),
           this.make
             .image({
-              x: 600,
+              x: this.width - this.margin,
               y,
               key: "teach_icon",
+              scale: 1.2,
             })
-            .setOrigin(0)
+            .setOrigin(1, 0)
             .setInteractive({ useHandCursor: true })
             .on("pointerdown", () => {
               this.showWorkshopDialogue(attribute, stats);
@@ -94,10 +95,10 @@ export class AttributesScene extends Phaser.Scene {
       });
     this.info = new Dialogue(
       this,
-      200,
-      200,
-      width - 400,
-      height - 400,
+      50,
+      150,
+      this.width - 100,
+      this.height - 200,
       {}
     ).hide();
   }

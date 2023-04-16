@@ -72,7 +72,7 @@ export class MainScene extends Phaser.Scene {
 
   createNextButton() {
     this.nextButton = this.add.existing(
-      new Button(this, this.centreX, this.height - 200)
+      new Button(this, this.centreX, this.height - 200, 250)
     );
     this.nextButton.hide();
   }
@@ -108,7 +108,7 @@ export class MainScene extends Phaser.Scene {
             project: this.modules.project,
           }),
           this.clickStateFactory({
-            text: `Start the ${sprintNo === 1 ? "first" : "next"} sprint.`,
+            text: `Start the ${sprintNo === 1 ? "first" : "next"} sprint`,
           }),
           this.stateFactory(
             "SprintScene",

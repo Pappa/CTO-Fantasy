@@ -25,7 +25,7 @@ export const cardText = {
 };
 
 export const buttonText = {
-  font: "12px monospace",
+  font: "13px monospace",
   fill: "#ffffff",
 };
 
@@ -117,4 +117,10 @@ export const attributeTextDebug = {
 
 export const center = {
   align: "center",
+};
+
+export const dialogText = {
+  font: "14px monospace",
+  fill: "#ffffff",
+  lineSpacing: 5,
 };

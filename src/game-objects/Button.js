@@ -3,15 +3,17 @@ import * as theme from "../theme";
 import { noop } from "../utils/function";
 
 export class Button extends Phaser.GameObjects.Container {
-  width = 190;
+  defaultWidth = 190;
   height = 49;
   constructor(
     scene,
     x = 0,
     y = 0,
+    width = 190,
     { text, callback } = { text: "", callback: noop }
   ) {
     super(scene, x, y);
+    this.width = width;
     this.callback = callback;
     this.scene.add.existing(this);
 
@@ -27,7 +29,11 @@ export class Button extends Phaser.GameObjects.Container {
       this.callback();
     });
 
-    this.background = this.scene.add.image(0, 0, "button");
+    const buttonXScale = this.width / this.defaultWidth;
+
+    this.background = this.scene.add
+      .image(0, 0, "button")
+      .setScale(buttonXScale, 1);
     this.text = this.scene.add
       .text(0, 0, text, theme.buttonText)
       .setOrigin(0.5);
