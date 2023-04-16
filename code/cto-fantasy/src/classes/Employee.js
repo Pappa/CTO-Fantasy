@@ -84,14 +84,17 @@ Employee.FEMALE = 1;
 
 export class Dev extends Employee {
   type = "Software Engineer";
+  function = "Builds and deilvers software";
 }
 
 export class Tester extends Employee {
   type = "QA Engineer";
+  function = "Improves quality";
 }
 
 export class ScrumMaster extends Employee {
   type = "Scrum Master";
+  function = "Improves Agile practices";
   randomiseStat(property, boost) {
     switch (property) {
       case "experience":
@@ -108,6 +111,7 @@ export class ScrumMaster extends Employee {
 
 export class ProductOwner extends Employee {
   type = "Product Owner";
+  function = "Prioritises the customer's needs";
   randomiseStat(property, boost) {
     switch (property) {
       case "experience":

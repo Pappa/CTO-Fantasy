@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { Card } from "../game-objects/Card";
+import { Form } from "../game-objects/Form";
 import * as theme from "../theme";
 
 export class VacanciesScene extends Phaser.Scene {
@@ -37,9 +37,9 @@ export class VacanciesScene extends Phaser.Scene {
     ).slice(0, this.limit);
     this.companies = companies.map((company, idx) => {
       const x = idx % 2 === 0 ? this.centreX + 80 : this.centreX - 80;
-      const y = Math.floor(idx / 2) * 190 + 100;
+      const y = Math.floor(idx / 2) * 220 + 100;
       return this.add.existing(
-        new Card(
+        new Form(
           this,
           x,
           y,

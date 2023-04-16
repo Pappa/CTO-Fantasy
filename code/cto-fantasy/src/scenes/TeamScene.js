@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { Card } from "../game-objects/Card";
 import { SceneBackground } from "../game-objects/SceneBackground";
-import { Dev, Tester, ScrumMaster, ProductOwner } from "../classes/Employee";
 
 export class TeamScene extends Phaser.Scene {
   intro = true;
@@ -31,7 +30,7 @@ export class TeamScene extends Phaser.Scene {
     const company = this.registry.get("company");
     const title = this.intro
       ? `Welcome to ${company.name} ${name}!\nCome and meet the team.`
-      : `The ${company.name} team.`;
+      : `The ${company.name} team`;
 
     this.intro = false;
     this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
@@ -53,13 +52,12 @@ export class TeamScene extends Phaser.Scene {
 
   meetTheTeam() {
     this.teamCards = this.team.members.map((member, idx) => {
-      const col = idx % 4;
-      const x = 130 + col * 175;
-      const y = idx < 4 ? 100 : 340;
+      const x = idx % 2 === 0 ? this.centreX + 80 : this.centreX - 80;
+      const y = Math.floor(idx / 2) * 190 + 100;
       const ratings = Array(5).fill("\u2606");
       const memberRatings = Array(member.rating).fill("\u2605");
       ratings.splice(0, member.rating, ...memberRatings);
-      const skillsText = `<br/>${this.getSkillsText(member)}<br/>`;
+      const skillsText = `<br/>${member.function}<br/>`;
       const ratingText = ratings.join(" ");
       return this.add.existing(
         new Card(this, x, y, {
@@ -71,16 +69,4 @@ export class TeamScene extends Phaser.Scene {
       );
     }, this);
   }
-
-  getSkillsText = (member) => {
-    return member instanceof Dev
-      ? "Builds your app."
-      : member instanceof Tester
-      ? "Improves quality."
-      : member instanceof ScrumMaster
-      ? "Improves Agile practices."
-      : member instanceof ProductOwner
-      ? "Prioritises the customer's needs."
-      : "";
-  };
 }

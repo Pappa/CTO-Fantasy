@@ -67,7 +67,7 @@ export class MainScene extends Phaser.Scene {
   }
 
   createHud() {
-    this.hud = this.add.existing(new Hud(this, 15, 15, this.modules));
+    this.hud = this.add.existing(new Hud(this, 10, 10, this.modules));
   }
 
   createNextButton() {

@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { Dev, Tester, ScrumMaster, ProductOwner } from "../classes/Employee";
 import { AgileCoach } from "../classes/Consultant";
 import { Employee } from "../classes/Employee";
-import { Card } from "../game-objects/Card";
+import { Form } from "../game-objects/Form";
 import { SceneBackground } from "../game-objects/SceneBackground";
 import { pick, randomInt } from "../utils/random";
 
@@ -31,7 +31,7 @@ export class HiringScene extends Phaser.Scene {
 
   createComponents() {
     this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
-      title: `Time to hire some new people.\nThere are ${this.candidates.length} candidates available.`,
+      title: `Hire some new people.\n${this.candidates.length} candidates available.`,
       closeIcon: "complete_icon",
       onClose: () => {
         this.onClose();
@@ -79,15 +79,14 @@ export class HiringScene extends Phaser.Scene {
 
   updateCandidateCards() {
     this.candidatesCards = this.candidates.map((candidate, idx) => {
-      const col = idx % 4;
-      const x = 130 + col * 175;
-      const y = idx < 4 ? 100 : 340;
+      const x = idx % 2 === 0 ? this.centreX + 80 : this.centreX - 80;
+      const y = Math.floor(idx / 2) * 220 + 100;
       const isBudgetAvailable =
         (candidate.salary || candidate.dailyRate) <= this.project.budget;
       const ratings = Array(5).fill("\u2606");
       const candidateRatings = Array(candidate.rating).fill("\u2605");
       ratings.splice(0, candidate.rating, ...candidateRatings);
-      const skillsText = `<br/>${this.getSkillsText(candidate)}<br/>`;
+      const skillsText = `<br/>${candidate.function}<br/>`;
       const ratingText = ratings.join(" ");
       const experienceText =
         candidate instanceof Employee
@@ -100,7 +99,7 @@ export class HiringScene extends Phaser.Scene {
         ? `<br/>Contract term: ${candidate.contractTerm} days.`
         : "";
       return this.add.existing(
-        new Card(
+        new Form(
           this,
           x,
           y,
@@ -128,17 +127,5 @@ export class HiringScene extends Phaser.Scene {
     }
     this.candidates = this.candidates.filter((c) => c !== selection);
     this.onClose();
-  };
-
-  getSkillsText = (candidate) => {
-    return candidate instanceof Dev
-      ? "Builds your app."
-      : candidate instanceof Tester
-      ? "Improves quality."
-      : candidate instanceof ScrumMaster
-      ? "Improves Agile practices."
-      : candidate instanceof ProductOwner
-      ? "Prioritises the customer's needs."
-      : "";
   };
 }

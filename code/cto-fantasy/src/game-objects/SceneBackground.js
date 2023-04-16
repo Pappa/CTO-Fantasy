@@ -13,7 +13,9 @@ export class SceneBackground extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.width = width;
     this.height = height;
-    this.margin = 20;
+    this.centreX = width / 2;
+    this.centreY = height / 2;
+    this.margin = 5;
     this.title = title;
     this.closeIcon = closeIcon;
     this.onClose = onClose;
@@ -28,25 +30,28 @@ export class SceneBackground extends Phaser.GameObjects.Container {
       .fillStyle(0x222222, 1.0)
       .lineStyle(1, 0xffffff, 1.0)
       .fillRoundedRect(
-        10,
-        10,
-        this.width - this.margin,
-        this.height - this.margin
+        this.margin,
+        this.margin,
+        this.width - this.margin * 2,
+        this.height - this.margin * 2
       )
       .strokeRoundedRect(
-        10,
-        10,
-        this.width - this.margin,
-        this.height - this.margin
+        this.margin,
+        this.margin,
+        this.width - this.margin * 2,
+        this.height - this.margin * 2
       );
 
     this.header = this.scene.add
-      .text(400, 15, this.title || " ", theme.h1)
+      .text(this.centreX, 20, this.title || " ", {
+        ...theme.h2,
+        ...theme.center,
+      })
       .setOrigin(0.5, 0);
 
     this.close = this.scene.add
-      .image(760, 20, this.closeIcon)
-      .setOrigin(0.5, 0)
+      .image(this.width - 15, 15, this.closeIcon)
+      .setOrigin(1, 0)
       .setInteractive({ useHandCursor: true })
       .on("pointerup", () => {
         this.onClose();

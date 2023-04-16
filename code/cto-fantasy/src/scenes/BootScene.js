@@ -101,6 +101,7 @@ export class BootScene extends Phaser.Scene {
 
   loadAssets() {
     this.load.html("card", "assets/forms/card.html");
+    this.load.html("form", "assets/forms/form.html");
     this.load.html("button", "assets/forms/button.html");
     this.load.html("login", "assets/forms/login.html");
     this.load.html("event", "assets/forms/event.html");

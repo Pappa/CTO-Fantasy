@@ -109,3 +109,7 @@ export const attributeTextDebug = {
   font: "14px monospace",
   fill: "#af1504",
 };
+
+export const center = {
+  align: "center",
+};
