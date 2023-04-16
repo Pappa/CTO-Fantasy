@@ -2,7 +2,6 @@ import Phaser from "phaser";
 import { SceneBackground } from "../game-objects/SceneBackground";
 import { Card } from "../game-objects/Card";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
-import * as theme from "../theme";
 import { navigationStateFactory } from "../classes/states/NavigationState";
 import { Sprint } from "../classes/Sprint";
 import { RefinementState } from "../classes/states/sprint/RefinementState";

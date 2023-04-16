@@ -1,7 +1,6 @@
 import Phaser from "phaser";
 import { SceneBackground } from "../game-objects/SceneBackground";
 import * as theme from "../theme";
-import { intersperse } from "../utils/collection";
 import { getPriorityText } from "../utils/customer";
 
 export class CustomerScene extends Phaser.Scene {
