@@ -17,6 +17,7 @@ export class EndScene extends Phaser.Scene {
   init() {
     this.width = this.cameras.main.width;
     this.height = this.cameras.main.height;
+    this.margin = 20;
     this.centreX = this.width / 2;
     this.centreY = this.height / 2;
   }
@@ -69,11 +70,14 @@ export class EndScene extends Phaser.Scene {
     );
 
     this.add
-      .image(75, 100, `customer_${satisfaction}`)
-      .setScale(0.2)
+      .image(this.margin, 100, `customer_${satisfaction}`)
+      .setScale(0.15)
       .setOrigin(0);
 
-    this.add.image(75, 350, `attributes_icon`).setScale(0.2).setOrigin(0);
+    this.add
+      .image(this.margin, 370, `attributes_icon`)
+      .setScale(0.15)
+      .setOrigin(0);
 
     const projectSuccessText = getProjectSuccessText(
       this.project.sprintsRemaining,
@@ -93,24 +97,24 @@ export class EndScene extends Phaser.Scene {
 
     this.make
       .text({
-        x: 200,
+        x: 100,
         y: 100,
         text: projectSuccessText,
         style: {
-          ...theme.mainText,
-          wordWrap: { width: 500, useAdvancedWrap: false },
+          ...theme.endSceneText,
+          wordWrap: { width: this.width - 110, useAdvancedWrap: false },
         },
       })
       .setOrigin(0);
 
     this.make
       .text({
-        x: 200,
-        y: 350,
+        x: 100,
+        y: 370,
         text: softwareDevelopmentPracticesText,
         style: {
-          ...theme.mainText,
-          wordWrap: { width: 500, useAdvancedWrap: false },
+          ...theme.endSceneText,
+          wordWrap: { width: this.width - 110, useAdvancedWrap: false },
         },
       })
       .setOrigin(0);

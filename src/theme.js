@@ -45,6 +45,12 @@ export const mainText = {
   lineSpacing: 5,
 };
 
+export const endSceneText = {
+  font: "15px monospace",
+  fill: "#ffffff",
+  lineSpacing: 5,
+};
+
 export const mediumText = {
   font: "12px monospace",
   fill: "#ffffff",
