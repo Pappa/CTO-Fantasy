@@ -30,7 +30,7 @@ export class BootScene extends Phaser.Scene {
     var subtitle = this.make.text({
       x: this.centreX,
       y: this.centreY - 180,
-      text: "A software development sim",
+      text: "A software project sim",
       style: theme.mainText,
     });
     subtitle.setOrigin(0.5, 0.5);

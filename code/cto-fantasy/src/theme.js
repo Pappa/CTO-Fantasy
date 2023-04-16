@@ -50,23 +50,28 @@ export const mediumText = {
   fill: "#ffffff",
 };
 
-export const backlogItemStory = {
-  font: "18px monospace",
-  fill: "#04af45",
+export const backlogIdStory = {
+  font: "13px monospace",
+  fill: "#84ce9f",
 };
 
-export const backlogItemBug = {
-  font: "18px monospace",
+export const backlogIdBug = {
+  font: "13px monospace",
   fill: "#af1504",
 };
 
-export const estimate = {
-  font: "18px monospace",
-  fill: "#04af45",
+export const backlogItemTitle = {
+  font: "13px monospace",
+  fill: "#ffffff",
+};
+
+export const backlogEstimate = {
+  font: "13px monospace",
+  fill: "#84ce9f",
 };
 
 export const hudText = {
-  font: "12px monospace",
+  font: "14px monospace",
   fill: "#ffffff",
 };
 

@@ -12,6 +12,7 @@ export class RetrospectiveScene extends Phaser.Scene {
   init() {
     this.width = this.cameras.main.width;
     this.height = this.cameras.main.height;
+    this.margin = 20;
     this.centreX = this.width / 2;
     this.centreY = this.height / 2;
   }
@@ -54,14 +55,17 @@ export class RetrospectiveScene extends Phaser.Scene {
     );
     this.make
       .text({
-        x: 200,
+        x: this.centreX,
         y: 100,
         text: `The team discussed ${actionsString}, and have decided to try to make improvements in these areas next sprint.`,
         style: {
           ...theme.mainText,
-          wordWrap: { width: 500, useAdvancedWrap: false },
+          wordWrap: {
+            width: this.width - this.margin * 2,
+            useAdvancedWrap: false,
+          },
         },
       })
-      .setOrigin(0);
+      .setOrigin(0.5, 0);
   }
 }

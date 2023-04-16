@@ -14,6 +14,7 @@ export class CustomerScene extends Phaser.Scene {
     this.height = this.cameras.main.height;
     this.centreX = this.width / 2;
     this.centreY = this.height / 2;
+    this.margin = 20;
   }
 
   preload() {}
@@ -37,10 +38,18 @@ export class CustomerScene extends Phaser.Scene {
       },
     });
 
+    this.customerIcon = this.add
+      .image(this.width / 2, 150, "customer_neutral")
+      .setScale(0.2)
+      .setOrigin(0.5);
+
     this.priorityText = this.add
-      .text(400, 150, "", {
+      .text(this.centreX, 250, "", {
         ...theme.mainText,
-        wordWrap: { width: 450, useAdvancedWrap: true },
+        wordWrap: {
+          width: this.width - this.margin * 2,
+          useAdvancedWrap: false,
+        },
       })
       .setOrigin(0.5, 0);
   }
@@ -54,10 +63,9 @@ export class CustomerScene extends Phaser.Scene {
   }
 
   displayCustomerPriorities() {
-    const priorities = intersperse(
-      this.customer.priorities.map(getPriorityText),
-      [" ", " ", " "]
-    ).flat();
+    const priorities = this.customer.priorities
+      .map(getPriorityText)
+      .join("\n\n");
     this.priorityText.setText(priorities);
   }
 }

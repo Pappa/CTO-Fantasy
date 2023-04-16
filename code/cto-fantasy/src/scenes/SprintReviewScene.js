@@ -12,6 +12,7 @@ export class SprintReviewScene extends Phaser.Scene {
   init() {
     this.width = this.cameras.main.width;
     this.height = this.cameras.main.height;
+    this.margin = 20;
     this.centreX = this.width / 2;
     this.centreY = this.height / 2;
   }
@@ -40,9 +41,9 @@ export class SprintReviewScene extends Phaser.Scene {
       },
     });
     this.customerIcon = this.add
-      .image(100, 200, "customer_neutral")
+      .image(this.width / 2, 150, "customer_neutral")
       .setScale(0.2)
-      .setOrigin(0);
+      .setOrigin(0.5);
   }
 
   createEvents() {
@@ -108,13 +109,16 @@ export class SprintReviewScene extends Phaser.Scene {
 
     this.make
       .text({
-        x: 250,
-        y: 200,
-        text: lines.join(" "),
+        x: this.margin,
+        y: 250,
+        text: lines.join("\n\n"),
         style: {
           ...theme.mainText,
           align: "left",
-          wordWrap: { width: 500, useAdvancedWrap: false },
+          wordWrap: {
+            width: this.width - this.margin * 2,
+            useAdvancedWrap: false,
+          },
         },
       })
       .setOrigin(0);

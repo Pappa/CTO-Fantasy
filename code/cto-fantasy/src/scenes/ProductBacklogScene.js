@@ -13,6 +13,7 @@ export class ProductBacklogScene extends Phaser.Scene {
     this.height = this.cameras.main.height;
     this.centreX = this.width / 2;
     this.centreY = this.height / 2;
+    this.margin = 20;
   }
 
   preload() {}
@@ -35,7 +36,7 @@ export class ProductBacklogScene extends Phaser.Scene {
 
   createComponents() {
     this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
-      title: !!this.sprint && "Sprint Planning",
+      title: !!this.sprint ? "Sprint Planning" : "Product Backlog",
       closeIcon: "complete_icon",
       onClose: () => {
         this.selectCommitment();
@@ -64,38 +65,49 @@ export class ProductBacklogScene extends Phaser.Scene {
     if (this.sprint) {
       this.add
         .text(
-          400,
+          this.centreX,
           50,
-          `The team think they can achieve ${this.sprint.commitment} points this sprint.`,
-          theme.mainText
+          `The team think they can achieve\n${this.sprint.commitment} points this sprint.`,
+          theme.h3
         )
         .setOrigin(0.5, 0);
     }
   }
 
   displayBacklog() {
-    this.backlog = new Backlog(this, 100, 100, {
-      project: this.project,
-      team: this.team,
-      commitment: this.sprint && this.sprint.commitment,
-      emitter: this.emitter,
-    });
+    this.backlog = new Backlog(
+      this,
+      this.margin,
+      100,
+      this.width - this.margin * 2,
+      400,
+      {
+        project: this.project,
+        team: this.team,
+        commitment: this.sprint && this.sprint.commitment,
+        emitter: this.emitter,
+      }
+    );
   }
 
   displayHelpText() {
     this.add
       .text(
-        400,
-        540,
-        `* Use the arrow keys on your keyboard to scroll the backlog.\nUse the arrow icons to move an item one space or move it to the top of the backlog.\nDrag and drop an item to move it to any position.`,
-        { ...theme.mediumText, align: "center" }
+        this.centreX,
+        this.height - this.margin,
+        `* Use the arrow keys on your keyboard to scroll the backlog.\n\nUse the arrow icons to move an item one space or move it to the top of the backlog.\n\nDrag and drop an item to move it to any position.`,
+        {
+          ...theme.mediumText,
+          wordWrap: {
+            width: this.width - this.margin * 2,
+            useAdvancedWrap: false,
+          },
+        }
       )
-      .setOrigin(0.5, 0);
+      .setOrigin(0.5, 1);
   }
 
   getEstimateText(item) {
     return item.estimate || "n/a";
   }
-
-  //update(time, delta) {}
 }

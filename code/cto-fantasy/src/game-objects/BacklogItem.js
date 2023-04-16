@@ -4,15 +4,17 @@ import * as theme from "../theme";
 import { truncate } from "../utils/strings";
 
 export class BacklogItem extends Phaser.GameObjects.Container {
-  width = 560;
   height = 25;
+  margin = 5;
   constructor(
     scene,
     x = 0,
     y = 0,
+    width = 0,
     { item, project, emitter, mask, move, parent }
   ) {
     super(scene, x, y);
+    this.width = width;
     this.item = item;
     this.project = project;
     this.emitter = emitter;
@@ -20,13 +22,12 @@ export class BacklogItem extends Phaser.GameObjects.Container {
     this.parent = parent;
     this.storyPointValues = this.project.backlog.storyPointValues;
     this.lastIndex = this.storyPointValues.length - 1;
-
     this.createComponents();
 
     this.setSize(this.width, this.height);
     this.setInteractive({
       hitArea: new Phaser.Geom.Rectangle(
-        this.width / 2 - 30,
+        this.width / 2,
         this.height / 2,
         this.width,
         this.height
@@ -53,63 +54,63 @@ export class BacklogItem extends Phaser.GameObjects.Container {
       .setOrigin(0);
     this.workItemId = this.scene.make
       .text({
-        x: 20,
-        y: 3,
+        x: this.margin,
+        y: this.margin,
         text: `${this.item.id}`,
         style:
           this.item instanceof UserStory
-            ? theme.backlogItemStory
+            ? theme.backlogIdStory
             : this.item instanceof Bug
-            ? theme.backlogItemBug
-            : theme.mainText,
+            ? theme.backlogIdBug
+            : theme.backlogItemTitle,
       })
       .setOrigin(0);
     this.title = this.scene.make
       .text({
-        x: 100,
-        y: 3,
-        text: truncate(this.item.title, 37),
-        style: theme.mainText,
+        x: 55,
+        y: this.margin,
+        text: truncate(this.item.title, 25),
+        style: theme.backlogItemTitle,
       })
       .setOrigin(0);
     this.estimate = this.scene.make
       .text({
-        x: 510,
-        y: 3,
+        x: this.width - 54 - this.margin,
+        y: this.margin,
         text: `${this.item.estimate || "-"}`,
-        style: theme.estimate,
+        style: theme.backlogEstimate,
       })
-      .setOrigin(0)
+      .setOrigin(1, 0)
       .setVisible(this.item.type === WorkItem.TYPE.STORY);
 
     this.upArrow = this.scene.make
       .image({
-        x: 530,
-        y: 4,
+        x: this.width - 36 - this.margin,
+        y: this.height / 2,
         key: "up_arrow",
-        scale: 0.5,
+        scale: 0.7,
       })
-      .setOrigin(0)
+      .setOrigin(1, 0.5)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", this.move.bind(this.parent, this, 1));
     this.downArrow = this.scene.make
       .image({
-        x: 530,
-        y: 16,
+        x: this.width - 18 - this.margin,
+        y: this.height / 2,
         key: "down_arrow",
-        scale: 0.5,
+        scale: 0.7,
       })
-      .setOrigin(0)
+      .setOrigin(1, 0.5)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", this.move.bind(this.parent, this, -1));
     this.topArrow = this.scene.make
       .image({
-        x: 545,
-        y: 2,
+        x: this.width - this.margin,
+        y: this.height / 2,
         key: "top_arrow",
-        scale: 0.6,
+        scale: 0.7,
       })
-      .setOrigin(0)
+      .setOrigin(1, 0.5)
       .setInteractive({ useHandCursor: true })
       .on("pointerdown", this.move.bind(this.parent, this, 0));
     this.add([

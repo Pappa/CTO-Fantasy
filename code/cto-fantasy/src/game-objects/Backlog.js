@@ -1,13 +1,20 @@
 import Phaser from "phaser";
 import { BacklogItem } from "./BacklogItem";
-import * as theme from "../theme";
 import { calculateBacklogCapacityRow } from "../utils/sprint";
 
 export class Backlog extends Phaser.GameObjects.Container {
-  Y_START = 50;
   ITEM_SPACING = 30;
-  constructor(scene, x = 0, y = 0, { project, team, commitment, emitter }) {
+  constructor(
+    scene,
+    x = 0,
+    y = 0,
+    width = 0,
+    height = 0,
+    { project, team, commitment, emitter }
+  ) {
     super(scene, x, y);
+    this.width = width;
+    this.height = height;
     this.project = project;
     this.team = team;
     this.commitment = commitment;
@@ -19,23 +26,14 @@ export class Backlog extends Phaser.GameObjects.Container {
   }
 
   createComponents() {
-    this.background = this.scene.add
-      .graphics()
-      .fillStyle(0x222222, 1.0)
-      .lineStyle(1, 0xffffff, 1.0)
-      .fillRoundedRect(0, 0, 600, 400)
-      .strokeRoundedRect(0, 0, 600, 400);
     this.estimateLine = this.scene.add
       .graphics()
       .fillStyle(0xff0000, 1.0)
-      .fillRect(0, this.Y_START, 600, 3)
+      .fillRect(0, 0, this.width, 3)
       .setVisible(!!this.commitment);
-    this.header = this.scene.add
-      .text(300, 20, "Product Backlog", theme.mainText)
-      .setOrigin(0.5);
 
     this.backlogMask = this.scene.add
-      .rectangle(this.x + 10, this.y + this.Y_START, 580, 335, 0x6666ff)
+      .rectangle(this.x, this.y, this.width, this.height, 0x6666ff)
       .setOrigin(0)
       .setVisible(false);
 
@@ -44,12 +42,7 @@ export class Backlog extends Phaser.GameObjects.Container {
       this.backlogMask
     );
 
-    this.add([
-      this.background,
-      this.header,
-      this.estimateLine,
-      this.backlogMask,
-    ]);
+    this.add([this.estimateLine, this.backlogMask]);
     this.createEvents();
     this.displayBacklog();
     this.updateEstimateLine();
@@ -59,8 +52,9 @@ export class Backlog extends Phaser.GameObjects.Container {
     this.rows = this.project.backlog.items.map((item, idx) => {
       return new BacklogItem(
         this.scene,
-        20,
-        this.Y_START + this.backlogItemYOffset + this.ITEM_SPACING * idx,
+        0,
+        this.backlogItemYOffset + this.ITEM_SPACING * idx,
+        this.width,
         {
           item,
           project: this.project,
@@ -80,7 +74,7 @@ export class Backlog extends Phaser.GameObjects.Container {
         ? obj.y + this.ITEM_SPACING + 1
         : direction > 0
         ? obj.y - this.ITEM_SPACING - 1
-        : this.Y_START + this.backlogItemYOffset - 1;
+        : this.backlogItemYOffset - 1;
 
     this.updatePositions();
   }
@@ -118,7 +112,12 @@ export class Backlog extends Phaser.GameObjects.Container {
       this.estimateLine
         .clear()
         .fillStyle(0xff0000, 1.0)
-        .fillRect(0, this.rows[row - 1].y + 26, 600, 3);
+        .fillRect(
+          0,
+          this.rows[row - 1].y + 26,
+          this.width - this.margin * 2,
+          3
+        );
     }
   }
 

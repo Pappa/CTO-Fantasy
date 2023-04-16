@@ -31,7 +31,7 @@ export class HiringScene extends Phaser.Scene {
 
   createComponents() {
     this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
-      title: `Hire some new people.\n${this.candidates.length} candidates available.`,
+      title: `There are ${this.candidates.length} candidates\navailable to hire.`,
       closeIcon: "complete_icon",
       onClose: () => {
         this.onClose();
