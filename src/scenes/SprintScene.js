@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { SceneBackground } from "../game-objects/SceneBackground";
 import { Card } from "../game-objects/Card";
 import { LinearStateMachine } from "../classes/states/LinearStateMachine";
 import * as theme from "../theme";
@@ -13,7 +14,12 @@ export class SprintScene extends Phaser.Scene {
     super("SprintScene");
   }
 
-  init() {}
+  init() {
+    this.width = this.cameras.main.width;
+    this.height = this.cameras.main.height;
+    this.centreX = this.width / 2;
+    this.centreY = this.height / 2;
+  }
 
   preload() {}
 
@@ -41,11 +47,11 @@ export class SprintScene extends Phaser.Scene {
   }
 
   createComponents() {
-    this.header = this.add
-      .text(400, 15, `Sprint ${this.sprint.number}`, theme.h1)
-      .setOrigin(0.5, 0);
+    this.background = new SceneBackground(this, 0, 0, this.width, this.height, {
+      title: `Sprint ${this.sprint.number}`,
+    });
     this.eventDialog = this.add
-      .dom(400, 300)
+      .dom(this.centreX, this.centreY)
       .createFromCache("event")
       .setOrigin(0.5)
       .setVisible(false);
