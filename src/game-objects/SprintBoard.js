@@ -3,20 +3,21 @@ import * as theme from "../theme";
 import { SprintBoardItem } from "./SprintBoardItem";
 
 const STATUSES = [
-  { status: "TODO", text: "To do", x: 50 },
-  { status: "IN_PROGRESS", text: "In progress", x: 225 },
-  { status: "DONE", text: "Done", x: 400 },
+  { status: "TODO", text: "To do", x: 0 },
+  { status: "IN_PROGRESS", text: "In progress", x: 110 },
+  { status: "DONE", text: "Done", x: 220 },
 ];
 const STATUS_X_POSITIONS = STATUSES.reduce((acc, { status, x }) => {
   return { ...acc, [status]: x };
 }, {});
 
 export class SprintBoard extends Phaser.GameObjects.Container {
-  width = 600;
   height = 440;
-  constructor(scene, x = 0, y = 0, { sprint }) {
+  constructor(scene, x = 0, y = 0, width, { sprint }) {
     super(scene, x, y);
     this.sprint = sprint;
+    this.width = width;
+    this.cardStartY = 80;
     this.daysRemaining = this.sprint.SPRINT_LENGTH;
     this.scene.add.existing(this);
 
@@ -44,32 +45,14 @@ export class SprintBoard extends Phaser.GameObjects.Container {
   }
 
   createBoard() {
-    const colWidth = 150;
-    this.board = this.scene.make
-      .graphics()
-      .lineStyle(1, 0x000000, 1.0)
-      .strokeRect(10, 50, this.width - 20, this.height - 65);
-    this.add([this.board]);
+    const colWidth = this.width / 3;
 
-    this.columns = STATUSES.map(({ status, x }) => ({
-      status,
-      column: this.scene.make
-        .graphics()
-        .lineStyle(1, 0x000000, 1.0)
-        .strokeRect(x, 75, colWidth, this.height - 105),
-    })).reduce((acc, { status, column }) => {
-      acc[status] = column;
-      return acc;
-    }, {});
-
-    this.add(STATUSES.map(({ status }) => this.columns[status]));
-
-    this.columnHeaders = STATUSES.map(({ status, text, x }) => {
+    this.columnHeaders = STATUSES.map(({ status, text, x }, idx) => {
       return {
         status,
         text: this.scene.make
           .text({
-            x: x + colWidth / 2,
+            x: colWidth * idx + colWidth / 2,
             y: 65,
             text,
             style: theme.boardTitles,
@@ -92,11 +75,11 @@ export class SprintBoard extends Phaser.GameObjects.Container {
     return new SprintBoardItem(
       this.scene,
       STATUS_X_POSITIONS[item.status] + 5,
-      80,
+      this.cardStartY,
       {
         item,
       }
-    ); /*.setVisible(false)*/
+    );
   };
 
   updateItemCardPositions() {
@@ -115,7 +98,7 @@ export class SprintBoard extends Phaser.GameObjects.Container {
     STATUSES.forEach(({ status, x }) => {
       categorisedCards[status] &&
         categorisedCards[status].forEach((card, idx) => {
-          card.setPosition(x + 5, 80 + 55 * idx);
+          card.setPosition(x + 5, this.cardStartY + 55 * idx);
           card.setVisible(idx <= 5);
         });
     });

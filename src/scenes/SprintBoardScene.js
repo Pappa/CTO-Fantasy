@@ -13,6 +13,16 @@ export class SprintBoardScene extends Phaser.Scene {
     super("SprintBoardScene");
   }
 
+  init() {
+    this.width = this.cameras.main.width;
+    this.height = this.cameras.main.height;
+    this.margin = 10;
+    this.centreX = this.width / 2;
+    this.centreY = this.height / 2;
+  }
+
+  preload() {}
+
   create({ project, sprint, emitter, onClose }) {
     this.project = project;
     this.sprint = sprint;
@@ -27,11 +37,19 @@ export class SprintBoardScene extends Phaser.Scene {
   }
 
   createSprintBoard() {
-    this.sprintBoard = new SprintBoard(this, 100, 140, { sprint: this.sprint });
+    this.sprintBoard = new SprintBoard(
+      this,
+      this.margin,
+      150,
+      this.width - this.margin * 2,
+      {
+        sprint: this.sprint,
+      }
+    );
   }
 
   createBurndown() {
-    this.burndown = new SprintBurndownChart(this, 600, 20, {
+    this.burndown = new SprintBurndownChart(this, this.width - 120, 20, {
       sprint: this.sprint,
     });
   }

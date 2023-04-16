@@ -88,16 +88,20 @@ export class SprintScene extends Phaser.Scene {
         },
         0
       ),
-      this.stateFactory("SprintBoardScene", {
-        sprint: this.sprint,
-        onClose: () => {
-          this.emitter.emit("sprint_ended", {
-            sprintBacklog: this.sprint.sprintBacklog,
-            sprintNumber: this.sprint.number,
-          });
-          this.handleEvents();
+      this.stateFactory(
+        "SprintBoardScene",
+        {
+          sprint: this.sprint,
+          onClose: () => {
+            this.emitter.emit("sprint_ended", {
+              sprintBacklog: this.sprint.sprintBacklog,
+              sprintNumber: this.sprint.number,
+            });
+            this.handleEvents();
+          },
         },
-      }),
+        0
+      ),
     ];
     // const randomEvents = this.getRandomSprintEvents();
     // this.events.push(...randomEvents);
