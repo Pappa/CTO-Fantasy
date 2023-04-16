@@ -64,15 +64,20 @@ export class HiringScene extends Phaser.Scene {
     ) {
       return employees.map((T) => new T({ boost: 1.5 }));
     } else {
-      return [
-        ...Array(randomInt(2, 4))
+      const limit = this.registry.get("settings").CANDIDATES_LIMIT;
+      const numDevs = randomInt(2, 4);
+      const candidates = [
+        ...Array(numDevs)
           .fill(Dev)
           .map((T) => new T({ boost: 1.5 })),
-        ...Array(randomInt(2, 3))
+        new AgileCoach(),
+      ];
+      return [
+        ...candidates,
+        ...Array(limit - candidates.length)
           .fill(null)
           .map(() => pick(employees.filter((e) => !(e instanceof Dev))))
           .map((T) => new T({ boost: 1.5 })),
-        new AgileCoach(),
       ];
     }
   }
